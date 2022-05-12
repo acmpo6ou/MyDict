@@ -5,10 +5,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,11 +18,32 @@ import com.acmpo6ou.stardict.AppBar
 import com.acmpo6ou.stardict.R
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DictsScreen() {
-    AppBar()
-    DictsList(DictsViewModel())
-    // TODO: add FAB
+    Scaffold(
+        topBar = { AppBar() },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = { /*TODO*/ },
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = Color.White,
+            ) {
+                Icon(Icons.Default.Add, contentDescription = "")
+            }
+        },
+        floatingActionButtonPosition = FabPosition.End,
+    ) {
+        DictsList(DictsViewModel())
+    }
+}
+
+@Composable
+@Preview
+fun DictsScreenPreview() {
+    StarDictTheme {
+        DictsScreen()
+    }
 }
 
 @Composable
@@ -63,7 +83,7 @@ fun DictItem(name: String, onRemoveDict: () -> Unit) {
 @Preview
 @Composable
 fun DictItemPreview() {
-    StarDictTheme() {
+    StarDictTheme {
         DictItem("Universal") {}
     }
 }
