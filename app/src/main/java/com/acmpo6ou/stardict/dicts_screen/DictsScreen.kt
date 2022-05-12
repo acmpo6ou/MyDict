@@ -32,7 +32,7 @@ fun DictsList(model: DictsViewModel) {
 }
 
 @Composable
-fun DictItem(name: String) {
+fun DictItem(name: String, onRemoveDict: () -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.clickable { }
@@ -49,7 +49,7 @@ fun DictItem(name: String) {
             Text(name)
             Spacer(modifier = Modifier.weight(1f))
 
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = onRemoveDict) {
                 Icon(
                     Icons.Default.Delete,
                     tint = Color.White,
@@ -64,6 +64,6 @@ fun DictItem(name: String) {
 @Composable
 fun DictItemPreview() {
     StarDictTheme() {
-        DictItem("Universal")
+        DictItem("Universal") {}
     }
 }
