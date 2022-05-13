@@ -84,12 +84,6 @@ fun AppBar() {
     )
 }
 
-@Preview
-@Composable
-fun AppBarPreview() {
-    AppBar()
-}
-
 @Composable
 fun SearchField() {
     var searchText by rememberSaveable { mutableStateOf("") }
@@ -101,10 +95,4 @@ fun SearchField() {
         },
         label = { Text("Search") }
     )
-}
-
-@Composable
-@Preview
-fun SearchFieldPreview() {
-    SearchField()
 }
