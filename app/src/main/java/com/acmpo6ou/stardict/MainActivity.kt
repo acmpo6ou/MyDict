@@ -4,8 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -17,10 +19,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
 
 class MainActivity : ComponentActivity() {
-    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -87,12 +89,20 @@ fun AppBar() {
 @Composable
 fun SearchField() {
     var searchText by rememberSaveable { mutableStateOf("") }
-    TextField(
+    OutlinedTextField(
+        modifier = Modifier
+            .padding(horizontal = 8.dp)
+            .fillMaxWidth(),
         value = searchText,
         onValueChange = {
             searchText = it
             // TODO: search word in dicts
         },
-        label = { Text("Search") }
+        label = { Text("Search") },
+        leadingIcon = {
+            // TODO: if searchText is empty use Search icon,
+            //  otherwise – X icon, which will clear the text once clicked
+            Icon(Icons.Default.Search, "")
+        }
     )
 }
