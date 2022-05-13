@@ -9,18 +9,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.acmpo6ou.stardict.AppBar
 import com.acmpo6ou.stardict.R
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
-import io.github.eb4j.stardict.StarDictDictionary
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-// TODO: should except a list of Words from different vocabs
-fun WordScreen(word: StarDictDictionary.Entry) {
+fun WordScreen(
+    word: String,
+    transcription: String,
+    articles: Map<String, String>,
+) {
     Scaffold(topBar = { AppBar() }) {
         Column(modifier = Modifier.padding(it)) {
-            WordRow(word.word, "[trans]")
+            WordRow(word, transcription)
+            // TODO: render articles
+            Article(articles.keys.first(), articles.values.first())
         }
     }
 }
@@ -29,12 +35,10 @@ fun WordScreen(word: StarDictDictionary.Entry) {
 @Preview
 fun WordScreenPreview() {
     StarDictTheme {
-        val word = StarDictDictionary.Entry(
-            "apple",
-            StarDictDictionary.EntryType.HTML,
-            "Article.",
+        WordScreen(
+            "apple", "[trans]",
+            mapOf("Universal" to "Article...")
         )
-        WordScreen(word)
     }
 }
 
@@ -49,5 +53,18 @@ fun WordRow(word: String, transcription: String) {
             Text(word, fontWeight = FontWeight.Bold)
             Text(transcription)
         }
+    }
+}
+
+@Composable
+fun Article(vocab: String, article: String) {
+    Column(modifier = Modifier.padding(horizontal = 8.dp)) {
+        Text(
+            vocab, fontWeight = FontWeight.Bold,
+            fontSize = 25.sp,
+        )
+        // TODO: remove transcription from article
+        // TODO: render selectable html
+        Text(article, fontSize = 20.sp)
     }
 }
