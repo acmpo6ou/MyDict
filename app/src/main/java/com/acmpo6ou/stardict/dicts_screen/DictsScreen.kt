@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -14,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.acmpo6ou.stardict.AppBar
 import com.acmpo6ou.stardict.R
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
 
@@ -22,7 +23,7 @@ import com.acmpo6ou.stardict.ui.theme.StarDictTheme
 @Composable
 fun DictsScreen() {
     Scaffold(
-        topBar = { AppBar() },
+        topBar = { DictsAppBar() },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { /*TODO*/ },
@@ -44,6 +45,41 @@ fun DictsScreenPreview() {
     StarDictTheme {
         DictsScreen()
     }
+}
+
+@Composable
+fun DictsAppBar() {
+    val colors = TopAppBarDefaults.smallTopAppBarColors(
+        containerColor = MaterialTheme.colorScheme.primary
+    )
+
+    SmallTopAppBar(
+        title = { Text("Dictionaries") },
+        actions = {
+            IconButton(
+                enabled = true,
+                onClick = { /*TODO*/ }
+            ) {
+                Icon(
+                    Icons.Default.Settings,
+                    tint = Color.White,
+                    contentDescription = "",
+                )
+            }
+
+            IconButton(
+                enabled = true,
+                onClick = { /*TODO*/ }
+            ) {
+                Icon(
+                    Icons.Default.Info,
+                    tint = Color.White,
+                    contentDescription = "",
+                )
+            }
+        },
+        colors = colors,
+    )
 }
 
 @Composable
