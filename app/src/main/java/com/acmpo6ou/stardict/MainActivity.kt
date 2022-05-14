@@ -79,10 +79,15 @@ fun MainScreen() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview
 fun MainScreenPreview() {
-    MainScreen()
+    StarDictTheme {
+        Scaffold(topBar = { AppBar() }) {
+            MainScreen()
+        }
+    }
 }
 
 @Composable
