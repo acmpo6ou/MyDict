@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
@@ -93,6 +94,17 @@ fun AppBar() {
             ) {
                 Icon(
                     Icons.Default.Settings,
+                    tint = Color.White,
+                    contentDescription = "",
+                )
+            }
+
+            IconButton(
+                enabled = true,
+                onClick = { /*TODO*/ }
+            ) {
+                Icon(
+                    Icons.Default.Info,
                     tint = Color.White,
                     contentDescription = "",
                 )
