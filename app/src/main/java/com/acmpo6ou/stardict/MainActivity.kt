@@ -3,6 +3,7 @@ package com.acmpo6ou.stardict
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -23,39 +24,55 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
+import dev.wirespec.jetmagic.composables.ScreenFactoryHandler
+import dev.wirespec.jetmagic.composables.crm
+import dev.wirespec.jetmagic.navigation.navman
 
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        navman.activity = this
+
+        if (navman.totalScreensDisplayed == 0)
+            navman.goto(composableResId = NavIDs.MainScreen)
+
         setContent {
             StarDictTheme {
-                MainScreen()
+                Scaffold(topBar = { AppBar() }) {
+                    ScreenFactoryHandler()
+                }
             }
         }
     }
+
+    override fun onBackPressed() {
+        if (!navman.goBack())
+            super.onBackPressed()
+    }
+
+    override fun onDestroy() {
+        crm.onConfigurationChanged()
+        super.onDestroy()
+    }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen() {
-    Scaffold(
-        topBar = { AppBar() },
-    ) {
-        Column(modifier = Modifier.padding(it)) {
-            SearchField()
-            LazyColumn(
-                contentPadding = PaddingValues(16.dp),
-            ) {
-                // TODO: use items() and a view model
-                items(10) { i ->
-                    Row(
-                        modifier = Modifier
-                            .clickable { /*TODO: go to WordScreen*/ }
-                            .padding(16.dp)
-                            .fillMaxWidth()
-                    ) {
-                        Text("apple $i", fontSize = 30.sp)
-                    }
+    Column {
+        SearchField()
+        LazyColumn(
+            contentPadding = PaddingValues(16.dp),
+        ) {
+            // TODO: use items() and a view model
+            items(10) { i ->
+                Row(
+                    modifier = Modifier
+                        .clickable { /*TODO: go to WordScreen*/ }
+                        .padding(16.dp)
+                        .fillMaxWidth()
+                ) {
+                    Text("apple $i", fontSize = 30.sp)
                 }
             }
         }
@@ -79,7 +96,7 @@ fun AppBar() {
         actions = {
             IconButton(
                 enabled = true,
-                onClick = { /*TODO*/ }
+                onClick = { navman.goto(composableResId = NavIDs.DictsScreen) }
             ) {
                 Icon(
                     painterResource(R.drawable.ic_dict),
