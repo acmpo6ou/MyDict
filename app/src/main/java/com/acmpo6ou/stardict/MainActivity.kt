@@ -29,7 +29,7 @@ import dev.wirespec.jetmagic.composables.crm
 import dev.wirespec.jetmagic.navigation.navman
 
 class MainActivity : ComponentActivity() {
-    @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
+    @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         navman.activity = this
@@ -39,9 +39,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             StarDictTheme {
-                Scaffold(topBar = { AppBar() }) {
-                    ScreenFactoryHandler()
-                }
+                ScreenFactoryHandler()
             }
         }
     }
@@ -57,22 +55,25 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen() {
-    Column {
-        SearchField()
-        LazyColumn(
-            contentPadding = PaddingValues(16.dp),
-        ) {
-            // TODO: use items() and a view model
-            items(10) { i ->
-                Row(
-                    modifier = Modifier
-                        .clickable { /*TODO: go to WordScreen*/ }
-                        .padding(16.dp)
-                        .fillMaxWidth()
-                ) {
-                    Text("apple $i", fontSize = 30.sp)
+    Scaffold(topBar = { AppBar() }) {
+        Column {
+            SearchField()
+            LazyColumn(
+                contentPadding = PaddingValues(16.dp),
+            ) {
+                // TODO: use items() and a view model
+                items(10) { i ->
+                    Row(
+                        modifier = Modifier
+                            .clickable { /*TODO: go to WordScreen*/ }
+                            .padding(16.dp)
+                            .fillMaxWidth()
+                    ) {
+                        Text("apple $i", fontSize = 30.sp)
+                    }
                 }
             }
         }
@@ -84,9 +85,7 @@ fun MainScreen() {
 @Preview
 fun MainScreenPreview() {
     StarDictTheme {
-        Scaffold(topBar = { AppBar() }) {
-            MainScreen()
-        }
+        MainScreen()
     }
 }
 
