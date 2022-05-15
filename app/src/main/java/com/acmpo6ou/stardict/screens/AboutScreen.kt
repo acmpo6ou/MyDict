@@ -26,7 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.AlignmentLine
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
@@ -69,6 +69,7 @@ fun AboutContent(padding: PaddingValues) {
             }
         }
 
+        val uriHandler = LocalUriHandler.current
         val licenseString = buildAnnotatedString {
             append("License: ")
             pushStringAnnotation(
@@ -82,7 +83,11 @@ fun AboutContent(padding: PaddingValues) {
         }
         ClickableText(
             text = licenseString,
-            onClick = {},
+            onClick = {
+                val annotation = licenseString
+                    .getStringAnnotations("GPLv3", it, it).first()
+                uriHandler.openUri(annotation.item)
+            },
             style = TextStyle(fontSize = 22.sp, color = Color.White)
         )
 
@@ -99,7 +104,11 @@ fun AboutContent(padding: PaddingValues) {
         }
         ClickableText(
             text = sourceCodeString,
-            onClick = {},
+            onClick = {
+                val annotation = sourceCodeString
+                    .getStringAnnotations("code", it, it).first()
+                uriHandler.openUri(annotation.item)
+            },
             style = TextStyle(fontSize = 22.sp, color = Color.White)
         )
     }
