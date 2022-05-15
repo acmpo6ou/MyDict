@@ -19,15 +19,14 @@
 
 package com.acmpo6ou.stardict.screens
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.ClickableText
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.AlignmentLine
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
@@ -36,13 +35,32 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.acmpo6ou.stardict.NavIDs.AboutScreen
 import com.acmpo6ou.stardict.R
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
 import dev.wirespec.jetmagic.composables.Image
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AboutScreen() {
-    Column(modifier = Modifier.padding(8.dp)) {
+    val colors = TopAppBarDefaults.smallTopAppBarColors(
+        containerColor = MaterialTheme.colorScheme.primary
+    )
+
+    Scaffold(
+        topBar = { SmallTopAppBar({ Text("About") }, colors = colors) }
+    ) {
+        AboutContent(it)
+    }
+}
+
+@Composable
+fun AboutContent(padding: PaddingValues) {
+    Column(
+        modifier = Modifier
+            .padding(padding)
+            .padding(horizontal = 20.dp)
+    ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Image(painter = painterResource(R.drawable.icon))
             Column {
@@ -65,7 +83,7 @@ fun AboutScreen() {
         ClickableText(
             text = licenseString,
             onClick = {},
-            style = TextStyle(fontSize = 22.sp)
+            style = TextStyle(fontSize = 22.sp, color = Color.White)
         )
 
         val sourceCodeString = buildAnnotatedString {
@@ -82,9 +100,8 @@ fun AboutScreen() {
         ClickableText(
             text = sourceCodeString,
             onClick = {},
-            style = TextStyle(fontSize = 22.sp)
+            style = TextStyle(fontSize = 22.sp, color = Color.White)
         )
-
     }
 }
 
