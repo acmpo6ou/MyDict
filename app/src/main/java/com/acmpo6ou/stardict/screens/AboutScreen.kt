@@ -21,23 +21,28 @@ package com.acmpo6ou.stardict.screens
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.acmpo6ou.stardict.R
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
 import dev.wirespec.jetmagic.composables.Image
 
 @Composable
 fun AboutScreen() {
-    Column {
+    Column(modifier = Modifier.padding(8.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Image(painter = painterResource(R.drawable.icon))
             Column {
@@ -57,7 +62,29 @@ fun AboutScreen() {
             }
             pop()
         }
-        ClickableText(text = licenseString, onClick = {})
+        ClickableText(
+            text = licenseString,
+            onClick = {},
+            style = TextStyle(fontSize = 22.sp)
+        )
+
+        val sourceCodeString = buildAnnotatedString {
+            append("Source Code: ")
+            pushStringAnnotation(
+                tag = "code",
+                annotation = "https://github.com/acmpo6ou/StarDict",
+            )
+            withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)) {
+                append("GitHub")
+            }
+            pop()
+        }
+        ClickableText(
+            text = sourceCodeString,
+            onClick = {},
+            style = TextStyle(fontSize = 22.sp)
+        )
+
     }
 }
 
