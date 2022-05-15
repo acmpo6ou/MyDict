@@ -78,7 +78,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainScreen() {
     Scaffold(topBar = { AppBar() }) {
-        Column {
+        Column(modifier = Modifier.padding(it)) {
             SearchField()
             LazyColumn(
                 contentPadding = PaddingValues(16.dp),
