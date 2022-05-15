@@ -99,7 +99,6 @@ fun MainScreen() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview
 fun MainScreenPreview() {
@@ -141,7 +140,7 @@ fun AppBar() {
 
             IconButton(
                 enabled = true,
-                onClick = { /*TODO*/ }
+                onClick = { navman.goto(composableResId = NavIDs.AboutScreen) }
             ) {
                 Icon(
                     Icons.Default.Info,

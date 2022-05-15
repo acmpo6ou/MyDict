@@ -21,6 +21,7 @@ package com.acmpo6ou.stardict
 
 import android.app.Application
 import com.acmpo6ou.stardict.dicts_screen.DictsScreen
+import com.acmpo6ou.stardict.screens.AboutScreen
 import dev.wirespec.jetmagic.composables.crm
 import dev.wirespec.jetmagic.initializeJetmagic
 import dev.wirespec.jetmagic.models.ComposableResource
@@ -38,6 +39,9 @@ class MyApp : Application() {
                     },
                     ComposableResource(NavIDs.DictsScreen) {
                         DictsScreen()
+                    },
+                    ComposableResource(NavIDs.AboutScreen) {
+                        AboutScreen()
                     },
                 )
             )
