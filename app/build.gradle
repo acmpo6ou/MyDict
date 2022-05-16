@@ -65,6 +65,7 @@ dependencies {
 
     testImplementation 'org.robolectric:robolectric:4.6.1'
     testImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
 
     testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0'
     testImplementation 'com.github.javafaker:javafaker:1.0.2'
