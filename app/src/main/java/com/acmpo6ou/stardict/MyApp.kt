@@ -26,7 +26,9 @@ import dev.wirespec.jetmagic.composables.crm
 import dev.wirespec.jetmagic.initializeJetmagic
 import dev.wirespec.jetmagic.models.ComposableResource
 
-class MyApp : Application() {
+open class MyApp : Application() {
+    open val SRC_DIR get() = getExternalFilesDir(null)?.path + "/"
+
     override fun onCreate() {
         super.onCreate()
         initializeJetmagic(this)

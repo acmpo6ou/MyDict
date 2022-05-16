@@ -22,13 +22,16 @@ package com.acmpo6ou.stardict.dicts_screen
 import android.content.ClipData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.acmpo6ou.stardict.MyApp
 
 class DictsViewModel : ViewModel() {
+    lateinit var app: MyApp
     val dicts = MutableLiveData<List<String>>(listOf())
 
     /**
      * Copies dict files from [data] to SRC_DIR.
      */
     fun importDict(data: ClipData) {
+        // TODO: add the dict to dicts list
     }
 }
