@@ -19,9 +19,16 @@
 
 package com.acmpo6ou.stardict.dicts_screen
 
+import android.content.ClipData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class DictsViewModel : ViewModel() {
     val dicts = MutableLiveData<List<String>>(listOf())
+
+    /**
+     * Copies dict files from [data] to SRC_DIR.
+     */
+    fun importDict(data: ClipData) {
+    }
 }

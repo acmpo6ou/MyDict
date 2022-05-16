@@ -25,6 +25,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -45,16 +46,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.acmpo6ou.stardict.dicts_screen.DictsViewModel
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
 import dev.wirespec.jetmagic.composables.ScreenFactoryHandler
 import dev.wirespec.jetmagic.composables.crm
 import dev.wirespec.jetmagic.navigation.navman
 
 class MainActivity : ComponentActivity() {
+    val dictsViewModel: DictsViewModel by viewModels()
+
     private val importLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK)
-                result.data?.data?.let {}
+                result.data?.clipData?.let { dictsViewModel.importDict(it) }
         }
 
     @OptIn(ExperimentalAnimationApi::class)
