@@ -17,14 +17,13 @@
  *
  */
 
-package com.acmpo6ou.stardict
+package com.acmpo6ou.stardict.dicts_screen
 
 import android.content.Intent
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.performClick
-import com.acmpo6ou.stardict.dicts_screen.DictsScreen
+import com.acmpo6ou.stardict.MainActivity
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
 import org.junit.Assert.assertNotNull
 import org.junit.Before
