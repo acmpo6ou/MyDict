@@ -19,6 +19,8 @@
 
 package com.acmpo6ou.stardict.dicts_screen
 
+import android.content.ClipData
+import android.content.ClipDescription
 import android.content.ContentResolver
 import android.net.Uri
 import android.os.ParcelFileDescriptor
@@ -43,6 +45,7 @@ class DictsViewModelTests {
     private val srcDir = "/tmp/StarDict"
 
     private val contentResolver: ContentResolver = mock()
+    private lateinit var data: ClipData
 
     @Before
     fun setupSrcDir() {
@@ -67,6 +70,22 @@ class DictsViewModelTests {
             on { SRC_DIR } doReturn srcDir
             on { contentResolver } doReturn contentResolver
         }
+
+        val clipDescription = ClipDescription("", arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN))
+        val clipList = mutableListOf<ClipData.Item>()
+
+        for (ext in listOf("ifo", "idx", "dict")) {
+            val path = "sampledata/ER-LingvoUniversal.$ext"
+            val uri = mock<Uri>()
+            val item = ClipData.Item(uri)
+
+            setupInputResolver(path, uri)
+            clipList.add(item)
+        }
+
+        data = ClipData(clipDescription, clipList.first())
+        data.addItem(clipList[1])
+        data.addItem(clipList[2])
     }
 
     @Test
