@@ -19,9 +19,12 @@
 
 package com.acmpo6ou.stardict
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -48,6 +51,12 @@ import dev.wirespec.jetmagic.composables.crm
 import dev.wirespec.jetmagic.navigation.navman
 
 class MainActivity : ComponentActivity() {
+    private val importLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK)
+                result.data?.data?.let {}
+        }
+
     @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,6 +71,14 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    fun importDictDialog() =
+        with(Intent(Intent.ACTION_OPEN_DOCUMENT)) {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+            type = "*/*"
+            importLauncher.launch(this)
+        }
 
     override fun onBackPressed() {
         if (!navman.goBack())

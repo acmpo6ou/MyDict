@@ -33,19 +33,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.acmpo6ou.stardict.MainActivity
 import com.acmpo6ou.stardict.R
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DictsScreen() {
+    val activity = LocalContext.current as MainActivity
+
     Scaffold(
         topBar = { DictsAppBar() },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { /*TODO*/ },
+                onClick = { activity.importDictDialog() },
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = Color.White,
             ) {
