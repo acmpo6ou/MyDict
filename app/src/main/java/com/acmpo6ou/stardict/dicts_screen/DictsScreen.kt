@@ -49,7 +49,7 @@ fun DictsScreen() {
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = Color.White,
             ) {
-                Icon(Icons.Default.Add, contentDescription = "")
+                Icon(Icons.Default.Add, "Import dict")
             }
         },
         floatingActionButtonPosition = FabPosition.End,
