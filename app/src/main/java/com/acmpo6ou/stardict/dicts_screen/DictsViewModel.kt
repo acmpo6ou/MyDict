@@ -26,15 +26,16 @@ import com.acmpo6ou.stardict.MyApp
 import java.io.File
 import java.io.FileInputStream
 
-class DictsViewModel : ViewModel() {
+open class DictsViewModel : ViewModel() {
     lateinit var app: MyApp
     val dicts = MutableLiveData<MutableSet<String>>(mutableSetOf())
+    val error = MutableLiveData("")
 
     /**
      * Copies dict files from [data] to SRC_DIR.
      * @param data contains URIs with paths to dict files.
      */
-    fun copyDictFiles(data: ClipData) {
+    open fun copyDictFiles(data: ClipData) {
         for (i in 0 until data.itemCount) {
             val uri = data.getItemAt(i).uri
             val ext = File(uri.path!!).extension
@@ -57,7 +58,12 @@ class DictsViewModel : ViewModel() {
      * Copies dict files using [copyDictFiles] handling all errors.
      */
     fun importDict(data: ClipData) {
-        copyDictFiles(data)
+        try {
+            copyDictFiles(data)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            error.value = e.toString()
+        }
 
         val path = data.getItemAt(0).uri.path!!
         val dictName = File(path).nameWithoutExtension

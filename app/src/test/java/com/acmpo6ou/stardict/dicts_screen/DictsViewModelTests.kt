@@ -25,9 +25,9 @@ import android.content.ContentResolver
 import android.net.Uri
 import android.os.ParcelFileDescriptor
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.whenever
+import com.github.javafaker.Faker
+import com.nhaarman.mockitokotlin2.*
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -122,5 +122,17 @@ class DictsViewModelTests {
         // but the build.gradle file should be skipped
         val file = File("$srcDir/build.gradle")
         assert(!file.exists())
+    }
+
+    @Test
+    fun `importDict should handle all errors`() {
+        val msg = Faker().str()
+        val exception = Exception(msg)
+
+        val spyModel = spy(model)
+        doAnswer { throw exception }.whenever(spyModel).copyDictFiles(data)
+
+        spyModel.importDict(data)
+        assertEquals(exception.toString(), spyModel.error.value!!)
     }
 }
