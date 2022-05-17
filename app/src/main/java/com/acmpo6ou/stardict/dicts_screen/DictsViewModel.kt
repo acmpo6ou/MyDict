@@ -20,8 +20,6 @@
 package com.acmpo6ou.stardict.dicts_screen
 
 import android.content.ClipData
-import android.content.ContentResolver
-import android.os.ParcelFileDescriptor
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.acmpo6ou.stardict.MyApp
@@ -34,16 +32,21 @@ class DictsViewModel : ViewModel() {
 
     /**
      * Copies dict files from [data] to SRC_DIR.
-     * @param data contains URIs with path to dict files.
+     * @param data contains URIs with paths to dict files.
      */
     fun importDict(data: ClipData) {
         // TODO: add the dict to dicts list
         for (i in 0 until data.itemCount) {
             val uri = data.getItemAt(i).uri
-            val descriptor = app.contentResolver.openFileDescriptor(uri, "r")
+            val ext = File(uri.path!!).extension
+
+            // skip all non dict files
+            if (ext !in listOf("idx", "ifo", "dict"))
+                continue
 
             val name = File(uri.path!!).name
             val file = File("${app.SRC_DIR}/$name")
+            val descriptor = app.contentResolver.openFileDescriptor(uri, "r")
 
             FileInputStream(descriptor?.fileDescriptor).use {
                 file.writeBytes(it.readBytes())
