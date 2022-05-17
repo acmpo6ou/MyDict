@@ -41,7 +41,7 @@ class DictsViewModelTests {
     @get:Rule
     val taskExecutorRule = InstantTaskExecutorRule()
 
-    lateinit var model: DictsViewModel
+    private lateinit var model: DictsViewModel
     private val srcDir = "/tmp/StarDict"
 
     private val contentResolver: ContentResolver = mock()
@@ -97,5 +97,26 @@ class DictsViewModelTests {
             val file = File("$srcDir/ER-LingvoUniversal.$ext")
             assert(file.exists())
         }
+    }
+
+    @Test
+    fun `importDict should copy only ifo, idx and dict files`() {
+        // besides .ifo, .idx and .dict files, the user chose another file
+        val uri = mock<Uri>()
+        val item = ClipData.Item(uri)
+
+        setupInputResolver("build.gradle", uri)
+        data.addItem(item)
+
+        // the .ifo, .idx and .dict files should be copied to SRC_DIR
+        model.importDict(data)
+        for (ext in listOf("ifo", "idx", "dict")) {
+            val file = File("$srcDir/ER-LingvoUniversal.$ext")
+            assert(file.exists())
+        }
+
+        // but the build.gradle file should be skipped
+        val file = File("$srcDir/build.gradle")
+        assert(!file.exists())
     }
 }
