@@ -28,7 +28,7 @@ import java.io.FileInputStream
 
 class DictsViewModel : ViewModel() {
     lateinit var app: MyApp
-    val dicts = MutableLiveData<MutableList<String>>(mutableListOf())
+    val dicts = MutableLiveData<MutableSet<String>>(mutableSetOf())
 
     /**
      * Copies dict files from [data] to SRC_DIR.
@@ -53,7 +53,6 @@ class DictsViewModel : ViewModel() {
             }
         }
 
-        // add dict name to dicts list
         val dictName = file.nameWithoutExtension
         dicts.addItem(dictName)
     }

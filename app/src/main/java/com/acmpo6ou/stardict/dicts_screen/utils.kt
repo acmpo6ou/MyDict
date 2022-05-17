@@ -25,7 +25,7 @@ import androidx.lifecycle.MutableLiveData
  * Helpful extension function to update a MutableLiveData of MutableList,
  * and notify about the update.
  */
-fun <T> MutableLiveData<MutableList<T>>.addItem(item: T) {
+fun <T> MutableLiveData<MutableSet<T>>.addItem(item: T) {
     this.value?.add(item)
     this.value = this.value
 }
