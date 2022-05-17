@@ -23,12 +23,13 @@ import android.content.ClipData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.acmpo6ou.stardict.MyApp
+import io.github.eb4j.stardict.StarDictDictionary
 import java.io.File
 import java.io.FileInputStream
 
 open class DictsViewModel : ViewModel() {
     lateinit var app: MyApp
-    val dicts = MutableLiveData<MutableSet<String>>(mutableSetOf())
+    val dicts = MutableLiveData<MutableSet<StarDictDictionary>>(mutableSetOf())
     val error = MutableLiveData("")
 
     /**
@@ -63,10 +64,13 @@ open class DictsViewModel : ViewModel() {
         } catch (e: Exception) {
             e.printStackTrace()
             error.value = e.toString()
+            return
         }
 
         val path = data.getItemAt(0).uri.path!!
-        val dictName = File(path).nameWithoutExtension
-        dicts.addItem(dictName)
+        val name = File(path).name
+        val file = File("${app.SRC_DIR}/$name")
+        val dict = StarDictDictionary.loadDictionary(file)
+        dicts.addItem(dict)
     }
 }

@@ -27,6 +27,7 @@ import android.os.ParcelFileDescriptor
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.github.javafaker.Faker
 import com.nhaarman.mockitokotlin2.*
+import io.github.eb4j.stardict.StarDictDictionary
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -99,8 +100,10 @@ class DictsViewModelTests {
             assert(file.exists())
         }
 
-        // the dicts list should contain the name of the imported dict
-        assert("ER-LingvoUniversal" in model.dicts.value!!)
+        // the dicts list should contain the imported dict
+        val file = File("$srcDir/ER-LingvoUniversal.ifo")
+        val expectedName = StarDictDictionary.loadDictionary(file).dictionaryName
+        assertEquals(expectedName, model.dicts.value!!.first().dictionaryName)
     }
 
     @Test
