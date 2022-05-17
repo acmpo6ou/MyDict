@@ -35,7 +35,7 @@ class DictsViewModel : ViewModel() {
      * @param data contains URIs with paths to dict files.
      */
     fun importDict(data: ClipData) {
-        // TODO: add the dict to dicts list
+        var file = File("")
         for (i in 0 until data.itemCount) {
             val uri = data.getItemAt(i).uri
             val ext = File(uri.path!!).extension
@@ -45,12 +45,18 @@ class DictsViewModel : ViewModel() {
                 continue
 
             val name = File(uri.path!!).name
-            val file = File("${app.SRC_DIR}/$name")
+            file = File("${app.SRC_DIR}/$name")
             val descriptor = app.contentResolver.openFileDescriptor(uri, "r")
 
             FileInputStream(descriptor?.fileDescriptor).use {
                 file.writeBytes(it.readBytes())
             }
         }
+
+        // add dict name to dicts list
+        val dictName = file.nameWithoutExtension
+        val list = mutableListOf(dictName)
+        list.addAll(dicts.value!!)
+        dicts.value = list
     }
 }

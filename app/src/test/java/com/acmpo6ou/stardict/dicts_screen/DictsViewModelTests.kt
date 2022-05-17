@@ -90,13 +90,17 @@ class DictsViewModelTests {
     }
 
     @Test
-    fun `importDict should copy dict files to SRC_DIR`() {
+    fun `importDict should copy dict files to SRC_DIR and update dicts list`() {
         model.importDict(data)
 
+        // the files should be copied
         for (ext in listOf("ifo", "idx", "dict")) {
             val file = File("$srcDir/ER-LingvoUniversal.$ext")
             assert(file.exists())
         }
+
+        // the dicts list should contain the name of the imported dict
+        assert("ER-LingvoUniversal" in model.dicts.value!!)
     }
 
     @Test
