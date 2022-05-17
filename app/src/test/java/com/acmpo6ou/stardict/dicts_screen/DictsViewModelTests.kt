@@ -55,6 +55,7 @@ class DictsViewModelTests {
     }
 
     private fun setupInputResolver(location: String, uri: Uri) {
+        whenever(uri.path).thenReturn(location)
         val descriptor: ParcelFileDescriptor = mock()
         val fis = FileInputStream(File(location))
 
