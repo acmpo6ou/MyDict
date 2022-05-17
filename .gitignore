@@ -74,3 +74,5 @@ google-services.json
 # Android Profiling
 *.hprof
 
+app/src/test/java/com/acmpo6ou/stardict/ExampleUnitTest.kt
+
