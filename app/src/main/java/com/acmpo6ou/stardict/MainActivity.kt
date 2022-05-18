@@ -66,6 +66,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         navman.activity = this
 
+        dictsViewModel.app = applicationContext as MyApp
+        dictsViewModel.loadDicts()
+
         if (navman.totalScreensDisplayed == 0)
             navman.goto(composableResId = NavIDs.MainScreen)
 
