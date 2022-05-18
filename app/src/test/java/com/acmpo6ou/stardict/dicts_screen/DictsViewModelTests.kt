@@ -113,6 +113,23 @@ class DictsViewModelTests {
     }
 
     @Test
+    fun `loadDictionary should handle all errors`() {
+        // try to load a dict that doesn't have a .ifo file
+        copyDict("ER-Computer")
+        File("$srcDir/ER-Computer.ifo").delete()
+        model.loadDictionary("ER-Computer")
+
+        val msg = "java.nio.file.NoSuchFileException: $srcDir/ER-Computer.ifo"
+        assertEquals(msg, model.loadDictError.value)
+
+        // other dict files (.idx and .dict) should be removed from SRC_DIR
+        val idxFile = File("$srcDir/ER-Computer.idx")
+        val dictFile = File("$srcDir/ER-Computer.dict")
+        assert(!idxFile.exists())
+        assert(!dictFile.exists())
+    }
+
+    @Test
     fun `loadDicts should load dicts from SRC_DIR`() {
         copyDict("ER-Americana")
         copyDict("ER-Computer")
@@ -175,6 +192,6 @@ class DictsViewModelTests {
         doAnswer { throw exception }.whenever(spyModel).copyDictFiles(data)
 
         spyModel.importDict(data)
-        assertEquals(exception.toString(), spyModel.error.value!!)
+        assertEquals(exception.toString(), spyModel.importError.value!!)
     }
 }

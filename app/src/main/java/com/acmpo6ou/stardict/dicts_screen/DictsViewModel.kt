@@ -30,16 +30,27 @@ import java.io.FileInputStream
 open class DictsViewModel : ViewModel() {
     lateinit var app: MyApp
     val dicts = MutableLiveData<MutableSet<StarDictDictionary>>(mutableSetOf())
-    val error = MutableLiveData("")
+    val importError = MutableLiveData("")
+    val loadDictError = MutableLiveData("")
 
     /**
      * Loads dictionary handling all errors, deletes all files of a dict
      * from SRC_DIR if there is an error.
      */
     fun loadDictionary(name: String) {
-        val file = File("${app.SRC_DIR}/$name.ifo")
-        val dict = StarDictDictionary.loadDictionary(file)
-        dicts.addItem(dict)
+        try {
+            val file = File("${app.SRC_DIR}/$name.ifo")
+            val dict = StarDictDictionary.loadDictionary(file)
+            dicts.addItem(dict)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            loadDictError.value = e.toString()
+
+            // delete all dict files since they are probably invalid
+            // TODO: use a deleteDict method
+            for (ext in listOf("ifo", "idx", "dict"))
+                File("${app.SRC_DIR}/$name.$ext").delete()
+        }
     }
 
     /**
@@ -85,7 +96,7 @@ open class DictsViewModel : ViewModel() {
             copyDictFiles(data)
         } catch (e: Exception) {
             e.printStackTrace()
-            error.value = e.toString()
+            importError.value = e.toString()
             return
         }
 
