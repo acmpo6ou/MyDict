@@ -55,6 +55,17 @@ class DictsViewModelTests {
         dir.mkdir()
     }
 
+    /**
+     * Copies all dict files to SRC_DIR.
+     */
+    private fun copyDict(name: String) {
+        for (ext in listOf("ifo", "idx", "dict")) {
+            val target = File("sampledata/$name.$ext")
+            val destination = File("$srcDir/$name.$ext")
+            target.copyTo(destination)
+        }
+    }
+
     private fun setupInputResolver(location: String, uri: Uri) {
         whenever(uri.path).thenReturn(location)
         val descriptor: ParcelFileDescriptor = mock()
