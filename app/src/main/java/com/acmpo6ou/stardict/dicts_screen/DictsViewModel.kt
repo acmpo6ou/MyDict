@@ -60,8 +60,7 @@ open class DictsViewModel : ViewModel() {
         for (fileName in File(app.SRC_DIR).list()) {
             val file = File("${app.SRC_DIR}/$fileName")
             if (file.extension != "ifo") continue
-            val dict = StarDictDictionary.loadDictionary(file)
-            dicts.addItem(dict)
+            loadDictionary(file.nameWithoutExtension)
         }
     }
 
@@ -101,10 +100,7 @@ open class DictsViewModel : ViewModel() {
         }
 
         val path = data.getItemAt(0).uri.path!!
-        val name = File(path).name
-        val file = File("${app.SRC_DIR}/$name")
-        // TODO: handle errors when loading dict
-        val dict = StarDictDictionary.loadDictionary(file)
-        dicts.addItem(dict)
+        val name = File(path).nameWithoutExtension
+        loadDictionary(name)
     }
 }
