@@ -25,6 +25,10 @@ import android.content.ContentResolver
 import android.net.Uri
 import android.os.ParcelFileDescriptor
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.acmpo6ou.stardict.copyDict
+import com.acmpo6ou.stardict.setupSrcDir
+import com.acmpo6ou.stardict.srcDir
+import com.acmpo6ou.stardict.str
 import com.github.javafaker.Faker
 import com.nhaarman.mockitokotlin2.*
 import io.github.eb4j.stardict.StarDictDictionary

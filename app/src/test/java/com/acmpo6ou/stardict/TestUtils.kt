@@ -17,7 +17,7 @@
  *
  */
 
-package com.acmpo6ou.stardict.dicts_screen
+package com.acmpo6ou.stardict
 
 import com.github.javafaker.Faker
 import java.io.File
