@@ -102,6 +102,17 @@ class DictsViewModelTests {
     }
 
     @Test
+    fun `loadDictionary should load a dict from SRC_DIR`() {
+        copyDict("ER-Computer")
+        model.loadDictionary("ER-Computer")
+
+        assertEquals(
+            "LingvoComputer (En-Ru)",
+            model.dicts.value!!.first().dictionaryName
+        )
+    }
+
+    @Test
     fun `loadDicts should load dicts from SRC_DIR`() {
         copyDict("ER-Americana")
         copyDict("ER-Computer")
