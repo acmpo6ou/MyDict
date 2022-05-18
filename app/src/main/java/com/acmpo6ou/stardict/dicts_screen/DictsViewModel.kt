@@ -33,6 +33,18 @@ open class DictsViewModel : ViewModel() {
     val error = MutableLiveData("")
 
     /**
+     * Populates [dicts] with dictionaries residing in the SRC_DIR.
+     */
+    fun loadDicts() {
+        for (fileName in File(app.SRC_DIR).list()) {
+            val file = File("${app.SRC_DIR}/$fileName")
+            if (file.extension != "ifo") continue
+            val dict = StarDictDictionary.loadDictionary(file)
+            dicts.addItem(dict)
+        }
+    }
+
+    /**
      * Copies dict files from [data] to SRC_DIR.
      * @param data contains URIs with paths to dict files.
      */

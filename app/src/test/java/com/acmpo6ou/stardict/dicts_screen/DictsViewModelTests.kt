@@ -102,6 +102,23 @@ class DictsViewModelTests {
     }
 
     @Test
+    fun `loadDicts should load dicts from SRC_DIR`() {
+        copyDict("ER-Americana")
+        copyDict("ER-Computer")
+        copyDict("ER-LingvoScience")
+
+        model.loadDicts()
+        assertEquals(
+            setOf(
+                "Americana (En-Ru)",
+                "LingvoComputer (En-Ru)",
+                "LingvoScience (En-Ru)"
+            ),
+            model.dicts.value!!.map { it.dictionaryName }.toSet(),
+        )
+    }
+
+    @Test
     fun `importDict should copy dict files to SRC_DIR and update dicts list`() {
         model.importDict(data)
 
