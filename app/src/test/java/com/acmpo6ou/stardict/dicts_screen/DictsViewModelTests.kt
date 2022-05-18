@@ -41,30 +41,10 @@ import java.io.FileInputStream
 class DictsViewModelTests {
     @get:Rule
     val taskExecutorRule = InstantTaskExecutorRule()
-
     private lateinit var model: DictsViewModel
-    private val srcDir = "/tmp/StarDict"
 
     private val contentResolver: ContentResolver = mock()
     private lateinit var data: ClipData
-
-    @Before
-    fun setupSrcDir() {
-        val dir = File(srcDir)
-        dir.deleteRecursively()
-        dir.mkdir()
-    }
-
-    /**
-     * Copies all dict files to SRC_DIR.
-     */
-    private fun copyDict(name: String) {
-        for (ext in listOf("ifo", "idx", "dict")) {
-            val target = File("sampledata/$name.$ext")
-            val destination = File("$srcDir/$name.$ext")
-            target.copyTo(destination)
-        }
-    }
 
     private fun setupInputResolver(location: String, uri: Uri) {
         whenever(uri.path).thenReturn(location)
@@ -78,6 +58,8 @@ class DictsViewModelTests {
 
     @Before
     fun setup() {
+        setupSrcDir()
+
         model = DictsViewModel()
         model.app = mock {
             on { SRC_DIR } doReturn srcDir

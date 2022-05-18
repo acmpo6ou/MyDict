@@ -20,5 +20,25 @@
 package com.acmpo6ou.stardict.dicts_screen
 
 import com.github.javafaker.Faker
+import java.io.File
 
 fun Faker.str(): String = this.lorem().sentence()
+
+const val srcDir = "/tmp/StarDict"
+
+fun setupSrcDir() {
+    val dir = File(srcDir)
+    dir.deleteRecursively()
+    dir.mkdir()
+}
+
+/**
+ * Copies all dict files to SRC_DIR.
+ */
+fun copyDict(name: String) {
+    for (ext in listOf("ifo", "idx", "dict")) {
+        val target = File("sampledata/$name.$ext")
+        val destination = File("$srcDir/$name.$ext")
+        target.copyTo(destination)
+    }
+}
