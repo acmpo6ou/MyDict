@@ -21,10 +21,8 @@ package com.acmpo6ou.stardict.dicts_screen
 
 import android.content.Intent
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onNodeWithContentDescription
-import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
 import com.acmpo6ou.stardict.MainActivity
 import com.acmpo6ou.stardict.copyDict
 import com.acmpo6ou.stardict.setupSrcDir
@@ -45,10 +43,22 @@ import org.robolectric.Shadows.shadowOf
 class DictsScreenInst {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<MainActivity>()
+    lateinit var model: DictsViewModel
+
+    fun setupDictModel() {
+        copyDict("ER-Americana")
+        copyDict("ER-Computer")
+        copyDict("ER-LingvoScience")
+
+        model = DictsViewModel()
+        model.app = mock { on { SRC_DIR } doReturn srcDir }
+        model.loadDicts()
+    }
 
     @Before
     fun setup() {
         setupSrcDir()
+        setupDictModel()
     }
 
     @Test
@@ -77,14 +87,6 @@ class DictsScreenInst {
 
     @Test
     fun `DictsList should render items when there are dicts in SRC_DIR`() {
-        copyDict("ER-Americana")
-        copyDict("ER-Computer")
-        copyDict("ER-LingvoScience")
-
-        val model = DictsViewModel()
-        model.app = mock { on { SRC_DIR } doReturn srcDir }
-        model.loadDicts()
-
         composeTestRule.setContent {
             StarDictTheme { DictsList(model) }
         }
