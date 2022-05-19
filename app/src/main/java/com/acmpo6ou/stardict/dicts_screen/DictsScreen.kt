@@ -145,7 +145,7 @@ fun DictItem(name: String, onRemoveDict: () -> Unit) {
             IconButton(onClick = onRemoveDict) {
                 Icon(
                     Icons.Default.Delete,
-                    tint = Color.White,
+                    tint = MaterialTheme.colorScheme.tertiary,
                     contentDescription = "",
                 )
             }
