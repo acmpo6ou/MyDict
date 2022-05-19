@@ -22,12 +22,12 @@ package com.acmpo6ou.stardict.dicts_screen
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import com.acmpo6ou.stardict.MainActivity
 import com.acmpo6ou.stardict.R
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
+import io.github.eb4j.stardict.StarDictDictionary
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -54,7 +55,12 @@ fun DictsScreen(activity: MainActivity) {
         },
         floatingActionButtonPosition = FabPosition.End,
     ) {
-        DictsList(DictsViewModel())
+        val dialogShown = remember { mutableStateOf(false) }
+        val dictToRemove: MutableState<StarDictDictionary?> =
+            remember { mutableStateOf(null) }
+
+        RemoveDictDialog(dialogShown, dictToRemove, activity.dictsViewModel)
+        DictsList(activity.dictsViewModel)
     }
 }
 
@@ -99,6 +105,39 @@ fun DictsAppBar() {
         },
         colors = colors,
     )
+}
+
+@Composable
+fun RemoveDictDialog(
+    dictShown: MutableState<Boolean>,
+    dictToRemove: MutableState<StarDictDictionary?>,
+    model: DictsViewModel,
+) {
+    if (!dictShown.value) return
+
+    AlertDialog(
+        title = { Text("Are you sure you want to remove the dict?") },
+        icon = { Icon(Icons.Default.Warning, "") },
+        confirmButton = {
+            Button({ model.removeDict(dictToRemove.value!!) }) {
+                Text("Yes")
+            }
+        },
+        dismissButton = { Button(onClick = {}) { Text("No") } },
+        onDismissRequest = {},
+    )
+}
+
+@Composable
+@Preview
+fun RemoveDictDialogPreview() {
+    StarDictTheme {
+        RemoveDictDialog(
+            remember { mutableStateOf(true) },
+            remember { mutableStateOf(null) },
+            DictsViewModel(),
+        )
+    }
 }
 
 @Composable

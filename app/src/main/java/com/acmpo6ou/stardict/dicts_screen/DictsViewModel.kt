@@ -103,4 +103,6 @@ open class DictsViewModel : ViewModel() {
         val name = File(path).nameWithoutExtension
         loadDictionary(name)
     }
+
+    fun removeDict(dict: StarDictDictionary) {}
 }
