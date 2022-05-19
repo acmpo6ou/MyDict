@@ -63,4 +63,15 @@ class DictsScreenInst {
         val intent: Intent = shadowOf(RuntimeEnvironment.application).nextStartedActivity
         assertNotNull(intent)
     }
+
+    @Test
+    fun `DictsList should show a message when there are no items`() {
+        composeTestRule.setContent {
+            StarDictTheme { DictsList(DictsViewModel()) }
+        }
+
+        composeTestRule
+            .onNodeWithText("No dictionaries", substring = true)
+            .assertExists()
+    }
 }

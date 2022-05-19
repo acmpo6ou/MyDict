@@ -20,9 +20,7 @@
 package com.acmpo6ou.stardict.dicts_screen
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
@@ -35,7 +33,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.acmpo6ou.stardict.MainActivity
 import com.acmpo6ou.stardict.R
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
@@ -105,6 +105,20 @@ fun DictsAppBar() {
 
 @Composable
 fun DictsList(model: DictsViewModel) {
+    Text(
+        """
+        No dictionaries.
+
+        To add a dictionary press + and choose all the dictionary files, such as:
+        .ifo, .idx and .dict
+
+        Note: you have to choose all the files in one go.
+        """.trimIndent(),
+        modifier = Modifier
+            .padding(horizontal = 60.dp)
+            .fillMaxHeight()
+            .wrapContentHeight()
+    )
     // TODO: use for loop
 }
 
