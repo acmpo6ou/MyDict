@@ -20,6 +20,7 @@
 package com.acmpo6ou.stardict
 
 import android.app.Application
+import androidx.compose.ui.platform.LocalContext
 import com.acmpo6ou.stardict.dicts_screen.DictsScreen
 import com.acmpo6ou.stardict.screens.AboutScreen
 import dev.wirespec.jetmagic.composables.crm
@@ -40,7 +41,8 @@ open class MyApp : Application() {
                         MainScreen()
                     },
                     ComposableResource(NavIDs.DictsScreen) {
-                        DictsScreen()
+                        val activity = LocalContext.current as MainActivity
+                        DictsScreen(activity)
                     },
                     ComposableResource(NavIDs.AboutScreen) {
                         AboutScreen()

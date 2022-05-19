@@ -20,11 +20,18 @@
 package com.acmpo6ou.stardict.dicts_screen
 
 import android.content.Intent
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.acmpo6ou.stardict.MainActivity
+import com.acmpo6ou.stardict.copyDict
+import com.acmpo6ou.stardict.setupSrcDir
+import com.acmpo6ou.stardict.srcDir
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.mock
 import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Rule
@@ -41,15 +48,15 @@ class DictsScreenInst {
 
     @Before
     fun setup() {
-        composeTestRule.setContent {
-            StarDictTheme {
-                DictsScreen()
-            }
-        }
+        setupSrcDir()
     }
 
     @Test
     fun `DictsScreen FAB should launch an import dict intent`() {
+        composeTestRule.setContent {
+            val activity = LocalContext.current as MainActivity
+            StarDictTheme { DictsScreen(activity) }
+        }
         composeTestRule.onNodeWithContentDescription("Import dict")
             .performClick()
 

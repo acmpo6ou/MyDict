@@ -42,9 +42,7 @@ import com.acmpo6ou.stardict.ui.theme.StarDictTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DictsScreen() {
-    val activity = LocalContext.current as MainActivity
-
+fun DictsScreen(activity: MainActivity) {
     Scaffold(
         topBar = { DictsAppBar() },
         floatingActionButton = {
@@ -66,7 +64,7 @@ fun DictsScreen() {
 @Preview
 fun DictsScreenPreview() {
     StarDictTheme {
-        DictsScreen()
+        DictsScreen(MainActivity())
     }
 }
 
