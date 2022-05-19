@@ -31,9 +31,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.acmpo6ou.stardict.MainActivity
@@ -105,21 +103,25 @@ fun DictsAppBar() {
 
 @Composable
 fun DictsList(model: DictsViewModel) {
-    Text(
-        """
-        No dictionaries.
+    if (model.dicts.value!!.isEmpty()) {
+        Text(
+            """
+            No dictionaries.
 
-        To add a dictionary press + and choose all the dictionary files, such as:
-        .ifo, .idx and .dict
+            To add a dictionary press + and choose all the dictionary files, such as:
+            .ifo, .idx and .dict
 
-        Note: you have to choose all the files in one go.
-        """.trimIndent(),
-        modifier = Modifier
-            .padding(horizontal = 60.dp)
-            .fillMaxHeight()
-            .wrapContentHeight()
-    )
-    // TODO: use for loop
+            Note: you have to choose all the files in one go.
+            """.trimIndent(),
+            modifier = Modifier
+                .padding(horizontal = 60.dp)
+                .fillMaxHeight()
+                .wrapContentHeight()
+        )
+    }
+
+    for (dict in model.dicts.value!!)
+        DictItem(dict.dictionaryName) {}
 }
 
 @Composable

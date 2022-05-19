@@ -74,4 +74,30 @@ class DictsScreenInst {
             .onNodeWithText("No dictionaries", substring = true)
             .assertExists()
     }
+
+    @Test
+    fun `DictsList should render items when there are dicts in SRC_DIR`() {
+        copyDict("ER-Americana")
+        copyDict("ER-Computer")
+        copyDict("ER-LingvoScience")
+
+        val model = DictsViewModel()
+        model.app = mock { on { SRC_DIR } doReturn srcDir }
+        model.loadDicts()
+
+        composeTestRule.setContent {
+            StarDictTheme { DictsList(model) }
+        }
+
+        // the help message shouldn't be shown
+        composeTestRule
+            .onNodeWithText("No dictionaries", substring = true)
+            .assertDoesNotExist()
+
+        val dictNames = model.dicts.value!!.map { it.dictionaryName }
+        for (name in dictNames)
+            composeTestRule
+                .onNodeWithText(name, useUnmergedTree = true)
+                .assertExists()
+    }
 }
