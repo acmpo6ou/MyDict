@@ -25,9 +25,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,11 +37,10 @@ import com.acmpo6ou.stardict.NavIDs
 import com.acmpo6ou.stardict.R
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
 import dev.wirespec.jetmagic.navigation.navman
-import io.github.eb4j.stardict.StarDictDictionary
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DictsScreen(activity: MainActivity) {
+fun DictsScreen(activity: MainActivity, model: DictsViewModel) {
     Scaffold(
         topBar = { DictsAppBar() },
         floatingActionButton = {
@@ -58,12 +54,8 @@ fun DictsScreen(activity: MainActivity) {
         },
         floatingActionButtonPosition = FabPosition.End,
     ) {
-        val dialogShown = remember { mutableStateOf(false) }
-        val dictToRemove: MutableState<StarDictDictionary?> =
-            remember { mutableStateOf(null) }
-
-        RemoveDictDialog(dialogShown, dictToRemove, activity.dictsViewModel)
-        DictsList(activity.dictsViewModel)
+        RemoveDictDialog(model)
+        DictsList(model)
     }
 }
 
@@ -71,7 +63,7 @@ fun DictsScreen(activity: MainActivity) {
 @Preview
 fun DictsScreenPreview() {
     StarDictTheme {
-        DictsScreen(MainActivity())
+        DictsScreen(MainActivity(), DictsViewModel())
     }
 }
 
@@ -112,35 +104,32 @@ fun DictsAppBar() {
 }
 
 @Composable
-fun RemoveDictDialog(
-    dictShown: MutableState<Boolean>,
-    dictToRemove: MutableState<StarDictDictionary?>,
-    model: DictsViewModel,
-) {
-    if (!dictShown.value) return
+fun RemoveDictDialog(model: DictsViewModel) {
+    if (!model.removeDialogShown) return
 
     AlertDialog(
         title = { Text("Are you sure you want to remove the dict?") },
         icon = { Icon(Icons.Default.Warning, "") },
         confirmButton = {
-            Button({ model.removeDict(dictToRemove.value!!) }) {
+            Button({ model.removeDict() }) {
                 Text("Yes")
             }
         },
-        dismissButton = { Button(onClick = {}) { Text("No") } },
-        onDismissRequest = {},
+        dismissButton = {
+            Button({ model.removeDialogShown = false }) { Text("No") }
+        },
+        onDismissRequest = { model.removeDialogShown = false },
     )
 }
 
 @Composable
 @Preview
 fun RemoveDictDialogPreview() {
+    val model = DictsViewModel()
+    model.removeDialogShown = true
+
     StarDictTheme {
-        RemoveDictDialog(
-            remember { mutableStateOf(true) },
-            remember { mutableStateOf(null) },
-            DictsViewModel(),
-        )
+        RemoveDictDialog(model)
     }
 }
 
@@ -164,7 +153,9 @@ fun DictsList(model: DictsViewModel) {
     }
 
     for (dict in model.dicts.value!!)
-        DictItem(dict.dictionaryName) {}
+        DictItem(dict.dictionaryName) {
+            model.removeDialogShown = true
+        }
 }
 
 @Composable
@@ -189,7 +180,7 @@ fun DictItem(name: String, onRemoveDict: () -> Unit) {
                 Icon(
                     Icons.Default.Delete,
                     tint = MaterialTheme.colorScheme.tertiary,
-                    contentDescription = "",
+                    contentDescription = "remove dict",
                 )
             }
         }

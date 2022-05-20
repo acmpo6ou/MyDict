@@ -65,7 +65,7 @@ class DictsScreenInst {
     fun `DictsScreen FAB should launch an import dict intent`() {
         composeTestRule.setContent {
             val activity = LocalContext.current as MainActivity
-            StarDictTheme { DictsScreen(activity) }
+            StarDictTheme { DictsScreen(activity, activity.dictsViewModel) }
         }
         composeTestRule.onNodeWithContentDescription("Import dict")
             .performClick()
@@ -77,7 +77,9 @@ class DictsScreenInst {
     @Test
     fun `DictsList should show a message when there are no items`() {
         composeTestRule.setContent {
-            StarDictTheme { DictsList(DictsViewModel()) }
+            StarDictTheme {
+                DictsList(DictsViewModel())
+            }
         }
 
         composeTestRule

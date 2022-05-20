@@ -20,6 +20,9 @@
 package com.acmpo6ou.stardict.dicts_screen
 
 import android.content.ClipData
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.acmpo6ou.stardict.MyApp
@@ -30,8 +33,12 @@ import java.io.FileInputStream
 open class DictsViewModel : ViewModel() {
     lateinit var app: MyApp
     val dicts = MutableLiveData<MutableSet<StarDictDictionary>>(mutableSetOf())
+
     val importError = MutableLiveData("")
     val loadDictError = MutableLiveData("")
+
+    var removeDialogShown: Boolean by mutableStateOf(false)
+    var dictToRemove: StarDictDictionary? by mutableStateOf(null)
 
     /**
      * Loads dictionary handling all errors, deletes all files of a dict
@@ -104,5 +111,5 @@ open class DictsViewModel : ViewModel() {
         loadDictionary(name)
     }
 
-    fun removeDict(dict: StarDictDictionary) {}
+    fun removeDict() {}
 }

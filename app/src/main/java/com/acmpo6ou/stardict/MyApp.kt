@@ -42,7 +42,7 @@ open class MyApp : Application() {
                     },
                     ComposableResource(NavIDs.DictsScreen) {
                         val activity = LocalContext.current as MainActivity
-                        DictsScreen(activity)
+                        DictsScreen(activity, activity.dictsViewModel)
                     },
                     ComposableResource(NavIDs.AboutScreen) {
                         AboutScreen()
