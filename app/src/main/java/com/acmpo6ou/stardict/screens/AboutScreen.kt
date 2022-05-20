@@ -35,6 +35,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.acmpo6ou.stardict.BackButton
 import com.acmpo6ou.stardict.NavIDs.AboutScreen
 import com.acmpo6ou.stardict.R
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
@@ -48,7 +49,12 @@ fun AboutScreen() {
     )
 
     Scaffold(
-        topBar = { SmallTopAppBar({ Text("About") }, colors = colors) }
+        topBar = {
+            SmallTopAppBar(
+                { Text("About") }, colors = colors,
+                navigationIcon = { BackButton() },
+            )
+        }
     ) {
         AboutContent(it)
     }

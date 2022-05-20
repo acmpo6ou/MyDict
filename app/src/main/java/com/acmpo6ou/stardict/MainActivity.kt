@@ -31,6 +31,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
@@ -196,4 +197,15 @@ fun SearchField() {
             Icon(Icons.Default.Search, "")
         }
     )
+}
+
+@Composable
+fun BackButton() {
+    IconButton(onClick = { navman.goBack() }) {
+        Icon(
+            Icons.Default.ArrowBack,
+            tint = Color.White,
+            contentDescription = "go back",
+        )
+    }
 }

@@ -34,6 +34,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.acmpo6ou.stardict.BackButton
 import com.acmpo6ou.stardict.MainActivity
 import com.acmpo6ou.stardict.R
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
@@ -80,6 +81,7 @@ fun DictsAppBar() {
 
     SmallTopAppBar(
         title = { Text("Dictionaries") },
+        navigationIcon = { BackButton() },
         actions = {
             IconButton(
                 enabled = true,
