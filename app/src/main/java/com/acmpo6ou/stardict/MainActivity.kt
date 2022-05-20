@@ -38,8 +38,7 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -54,6 +53,7 @@ import dev.wirespec.jetmagic.composables.crm
 import dev.wirespec.jetmagic.navigation.navman
 
 class MainActivity : ComponentActivity() {
+    val mainViewModel: MainViewModel by viewModels()
     val dictsViewModel: DictsViewModel by viewModels()
 
     private val importLauncher =
@@ -101,10 +101,10 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen() {
+fun MainScreen(model: MainViewModel) {
     Scaffold(topBar = { AppBar() }) {
         Column(modifier = Modifier.padding(it)) {
-            SearchField()
+            SearchField(model)
             LazyColumn(
                 contentPadding = PaddingValues(16.dp),
             ) {
@@ -128,7 +128,7 @@ fun MainScreen() {
 @Preview
 fun MainScreenPreview() {
     StarDictTheme {
-        MainScreen()
+        MainScreen(MainViewModel())
     }
 }
 
@@ -179,22 +179,23 @@ fun AppBar() {
 }
 
 @Composable
-fun SearchField() {
-    var searchText by rememberSaveable { mutableStateOf("") }
+fun SearchField(model: MainViewModel) {
+    val searchText = model.searchText.observeAsState("")
+
     OutlinedTextField(
         modifier = Modifier
             .padding(horizontal = 8.dp)
             .fillMaxWidth(),
-        value = searchText,
+        value = searchText.value,
         onValueChange = {
-            searchText = it
             // TODO: search word in dicts
         },
         label = { Text("Search") },
         leadingIcon = {
-            // TODO: if searchText is empty use Search icon,
-            //  otherwise – X icon, which will clear the text once clicked
             Icon(Icons.Default.Search, "")
+        },
+        trailingIcon = {
+            // TODO: if searchText is empty hide X icon
         }
     )
 }
