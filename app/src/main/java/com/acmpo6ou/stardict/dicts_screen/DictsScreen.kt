@@ -36,8 +36,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.acmpo6ou.stardict.BackButton
 import com.acmpo6ou.stardict.MainActivity
+import com.acmpo6ou.stardict.NavIDs
 import com.acmpo6ou.stardict.R
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
+import dev.wirespec.jetmagic.navigation.navman
 import io.github.eb4j.stardict.StarDictDictionary
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -90,18 +92,18 @@ fun DictsAppBar() {
                 Icon(
                     Icons.Default.Settings,
                     tint = Color.White,
-                    contentDescription = "",
+                    contentDescription = "settings",
                 )
             }
 
             IconButton(
                 enabled = true,
-                onClick = { /*TODO*/ }
+                onClick = { navman.goto(composableResId = NavIDs.AboutScreen) }
             ) {
                 Icon(
                     Icons.Default.Info,
                     tint = Color.White,
-                    contentDescription = "",
+                    contentDescription = "about",
                 )
             }
         },
