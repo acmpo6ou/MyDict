@@ -21,12 +21,28 @@ package com.acmpo6ou.stardict
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.acmpo6ou.stardict.dicts_screen.DictsViewModel
 
 class MainViewModel : ViewModel() {
-    var searchText = MutableLiveData("")
+    lateinit var dictsViewModel: DictsViewModel
 
+    val searchText = MutableLiveData("")
+    val completions = MutableLiveData(listOf<String>())
+
+    /**
+     * Searches for [text] in all dictionaries.
+     *
+     * Collects completions from all dictionaries.
+     */
     fun search(text: String) {
         searchText.value = text
+
+        val suggestions = mutableSetOf<String>()
+        for (dict in dictsViewModel.dicts.value!!) {
+            val words = dict.readArticlesPredictive(text).map { it.word }
+            suggestions.addAll(words)
+        }
+        completions.value = suggestions.toList().sorted()
     }
 
     fun clearSearch() {
