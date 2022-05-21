@@ -28,4 +28,8 @@ class MainViewModel : ViewModel() {
     fun search(text: String) {
         searchText.value = text
     }
+
+    fun clearSearch() {
+        searchText.value = ""
+    }
 }
