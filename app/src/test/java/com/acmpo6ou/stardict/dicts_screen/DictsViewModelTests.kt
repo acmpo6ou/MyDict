@@ -25,13 +25,9 @@ import android.content.ContentResolver
 import android.net.Uri
 import android.os.ParcelFileDescriptor
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.acmpo6ou.stardict.copyDict
-import com.acmpo6ou.stardict.setupSrcDir
-import com.acmpo6ou.stardict.srcDir
-import com.acmpo6ou.stardict.str
+import com.acmpo6ou.stardict.*
 import com.github.javafaker.Faker
 import com.nhaarman.mockitokotlin2.*
-import io.github.eb4j.stardict.StarDictDictionary
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -94,7 +90,7 @@ class DictsViewModelTests {
 
         assertEquals(
             "LingvoComputer (En-Ru)",
-            model.dicts.value!!.first().dictionaryName
+            model.dicts.value!!.first().name
         )
     }
 
@@ -105,7 +101,8 @@ class DictsViewModelTests {
         File("$srcDir/ER-Computer.ifo").delete()
         model.loadDictionary("ER-Computer")
 
-        val msg = "java.nio.file.NoSuchFileException: $srcDir/ER-Computer.ifo"
+        val msg = "java.io.FileNotFoundException: " +
+                "$srcDir/ER-Computer.ifo (No such file or directory)"
         assertEquals(msg, model.loadDictError.value)
 
         // other dict files (.idx and .dict) should be removed from SRC_DIR
@@ -128,7 +125,7 @@ class DictsViewModelTests {
                 "LingvoComputer (En-Ru)",
                 "LingvoScience (En-Ru)"
             ),
-            model.dicts.value!!.map { it.dictionaryName }.toSet(),
+            model.dicts.value!!.map { it.name }.toSet(),
         )
     }
 
@@ -143,9 +140,8 @@ class DictsViewModelTests {
         }
 
         // the dicts list should contain the imported dict
-        val file = File("$srcDir/ER-LingvoUniversal.ifo")
-        val expectedName = StarDictDictionary.loadDictionary(file).dictionaryName
-        assertEquals(expectedName, model.dicts.value!!.first().dictionaryName)
+        val dict = StarDict("$srcDir/ER-LingvoUniversal")
+        assertEquals(dict.name, model.dicts.value!!.first().name)
     }
 
     @Test

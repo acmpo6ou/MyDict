@@ -20,25 +20,22 @@
 package com.acmpo6ou.stardict.dicts_screen
 
 import android.content.ClipData
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.acmpo6ou.stardict.MyApp
-import io.github.eb4j.stardict.StarDictDictionary
+import com.acmpo6ou.stardict.StarDict
 import java.io.File
 import java.io.FileInputStream
 
 open class DictsViewModel : ViewModel() {
     lateinit var app: MyApp
-    val dicts = MutableLiveData<MutableSet<StarDictDictionary>>(mutableSetOf())
+    val dicts = MutableLiveData<MutableSet<StarDict>>(mutableSetOf())
 
     val importError = MutableLiveData("")
     val loadDictError = MutableLiveData("")
 
-    var removeDialogShown: Boolean by mutableStateOf(false)
-    var dictToRemove: StarDictDictionary? by mutableStateOf(null)
+    var removeDialogShown = MutableLiveData(false)
+    var dictToRemove: MutableLiveData<StarDict?> = MutableLiveData(null)
 
     /**
      * Loads dictionary handling all errors, deletes all files of a dict
@@ -46,8 +43,7 @@ open class DictsViewModel : ViewModel() {
      */
     fun loadDictionary(name: String) {
         try {
-            val file = File("${app.SRC_DIR}/$name.ifo")
-            val dict = StarDictDictionary.loadDictionary(file)
+            val dict = StarDict("${app.SRC_DIR}/$name")
             dicts.addItem(dict)
         } catch (e: Exception) {
             e.printStackTrace()
@@ -64,8 +60,7 @@ open class DictsViewModel : ViewModel() {
      * Populates [dicts] with dictionaries residing in the SRC_DIR.
      */
     fun loadDicts() {
-        for (fileName in File(app.SRC_DIR).list()) {
-            val file = File("${app.SRC_DIR}/$fileName")
+        for (file in File(app.SRC_DIR).listFiles()) {
             if (file.extension != "ifo") continue
             loadDictionary(file.nameWithoutExtension)
         }
