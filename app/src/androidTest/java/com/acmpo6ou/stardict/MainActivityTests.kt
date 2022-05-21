@@ -25,19 +25,19 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
 
-@RunWith(RobolectricTestRunner::class)
+@RunWith(AndroidJUnit4::class)
 class MainActivityTests {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<MainActivity>()
 
     @Test
-    fun `search field should hide or show clear text icon`() {
+    fun search_field_should_hide_or_show_clear_text_icon() {
         composeTestRule.setContent {
             val activity = LocalContext.current as MainActivity
             StarDictTheme { MainScreen(activity.mainViewModel) }
@@ -59,7 +59,7 @@ class MainActivityTests {
     }
 
     @Test
-    fun `clear search button should clear search field`() {
+    fun clear_search_button_should_clear_search_field() {
         var model: MainViewModel? = null
         composeTestRule.setContent {
             val activity = LocalContext.current as MainActivity
