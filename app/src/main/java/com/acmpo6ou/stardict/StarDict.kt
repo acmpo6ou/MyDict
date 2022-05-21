@@ -43,4 +43,10 @@ class StarDict(filePath: String) {
                 break
             }
     }
+
+    /**
+     * Returns a list of completion suggestions for a given [text].
+     */
+    fun getSuggestions(text: String): List<String> =
+        parser.searchWord(text).map { it.key }
 }
