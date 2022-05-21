@@ -23,6 +23,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.hasSetTextAction
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
 import org.junit.Rule
@@ -55,5 +56,25 @@ class MainActivityTests {
         composeTestRule
             .onNodeWithContentDescription("clear search")
             .assertExists()
+    }
+
+    @Test
+    fun `clear search button should clear search field`() {
+        var model: MainViewModel? = null
+        composeTestRule.setContent {
+            val activity = LocalContext.current as MainActivity
+            model = activity.mainViewModel
+            StarDictTheme { MainScreen(activity.mainViewModel) }
+        }
+
+        composeTestRule
+            .onNode(hasSetTextAction())
+            .performTextInput("apple")
+
+        composeTestRule
+            .onNodeWithContentDescription("clear search")
+            .performClick()
+
+        assert(model!!.searchText.value!!.isEmpty())
     }
 }
