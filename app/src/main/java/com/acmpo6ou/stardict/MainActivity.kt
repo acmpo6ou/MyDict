@@ -31,10 +31,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -180,22 +177,21 @@ fun AppBar() {
 
 @Composable
 fun SearchField(model: MainViewModel) {
-    val searchText = model.searchText.observeAsState("")
+    val searchText: String by model.searchText.observeAsState("")
 
     OutlinedTextField(
         modifier = Modifier
             .padding(horizontal = 8.dp)
             .fillMaxWidth(),
-        value = searchText.value,
-        onValueChange = {
-            // TODO: search word in dicts
-        },
+        value = searchText,
+        onValueChange = { model.search(it) },
         label = { Text("Search") },
         leadingIcon = {
             Icon(Icons.Default.Search, "")
         },
         trailingIcon = {
-            // TODO: if searchText is empty hide X icon
+            if (searchText.isNotEmpty())
+                Icon(Icons.Default.Clear, "clear search")
         }
     )
 }
