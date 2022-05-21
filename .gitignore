@@ -75,4 +75,5 @@ google-services.json
 *.hprof
 
 app/src/test/java/com/acmpo6ou/stardict/ExampleUnitTest.kt
+!app/libs/*
 
