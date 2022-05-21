@@ -49,4 +49,12 @@ class StarDict(filePath: String) {
      */
     fun getSuggestions(text: String): List<String> =
         parser.searchWord(text).map { it.key }
+
+    /**
+     * Returns an article for a given [word].
+     */
+    fun getArticle(word: String): String {
+        val position = parser.searchWord(word).first().value
+        return parser.getWordExplanation(position.startPos, position.length)
+    }
 }
