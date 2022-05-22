@@ -22,11 +22,11 @@ package com.acmpo6ou.stardict
 import org.yage.dict.star.StarDictParser
 import java.io.File
 
-class StarDict(filePath: String) {
+class StarDict {
     lateinit var name: String
     private val parser = StarDictParser()
 
-    init {
+    fun initialize(filePath: String) {
         loadIfoFile("$filePath.ifo")
         parser.loadIndexFile("$filePath.idx")
         parser.loadContentFile("$filePath.dict")

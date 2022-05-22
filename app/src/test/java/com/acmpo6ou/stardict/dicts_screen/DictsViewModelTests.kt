@@ -102,7 +102,7 @@ class DictsViewModelTests {
         model.loadDictionary("ER-Computer")
 
         val msg = "java.io.FileNotFoundException: " +
-                "$srcDir/ER-Computer.ifo (No such file or directory)"
+            "$srcDir/ER-Computer.ifo (No such file or directory)"
         assertEquals(msg, model.loadDictError.value)
 
         // other dict files (.idx and .dict) should be removed from SRC_DIR
@@ -140,7 +140,8 @@ class DictsViewModelTests {
         }
 
         // the dicts list should contain the imported dict
-        val dict = StarDict("$srcDir/ER-LingvoUniversal")
+        val dict = StarDict()
+        dict.initialize("$srcDir/ER-LingvoUniversal")
         assertEquals(dict.name, model.dicts.value!!.first().name)
     }
 

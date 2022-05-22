@@ -33,14 +33,16 @@ class StarDictTests {
     @Test
     fun `loadIfoFile should load name of the dictionary`() {
         copyDict("ER-LingvoUniversal")
-        val dict = StarDict("$srcDir/ER-LingvoUniversal")
+        val dict = StarDict()
+        dict.initialize("$srcDir/ER-LingvoUniversal")
         assertEquals("LingvoUniversal (En-Ru)", dict.name)
     }
 
     @Test
     fun `getArticle should return null if the word is not found`() {
         copyDict("ER-Computer")
-        val dict = StarDict("$srcDir/ER-Computer")
+        val dict = StarDict()
+        dict.initialize("$srcDir/ER-Computer")
 
         val article = dict.getArticle("zoological")
         assertNull(article)

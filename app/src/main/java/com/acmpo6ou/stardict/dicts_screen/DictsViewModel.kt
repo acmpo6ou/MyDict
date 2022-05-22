@@ -43,7 +43,8 @@ open class DictsViewModel : ViewModel() {
      */
     fun loadDictionary(name: String) {
         try {
-            val dict = StarDict("${app.SRC_DIR}/$name")
+            val dict = StarDict()
+            dict.initialize("${app.SRC_DIR}/$name")
             dicts.addItem(dict)
         } catch (e: Exception) {
             e.printStackTrace()
