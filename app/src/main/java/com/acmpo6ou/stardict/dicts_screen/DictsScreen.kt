@@ -210,11 +210,3 @@ fun DictItem(name: String, onRemoveDict: () -> Unit) {
         }
     }
 }
-
-@Preview
-@Composable
-fun DictItemPreview() {
-    StarDictTheme {
-        DictItem("Universal") {}
-    }
-}
