@@ -38,6 +38,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows.shadowOf
+import java.io.File
 
 @RunWith(RobolectricTestRunner::class)
 class DictsScreenInst {
@@ -45,7 +46,7 @@ class DictsScreenInst {
     val composeTestRule = createAndroidComposeRule<MainActivity>()
     lateinit var model: DictsViewModel
 
-    fun setupDictModel() {
+    private fun setupDictModel() {
         copyDict("ER-Americana")
         copyDict("ER-Computer")
         copyDict("ER-LingvoScience")
@@ -98,7 +99,7 @@ class DictsScreenInst {
             .onNodeWithText("No dictionaries", substring = true)
             .assertDoesNotExist()
 
-        val dictNames = model.dicts.value!!.map { it.dictionaryName }
+        val dictNames = model.dicts.value!!.map { it.name }
         for (name in dictNames)
             composeTestRule
                 .onNodeWithText(name, useUnmergedTree = true)
