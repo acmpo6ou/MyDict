@@ -152,7 +152,7 @@ fun RemoveDictDialogPreview() {
 }
 
 @Composable
-fun DictsList(model: DictsViewModel) {
+fun DictsList(model: DictsViewModel, padding: PaddingValues) {
     if (model.dicts.value!!.isEmpty()) {
         Text(
             """
@@ -170,17 +170,20 @@ fun DictsList(model: DictsViewModel) {
         )
     }
 
-    for (dict in model.dicts.value!!)
-        DictItem(dict.name) {
-            model.removeDialogShown.value = true
-        }
+    Column(modifier = Modifier.padding(padding)) {
+        for (dict in model.dicts.value!!)
+            DictItem(dict.name) {
+                model.removeDialogShown.value = true
+            }
+    }
 }
 
 @Composable
 fun DictItem(name: String, onRemoveDict: () -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.clickable { }
+        modifier = Modifier
+            .clickable { }
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -189,6 +192,9 @@ fun DictItem(name: String, onRemoveDict: () -> Unit) {
                 painter = painterResource(R.drawable.ic_book),
                 tint = Color.White,
                 contentDescription = "",
+                modifier = Modifier
+                    .padding(8.dp)
+                    .size(50.dp)
             )
 
             Text(name)
