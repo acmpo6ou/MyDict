@@ -51,10 +51,13 @@ class StarDict(filePath: String) {
         parser.searchWord(text).map { it.key }
 
     /**
-     * Returns an article for a given [word].
+     * Returns an article for a given [word] or null if the word wasn't found.
      */
-    fun getArticle(word: String): String {
-        val position = parser.searchWord(word).first().value
+    fun getArticle(word: String): String? {
+        val articles = parser.searchWord(word)
+        if (articles.isEmpty()) return null
+
+        val position = articles.first().value
         return parser.getWordExplanation(position.startPos, position.length)
     }
 }

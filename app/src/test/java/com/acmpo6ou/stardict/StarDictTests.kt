@@ -20,15 +20,29 @@
 package com.acmpo6ou.stardict
 
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
+import org.junit.Before
 import org.junit.Test
 
 class StarDictTests {
+    @Before
+    fun setup() {
+        setupSrcDir()
+    }
+
     @Test
     fun `loadIfoFile should load name of the dictionary`() {
-        setupSrcDir()
         copyDict("ER-LingvoUniversal")
-
         val dict = StarDict("$srcDir/ER-LingvoUniversal")
         assertEquals("LingvoUniversal (En-Ru)", dict.name)
+    }
+
+    @Test
+    fun `getArticle should return null if the word is not found`() {
+        copyDict("ER-Computer")
+        val dict = StarDict("$srcDir/ER-Computer")
+
+        val article = dict.getArticle("zoological")
+        assertNull(article)
     }
 }
