@@ -34,11 +34,11 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
@@ -180,11 +180,13 @@ fun AppBar() {
 @Composable
 fun SearchField(model: MainViewModel) {
     val searchText: String by model.searchText.observeAsState("")
+    val focusRequester = remember { FocusRequester() }
 
     OutlinedTextField(
         modifier = Modifier
             .padding(horizontal = 8.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .focusRequester(focusRequester),
         value = searchText,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
         maxLines = 1,
@@ -200,6 +202,10 @@ fun SearchField(model: MainViewModel) {
                 }
         }
     )
+
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
 }
 
 @Composable

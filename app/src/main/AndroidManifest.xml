@@ -17,11 +17,11 @@
         <activity
             android:name="com.acmpo6ou.stardict.MainActivity"
             android:exported="true"
+            android:windowSoftInputMode="stateVisible"
             android:label="@string/app_name"
             android:theme="@style/Theme.StarDict">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
