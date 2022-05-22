@@ -33,9 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.acmpo6ou.stardict.BackButton
-import com.acmpo6ou.stardict.MainActivity
-import com.acmpo6ou.stardict.NavIDs
+import com.acmpo6ou.stardict.*
 import com.acmpo6ou.stardict.R
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
 import dev.wirespec.jetmagic.navigation.navman
@@ -57,13 +55,28 @@ fun DictsScreen(activity: MainActivity, model: DictsViewModel) {
         floatingActionButtonPosition = FabPosition.End,
     ) {
         RemoveDictDialog(model)
-        DictsList(model)
+        DictsList(model, it)
     }
 }
 
 @Composable
 @Preview
 fun DictsScreenPreview() {
+    val model = DictsViewModel()
+    val dict = StarDict()
+    val dict2 = StarDict()
+    dict.name = "Computer"
+    dict2.name = "Universal"
+    model.dicts.value = mutableSetOf(dict, dict2)
+
+    StarDictTheme {
+        DictsScreen(MainActivity(), model)
+    }
+}
+
+@Composable
+@Preview
+fun DictsScreenEmptyPreview() {
     StarDictTheme {
         DictsScreen(MainActivity(), DictsViewModel())
     }
