@@ -153,6 +153,8 @@ fun RemoveDictDialogPreview() {
 
 @Composable
 fun DictsList(model: DictsViewModel, padding: PaddingValues) {
+    val dicts: List<StarDict> by model.dicts.observeAsState(listOf())
+
     if (model.dicts.value!!.isEmpty()) {
         Text(
             """
@@ -171,7 +173,7 @@ fun DictsList(model: DictsViewModel, padding: PaddingValues) {
     }
 
     Column(modifier = Modifier.padding(padding)) {
-        for (dict in model.dicts.value!!)
+        for (dict in dicts)
             DictItem(dict.name) {
                 model.removeDialogShown.value = true
             }
