@@ -32,17 +32,18 @@ class MainViewModel : ViewModel() {
     /**
      * Searches for [text] in all dictionaries.
      *
-     * Collects completions from all dictionaries.
+     * Collects completions from all dictionaries, only first 40 completions
+     * will be used.
      */
     fun search(text: String) {
         searchText.value = text
 
         val suggestions = mutableSetOf<String>()
         for (dict in dictsViewModel.dicts.value!!) {
-            val words = dict.readArticlesPredictive(text).map { it.word }
+            val words = dict.getSuggestions(text)
             suggestions.addAll(words)
         }
-        completions.value = suggestions.toList().sorted()
+        completions.value = suggestions.toList().sorted().take(40)
     }
 
     fun clearSearch() {
