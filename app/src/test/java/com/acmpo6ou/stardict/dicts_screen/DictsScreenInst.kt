@@ -34,6 +34,7 @@ import com.acmpo6ou.stardict.srcDir
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
+import com.vanpra.composematerialdialogs.MaterialDialogState
 import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Rule
@@ -84,8 +85,9 @@ class DictsScreenInst {
         var noDictsMsg = ""
         composeTestRule.setContent {
             noDictsMsg = stringResource(R.string.no_dicts)
+            val state = MaterialDialogState()
             StarDictTheme {
-                DictsList(DictsViewModel(), PaddingValues(0.dp))
+                DictsList(state, DictsViewModel(), PaddingValues(0.dp))
             }
         }
 
@@ -99,7 +101,8 @@ class DictsScreenInst {
         var noDictsMsg = ""
         composeTestRule.setContent {
             noDictsMsg = stringResource(R.string.no_dicts)
-            StarDictTheme { DictsList(model, PaddingValues(0.dp)) }
+            val state = MaterialDialogState()
+            StarDictTheme { DictsList(state, model, PaddingValues(0.dp)) }
         }
 
         // the help message shouldn't be shown
@@ -137,7 +140,7 @@ class DictsScreenInst {
 
         // dict files should be removed when Yes is chosen in the dialog
         composeTestRule
-            .onNodeWithText("Yes", useUnmergedTree = true)
+            .onNodeWithText("YES")
             .performClick()
 
         for (ext in listOf("ifo", "idx", "dict")) {

@@ -54,6 +54,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: '*.jar')
     implementation 'org.apache.commons:commons-lang3:3.6'
     implementation 'dev.wirespec.jetmagic:jetmagic:1.2.2'
+    implementation "io.github.vanpra.compose-material-dialogs:core:0.7.1"
 
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
     implementation 'androidx.core:core-ktx:1.7.0'

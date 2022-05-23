@@ -35,11 +35,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.acmpo6ou.stardict.*
 import com.acmpo6ou.stardict.R
+import com.acmpo6ou.stardict.ui.theme.DarkGrey
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
+import com.vanpra.composematerialdialogs.*
 import dev.wirespec.jetmagic.navigation.navman
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -58,8 +61,9 @@ fun DictsScreen(activity: MainActivity, model: DictsViewModel) {
         },
         floatingActionButtonPosition = FabPosition.End,
     ) {
-        RemoveDictDialog(model)
-        DictsList(model, it)
+        val removeDialogState = rememberMaterialDialogState()
+        RemoveDictDialog(removeDialogState, model)
+        DictsList(removeDialogState, model, it)
     }
 }
 
@@ -123,54 +127,47 @@ fun DictsAppBar() {
 }
 
 @Composable
-fun RemoveDictDialog(model: DictsViewModel) {
-    val dialogShown: Boolean by model.removeDialogShown.observeAsState(false)
-    if (!dialogShown) return
-
-    AlertDialog(
-        title = { Text(stringResource(R.string.remove_dict_message)) },
-        confirmButton = {
-            ClickableText(
-                text = AnnotatedString(
-                    "Yes",
-                    spanStyle = SpanStyle(Color.White)
-                ),
-                modifier = Modifier.padding(16.dp),
-                onClick = {
-                    model.deleteDict()
-                    model.removeDialogShown.value = false
-                }
+fun RemoveDictDialog(
+    removeDialogState: MaterialDialogState,
+    model: DictsViewModel,
+) {
+    MaterialDialog(
+        removeDialogState,
+        backgroundColor = DarkGrey,
+        buttons = {
+            positiveButton(
+                "Yes",
+                onClick = { model.deleteDict() },
+                textStyle = TextStyle(MaterialTheme.colorScheme.primary),
             )
-        },
-        dismissButton = {
-            ClickableText(
-                text = AnnotatedString(
-                    "No",
-                    spanStyle = SpanStyle(Color.White)
-                ),
-                modifier = Modifier.padding(16.dp),
-                onClick = {
-                    model.removeDialogShown.value = false
-                }
+            negativeButton(
+                "No",
+                textStyle = TextStyle(MaterialTheme.colorScheme.primary),
             )
-        },
-        onDismissRequest = { model.removeDialogShown.value = false },
-    )
+        }
+    ) {
+        iconTitle("Warning!") {
+            Icon(Icons.Default.Warning, "")
+        }
+        message(stringResource(R.string.remove_dict_message))
+    }
 }
 
 @Composable
 @Preview
 fun RemoveDictDialogPreview() {
-    val model = DictsViewModel()
-    model.removeDialogShown.value = true
-
+    val state = MaterialDialogState()
     StarDictTheme {
-        RemoveDictDialog(model)
+        RemoveDictDialog(state, DictsViewModel())
     }
 }
 
 @Composable
-fun DictsList(model: DictsViewModel, padding: PaddingValues) {
+fun DictsList(
+    removeDialogState: MaterialDialogState,
+    model: DictsViewModel,
+    padding: PaddingValues,
+) {
     val dicts: List<StarDict> by model.dicts.observeAsState(listOf())
 
     if (model.dicts.value!!.isEmpty()) {
@@ -187,7 +184,7 @@ fun DictsList(model: DictsViewModel, padding: PaddingValues) {
         for (dict in dicts)
             DictItem(dict.name) {
                 model.dictToRemove.value = dict
-                model.removeDialogShown.value = true
+                removeDialogState.show()
             }
     }
 }

@@ -24,6 +24,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.acmpo6ou.stardict.MyApp
 import com.acmpo6ou.stardict.StarDict
+import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import java.io.File
 import java.io.FileInputStream
 
@@ -34,7 +35,6 @@ open class DictsViewModel : ViewModel() {
     val importError = MutableLiveData("")
     val loadDictError = MutableLiveData("")
 
-    var removeDialogShown = MutableLiveData(false)
     var dictToRemove: MutableLiveData<StarDict?> = MutableLiveData(null)
 
     private fun addDict(dict: StarDict) {
