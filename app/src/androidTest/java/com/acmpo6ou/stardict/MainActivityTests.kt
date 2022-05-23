@@ -40,7 +40,7 @@ class MainActivityTests {
     fun search_field_should_hide_or_show_clear_text_icon() {
         composeTestRule.setContent {
             val activity = LocalContext.current as MainActivity
-            StarDictTheme { MainScreen(activity.mainViewModel) }
+            StarDictTheme { MainScreen(activity, activity.mainViewModel) }
         }
 
         // when search field is empty, there should be no clear text icon
@@ -64,7 +64,7 @@ class MainActivityTests {
         composeTestRule.setContent {
             val activity = LocalContext.current as MainActivity
             model = activity.mainViewModel
-            StarDictTheme { MainScreen(activity.mainViewModel) }
+            StarDictTheme { MainScreen(activity, activity.mainViewModel) }
         }
 
         composeTestRule

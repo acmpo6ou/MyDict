@@ -20,8 +20,11 @@
 package com.acmpo6ou.stardict
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
@@ -96,12 +99,18 @@ class MainActivity : ComponentActivity() {
         crm.onConfigurationChanged()
         super.onDestroy()
     }
+
+    fun hideKeyboard() {
+        val view = this.currentFocus
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view!!.windowToken, 0)
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(model: MainViewModel) {
-    Scaffold(topBar = { AppBar() }) {
+fun MainScreen(activity: MainActivity, model: MainViewModel) {
+    Scaffold(topBar = { AppBar(activity) }) {
         Column(modifier = Modifier.padding(it)) {
             SearchField(model)
             LazyColumn(
@@ -127,12 +136,12 @@ fun MainScreen(model: MainViewModel) {
 @Preview
 fun MainScreenPreview() {
     StarDictTheme {
-        MainScreen(MainViewModel())
+        MainScreen(MainActivity(), MainViewModel())
     }
 }
 
 @Composable
-fun AppBar() {
+fun AppBar(activity: MainActivity) {
     val colors = TopAppBarDefaults.smallTopAppBarColors(
         containerColor = MaterialTheme.colorScheme.primary
     )
@@ -142,7 +151,10 @@ fun AppBar() {
         actions = {
             IconButton(
                 enabled = true,
-                onClick = { navman.goto(composableResId = NavIDs.DictsScreen) }
+                onClick = {
+                    activity.hideKeyboard()
+                    navman.goto(composableResId = NavIDs.DictsScreen)
+                }
             ) {
                 Icon(
                     painterResource(R.drawable.ic_dict),
@@ -153,7 +165,9 @@ fun AppBar() {
 
             IconButton(
                 enabled = true,
-                onClick = { /*TODO*/ }
+                onClick = {
+                    activity.hideKeyboard()
+                }
             ) {
                 Icon(
                     Icons.Default.Settings,
@@ -164,7 +178,10 @@ fun AppBar() {
 
             IconButton(
                 enabled = true,
-                onClick = { navman.goto(composableResId = NavIDs.AboutScreen) }
+                onClick = {
+                    activity.hideKeyboard()
+                    navman.goto(composableResId = NavIDs.AboutScreen)
+                }
             ) {
                 Icon(
                     Icons.Default.Info,

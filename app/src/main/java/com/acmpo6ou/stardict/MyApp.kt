@@ -39,7 +39,7 @@ open class MyApp : Application() {
                 mutableListOf(
                     ComposableResource(NavIDs.MainScreen) {
                         val activity = LocalContext.current as MainActivity
-                        MainScreen(activity.mainViewModel)
+                        MainScreen(activity, activity.mainViewModel)
                     },
                     ComposableResource(NavIDs.DictsScreen) {
                         val activity = LocalContext.current as MainActivity

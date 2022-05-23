@@ -41,7 +41,7 @@ fun WordScreen(
     transcription: String,
     articles: Map<String, String>,
 ) {
-    Scaffold(topBar = { AppBar() }) {
+    Scaffold(topBar = {}) {
         Column(modifier = Modifier.padding(it)) {
             WordRow(word, transcription)
             // TODO: render articles
