@@ -30,16 +30,24 @@ import java.io.FileInputStream
 open class DictsViewModel : ViewModel() {
     lateinit var app: MyApp
     val dicts = MutableLiveData<List<StarDict>>(listOf())
-    var removeDialogShown = MutableLiveData(false)
 
     val importError = MutableLiveData("")
     val loadDictError = MutableLiveData("")
+
+    var removeDialogShown = MutableLiveData(false)
+    var dictToRemove: MutableLiveData<StarDict?> = MutableLiveData(null)
 
     private fun addDict(dict: StarDict) {
         if (dict.filePath in dicts.value!!.map { it.filePath }) return
 
         val list = dicts.value!!.toMutableList()
         list.add(dict)
+        dicts.value = list.toList()
+    }
+
+    private fun removeDict(dict: StarDict) {
+        val list = dicts.value!!.toMutableList()
+        list.remove(dict)
         dicts.value = list.toList()
     }
 
@@ -113,5 +121,15 @@ open class DictsViewModel : ViewModel() {
         loadDictionary(name)
     }
 
-    fun removeDict() {}
+    /**
+     * Deletes dict files and removes the dict from dicts list.
+     */
+    fun deleteDict() {
+        val dict = dictToRemove.value!!
+        for (ext in listOf("ifo", "idx", "dict")) {
+            val file = File("${dict.filePath}.$ext")
+            file.delete()
+        }
+        removeDict(dict)
+    }
 }

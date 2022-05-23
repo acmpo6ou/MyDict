@@ -107,4 +107,43 @@ class DictsScreenInst {
                 .onNodeWithText(name, useUnmergedTree = true)
                 .assertExists()
     }
+
+    @Test
+    fun `pressing remove dict button should show RemoveDictDialog`() {
+        composeTestRule.setContent {
+            val activity = LocalContext.current as MainActivity
+            activity.dictsViewModel.app = model.app
+            activity.dictsViewModel.loadDicts()
+            DictsScreen(activity, activity.dictsViewModel)
+        }
+
+        composeTestRule
+            .onAllNodesWithContentDescription("remove dict")
+            .onFirst()
+            .performClick()
+
+        composeTestRule
+            .onNodeWithText("remove the dict?", substring = true)
+            .assertExists()
+
+        // dict files should be removed when Yes is chosen in the dialog
+        composeTestRule
+            .onNodeWithText("Yes", useUnmergedTree = true)
+            .performClick()
+
+        for (ext in listOf("ifo", "idx", "dict")) {
+            val file = File("$srcDir/ER-Americana.$ext")
+            assert(!file.exists())
+        }
+
+        // the dict should be removed from the list
+        composeTestRule
+            .onNodeWithText("Americana (En-Ru)")
+            .assertDoesNotExist()
+
+        // and the dialog should be hidden
+        composeTestRule
+            .onNodeWithText("remove the dict?", substring = true)
+            .assertDoesNotExist()
+    }
 }

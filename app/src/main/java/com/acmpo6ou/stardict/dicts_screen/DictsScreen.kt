@@ -127,7 +127,10 @@ fun RemoveDictDialog(model: DictsViewModel) {
         title = { Text("Are you sure you want to remove the dict?") },
         icon = { Icon(Icons.Default.Warning, "") },
         confirmButton = {
-            Button({ model.removeDict() }) {
+            Button({
+                model.deleteDict()
+                model.removeDialogShown.value = false
+            }) {
                 Text("Yes")
             }
         },
@@ -175,6 +178,7 @@ fun DictsList(model: DictsViewModel, padding: PaddingValues) {
     Column(modifier = Modifier.padding(padding)) {
         for (dict in dicts)
             DictItem(dict.name) {
+                model.dictToRemove.value = dict
                 model.removeDialogShown.value = true
             }
     }
