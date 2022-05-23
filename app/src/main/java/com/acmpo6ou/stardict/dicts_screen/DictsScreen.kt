@@ -67,7 +67,7 @@ fun DictsScreenPreview() {
     val dict2 = StarDict()
     dict.name = "Computer"
     dict2.name = "Universal"
-    model.dicts.value = mutableSetOf(dict, dict2)
+    model.dicts.value = listOf(dict, dict2)
 
     StarDictTheme {
         DictsScreen(MainActivity(), model)

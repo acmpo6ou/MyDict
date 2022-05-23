@@ -24,9 +24,11 @@ import java.io.File
 
 class StarDict {
     lateinit var name: String
+    lateinit var filePath: String
     private val parser = StarDictParser()
 
     fun initialize(filePath: String) {
+        this.filePath = filePath
         loadIfoFile("$filePath.ifo")
         parser.loadIndexFile("$filePath.idx")
         parser.loadContentFile("$filePath.dict")

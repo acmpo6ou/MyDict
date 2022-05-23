@@ -29,13 +29,19 @@ import java.io.FileInputStream
 
 open class DictsViewModel : ViewModel() {
     lateinit var app: MyApp
-    val dicts = MutableLiveData<MutableSet<StarDict>>(mutableSetOf())
+    val dicts = MutableLiveData<List<StarDict>>(listOf())
+    var removeDialogShown = MutableLiveData(false)
 
     val importError = MutableLiveData("")
     val loadDictError = MutableLiveData("")
 
-    var removeDialogShown = MutableLiveData(false)
-    var dictToRemove: MutableLiveData<StarDict?> = MutableLiveData(null)
+    private fun addDict(dict: StarDict) {
+        if (dict.filePath in dicts.value!!.map { it.filePath }) return
+
+        val list = dicts.value!!.toMutableList()
+        list.add(dict)
+        dicts.value = list.toList()
+    }
 
     /**
      * Loads dictionary handling all errors, deletes all files of a dict
@@ -45,7 +51,7 @@ open class DictsViewModel : ViewModel() {
         try {
             val dict = StarDict()
             dict.initialize("${app.SRC_DIR}/$name")
-            dicts.addItem(dict)
+            addDict(dict)
         } catch (e: Exception) {
             e.printStackTrace()
             loadDictError.value = e.toString()
