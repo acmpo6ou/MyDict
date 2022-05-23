@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">StarDict</string>
+    <string name="remove_dict_message">Are you sure you want to remove the dictionary?</string>
+    <string name="no_dicts">No dictionaries.\n\nTo add a dictionary press + and choose all the dictionary files, such as:\n.ifo, .idx and .dict\n\nNote: you have to choose all the files in one go.</string>
 </resources>

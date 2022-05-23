@@ -22,10 +22,12 @@ package com.acmpo6ou.stardict.dicts_screen
 import android.content.Intent
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.unit.dp
 import com.acmpo6ou.stardict.MainActivity
+import com.acmpo6ou.stardict.R
 import com.acmpo6ou.stardict.copyDict
 import com.acmpo6ou.stardict.setupSrcDir
 import com.acmpo6ou.stardict.srcDir
@@ -79,26 +81,30 @@ class DictsScreenInst {
 
     @Test
     fun `DictsList should show a message when there are no items`() {
+        var noDictsMsg = ""
         composeTestRule.setContent {
+            noDictsMsg = stringResource(R.string.no_dicts)
             StarDictTheme {
                 DictsList(DictsViewModel(), PaddingValues(0.dp))
             }
         }
 
         composeTestRule
-            .onNodeWithText("No dictionaries", substring = true)
+            .onNodeWithText(noDictsMsg)
             .assertExists()
     }
 
     @Test
     fun `DictsList should render items when there are dicts in SRC_DIR`() {
+        var noDictsMsg = ""
         composeTestRule.setContent {
+            noDictsMsg = stringResource(R.string.no_dicts)
             StarDictTheme { DictsList(model, PaddingValues(0.dp)) }
         }
 
         // the help message shouldn't be shown
         composeTestRule
-            .onNodeWithText("No dictionaries", substring = true)
+            .onNodeWithText(noDictsMsg, substring = true)
             .assertDoesNotExist()
 
         val dictNames = model.dicts.value!!.map { it.name }
@@ -110,10 +116,13 @@ class DictsScreenInst {
 
     @Test
     fun `pressing remove dict button should show RemoveDictDialog`() {
+        var removeDictMessage = ""
         composeTestRule.setContent {
             val activity = LocalContext.current as MainActivity
             activity.dictsViewModel.app = model.app
             activity.dictsViewModel.loadDicts()
+
+            removeDictMessage = stringResource(R.string.remove_dict_message)
             DictsScreen(activity, activity.dictsViewModel)
         }
 
@@ -123,7 +132,7 @@ class DictsScreenInst {
             .performClick()
 
         composeTestRule
-            .onNodeWithText("remove the dict?", substring = true)
+            .onNodeWithText(removeDictMessage)
             .assertExists()
 
         // dict files should be removed when Yes is chosen in the dialog
@@ -143,7 +152,7 @@ class DictsScreenInst {
 
         // and the dialog should be hidden
         composeTestRule
-            .onNodeWithText("remove the dict?", substring = true)
+            .onNodeWithText(removeDictMessage)
             .assertDoesNotExist()
     }
 }

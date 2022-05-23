@@ -31,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.acmpo6ou.stardict.*
@@ -124,7 +125,7 @@ fun RemoveDictDialog(model: DictsViewModel) {
     if (!dialogShown) return
 
     AlertDialog(
-        title = { Text("Are you sure you want to remove the dict?") },
+        title = { Text(stringResource(R.string.remove_dict_message)) },
         icon = { Icon(Icons.Default.Warning, "") },
         confirmButton = {
             Button({
@@ -160,14 +161,7 @@ fun DictsList(model: DictsViewModel, padding: PaddingValues) {
 
     if (model.dicts.value!!.isEmpty()) {
         Text(
-            """
-            No dictionaries.
-
-            To add a dictionary press + and choose all the dictionary files, such as:
-            .ifo, .idx and .dict
-
-            Note: you have to choose all the files in one go.
-            """.trimIndent(),
+            stringResource(R.string.no_dicts),
             modifier = Modifier
                 .padding(horizontal = 60.dp)
                 .fillMaxHeight()
