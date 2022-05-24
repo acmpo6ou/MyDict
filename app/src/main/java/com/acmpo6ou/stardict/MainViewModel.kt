@@ -48,4 +48,16 @@ class MainViewModel : ViewModel() {
         }
         completions.value = suggestions.toList().sorted().take(40)
     }
+
+    /**
+     * Collects articles for a given [word] from all dictionaries.
+     */
+    fun getArticles(word: String): Map<String, String> {
+        val articles = mutableMapOf<String, String>()
+        for (dict in dictsViewModel.dicts.value!!) {
+            val article = dict.getArticle(word)
+            article?.let { articles[dict.name] = article }
+        }
+        return articles
+    }
 }
