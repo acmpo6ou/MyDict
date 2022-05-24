@@ -110,21 +110,21 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(activity: MainActivity, model: MainViewModel) {
+    val completions: List<String> by model.completions.observeAsState(listOf())
+
     Scaffold(topBar = { AppBar(activity) }) {
         Column(modifier = Modifier.padding(it)) {
             SearchField(model)
-            LazyColumn(
-                contentPadding = PaddingValues(16.dp),
-            ) {
-                // TODO: use items() and a view model
-                items(10) { i ->
+
+            LazyColumn(contentPadding = PaddingValues(16.dp)) {
+                items(completions.size) { i ->
                     Row(
                         modifier = Modifier
                             .clickable { /*TODO: go to WordScreen*/ }
                             .padding(16.dp)
                             .fillMaxWidth()
                     ) {
-                        Text("apple $i", fontSize = 30.sp)
+                        Text(completions[i], fontSize = 30.sp)
                     }
                 }
             }
