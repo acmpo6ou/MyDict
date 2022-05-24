@@ -52,6 +52,9 @@ import com.acmpo6ou.stardict.ui.theme.StarDictTheme
 import dev.wirespec.jetmagic.composables.ScreenFactoryHandler
 import dev.wirespec.jetmagic.composables.crm
 import dev.wirespec.jetmagic.navigation.navman
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 
 class MainActivity : ComponentActivity() {
     val mainViewModel: MainViewModel by viewModels()
@@ -199,6 +202,10 @@ fun SearchField(model: MainViewModel) {
     val searchText: String by model.searchText.observeAsState("")
     val focusRequester = remember { FocusRequester() }
 
+    val scope = rememberCoroutineScope()
+    var currentJob by remember { mutableStateOf<Job?>(null) }
+    val SEARCH_DELAY_MILLIS = 300L
+
     OutlinedTextField(
         modifier = Modifier
             .padding(horizontal = 8.dp)
@@ -207,7 +214,14 @@ fun SearchField(model: MainViewModel) {
         value = searchText,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
         maxLines = 1,
-        onValueChange = { model.search(it) },
+        onValueChange = {
+            model.searchText.value = it
+            currentJob?.cancel()
+            currentJob = scope.async {
+                delay(SEARCH_DELAY_MILLIS)
+                model.search(it)
+            }
+        },
         label = { Text("Search") },
         leadingIcon = {
             Icon(Icons.Default.Search, "")

@@ -36,8 +36,6 @@ class MainViewModel : ViewModel() {
      * will be used.
      */
     fun search(text: String) {
-        searchText.value = text
-
         val suggestions = mutableSetOf<String>()
         for (dict in dictsViewModel.dicts.value!!) {
             val words = dict.getSuggestions(text)
