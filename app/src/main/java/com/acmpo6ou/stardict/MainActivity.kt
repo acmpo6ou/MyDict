@@ -124,7 +124,7 @@ fun MainScreen(activity: MainActivity, model: MainViewModel) {
                             .padding(16.dp)
                             .fillMaxWidth()
                     ) {
-                        Text(completions[i], fontSize = 30.sp)
+                        Text(completions[i], fontSize = 26.sp)
                     }
                 }
             }
