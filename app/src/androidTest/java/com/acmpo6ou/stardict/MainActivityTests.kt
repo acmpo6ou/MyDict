@@ -76,5 +76,6 @@ class MainActivityTests {
             .performClick()
 
         assert(model!!.searchText.value!!.isEmpty())
+        assert(model!!.completions.value!!.isEmpty())
     }
 }

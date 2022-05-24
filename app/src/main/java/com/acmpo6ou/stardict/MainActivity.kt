@@ -214,7 +214,10 @@ fun SearchField(model: MainViewModel) {
         },
         trailingIcon = {
             if (searchText.isNotEmpty())
-                IconButton(onClick = { model.searchText.value = "" }) {
+                IconButton(onClick = {
+                    model.searchText.value = ""
+                    model.completions.value = listOf()
+                }) {
                     Icon(Icons.Default.Clear, "clear search")
                 }
         }
