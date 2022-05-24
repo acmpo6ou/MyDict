@@ -29,6 +29,7 @@ import com.acmpo6ou.stardict.*
 import com.acmpo6ou.stardict.utils.StarDict
 import com.github.javafaker.Faker
 import com.nhaarman.mockitokotlin2.*
+import com.vanpra.composematerialdialogs.MaterialDialogState
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -62,6 +63,7 @@ class DictsViewModelTests {
         setupSrcDir()
 
         model = DictsViewModel()
+        model.errorDialog = MaterialDialogState()
         model.app = mock {
             on { SRC_DIR } doReturn srcDir
             on { contentResolver } doReturn contentResolver
@@ -104,7 +106,7 @@ class DictsViewModelTests {
 
         val msg = "java.io.FileNotFoundException: " +
             "$srcDir/ER-Computer.ifo (No such file or directory)"
-        assertEquals(msg, model.loadDictError.value)
+        assertEquals(msg, model.error.value)
 
         // other dict files (.idx and .dict) should be removed from SRC_DIR
         val idxFile = File("$srcDir/ER-Computer.idx")
@@ -176,6 +178,6 @@ class DictsViewModelTests {
         doAnswer { throw exception }.whenever(spyModel).copyDictFiles(data)
 
         spyModel.importDict(data)
-        assertEquals(exception.toString(), spyModel.importError.value!!)
+        assertEquals(exception.toString(), spyModel.error.value!!)
     }
 }

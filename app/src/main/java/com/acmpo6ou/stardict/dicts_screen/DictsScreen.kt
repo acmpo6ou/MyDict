@@ -64,7 +64,11 @@ fun DictsScreen(activity: MainActivity, model: DictsViewModel) {
         floatingActionButtonPosition = FabPosition.End,
     ) {
         val removeDialogState = rememberMaterialDialogState()
+        val errorDialogState = rememberMaterialDialogState()
+        model.errorDialog = errorDialogState
+
         RemoveDictDialog(removeDialogState, model)
+        ErrorDialog(errorDialogState, model)
         DictsList(removeDialogState, model, it)
     }
 }
@@ -162,6 +166,43 @@ fun RemoveDictDialogPreview() {
     StarDictTheme {
         RemoveDictDialog(state, DictsViewModel())
     }
+    state.show()
+}
+
+@Composable
+fun ErrorDialog(
+    dialogState: MaterialDialogState,
+    model: DictsViewModel,
+) {
+    val errorMessage: String by model.error.observeAsState("")
+
+    MaterialDialog(
+        dialogState,
+        backgroundColor = DarkGrey,
+        buttons = {
+            positiveButton(
+                "OK",
+                textStyle = TextStyle(MaterialTheme.colorScheme.primary),
+            )
+        }
+    ) {
+        iconTitle("Error!") {
+            Icon(painterResource(R.drawable.ic_error), "")
+        }
+        message(errorMessage)
+    }
+}
+
+@Composable
+@Preview
+fun ErrorDialogPreview() {
+    val state = MaterialDialogState()
+    val model = DictsViewModel()
+    model.error.value = "An error occurred!"
+    StarDictTheme {
+        ErrorDialog(state, model)
+    }
+    state.show()
 }
 
 @Composable

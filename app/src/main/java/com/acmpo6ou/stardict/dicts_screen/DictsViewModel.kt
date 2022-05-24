@@ -24,6 +24,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.acmpo6ou.stardict.MyApp
 import com.acmpo6ou.stardict.utils.StarDict
+import com.vanpra.composematerialdialogs.MaterialDialogState
 import java.io.File
 import java.io.FileInputStream
 
@@ -31,9 +32,8 @@ open class DictsViewModel : ViewModel() {
     lateinit var app: MyApp
     val dicts = MutableLiveData<List<StarDict>>(listOf())
 
-    val importError = MutableLiveData("")
-    val loadDictError = MutableLiveData("")
-
+    val error = MutableLiveData("")
+    lateinit var errorDialog: MaterialDialogState
     var dictToRemove: MutableLiveData<StarDict?> = MutableLiveData(null)
 
     private fun addDict(dict: StarDict) {
@@ -61,7 +61,8 @@ open class DictsViewModel : ViewModel() {
             addDict(dict)
         } catch (e: Exception) {
             e.printStackTrace()
-            loadDictError.value = e.toString()
+            error.value = e.toString()
+            errorDialog.show()
 
             // delete all dict files since they are probably invalid
             for (ext in listOf("ifo", "idx", "dict"))
@@ -110,7 +111,8 @@ open class DictsViewModel : ViewModel() {
             copyDictFiles(data)
         } catch (e: Exception) {
             e.printStackTrace()
-            importError.value = e.toString()
+            error.value = e.toString()
+            errorDialog.show()
             return
         }
 
