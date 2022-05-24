@@ -23,7 +23,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -71,6 +70,7 @@ class MainActivity : ComponentActivity() {
 
         dictsViewModel.app = applicationContext as MyApp
         dictsViewModel.loadDicts()
+        mainViewModel.dictsViewModel = dictsViewModel
 
         if (navman.totalScreensDisplayed == 0)
             navman.goto(composableResId = NavIDs.MainScreen)
@@ -214,7 +214,7 @@ fun SearchField(model: MainViewModel) {
         },
         trailingIcon = {
             if (searchText.isNotEmpty())
-                IconButton(onClick = { model.clearSearch() }) {
+                IconButton(onClick = { model.searchText.value = "" }) {
                     Icon(Icons.Default.Clear, "clear search")
                 }
         }

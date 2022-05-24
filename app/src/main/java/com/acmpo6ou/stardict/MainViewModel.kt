@@ -45,8 +45,4 @@ class MainViewModel : ViewModel() {
         }
         completions.value = suggestions.toList().sorted().take(40)
     }
-
-    fun clearSearch() {
-        searchText.value = ""
-    }
 }
