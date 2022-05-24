@@ -17,7 +17,7 @@
  *
  */
 
-package com.acmpo6ou.stardict
+package com.acmpo6ou.stardict.utils
 
 import org.yage.dict.star.StarDictParser
 import java.io.File

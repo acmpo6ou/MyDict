@@ -21,7 +21,6 @@ package com.acmpo6ou.stardict.dicts_screen
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -33,8 +32,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -42,7 +39,12 @@ import com.acmpo6ou.stardict.*
 import com.acmpo6ou.stardict.R
 import com.acmpo6ou.stardict.ui.theme.DarkGrey
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
-import com.vanpra.composematerialdialogs.*
+import com.acmpo6ou.stardict.utils.StarDict
+import com.acmpo6ou.stardict.utils.iconTitle
+import com.acmpo6ou.stardict.utils.message
+import com.vanpra.composematerialdialogs.MaterialDialog
+import com.vanpra.composematerialdialogs.MaterialDialogState
+import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import dev.wirespec.jetmagic.navigation.navman
 
 @OptIn(ExperimentalMaterial3Api::class)

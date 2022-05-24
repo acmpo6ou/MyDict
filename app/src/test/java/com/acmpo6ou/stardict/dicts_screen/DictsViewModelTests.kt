@@ -26,6 +26,7 @@ import android.net.Uri
 import android.os.ParcelFileDescriptor
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.acmpo6ou.stardict.*
+import com.acmpo6ou.stardict.utils.StarDict
 import com.github.javafaker.Faker
 import com.nhaarman.mockitokotlin2.*
 import org.junit.Assert.assertEquals

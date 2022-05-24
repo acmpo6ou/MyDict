@@ -19,6 +19,7 @@
 
 package com.acmpo6ou.stardict
 
+import com.acmpo6ou.stardict.utils.StarDict
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Before

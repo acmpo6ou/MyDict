@@ -23,8 +23,7 @@ import android.content.ClipData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.acmpo6ou.stardict.MyApp
-import com.acmpo6ou.stardict.StarDict
-import com.vanpra.composematerialdialogs.rememberMaterialDialogState
+import com.acmpo6ou.stardict.utils.StarDict
 import java.io.File
 import java.io.FileInputStream
 
@@ -65,7 +64,6 @@ open class DictsViewModel : ViewModel() {
             loadDictError.value = e.toString()
 
             // delete all dict files since they are probably invalid
-            // TODO: use a deleteDict method
             for (ext in listOf("ifo", "idx", "dict"))
                 File("${app.SRC_DIR}/$name.$ext").delete()
         }
