@@ -24,16 +24,18 @@ import com.acmpo6ou.stardict.dicts_screen.DictsViewModel
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
 class MainViewModelTests {
     @get:Rule
     val taskExecutorRule = InstantTaskExecutorRule()
+    lateinit var model: MainViewModel
 
-    @Test
-    fun `getArticles should return a map of dict names to word articles`() {
-        val model = MainViewModel()
+    @Before
+    fun setup() {
+        model = MainViewModel()
         val dictsViewModel = DictsViewModel()
 
         dictsViewModel.app = mock { on { SRC_DIR } doReturn srcDir }
@@ -43,7 +45,10 @@ class MainViewModelTests {
         copyDict("ER-Computer")
         copyDict("ER-LingvoUniversal")
         dictsViewModel.loadDicts()
+    }
 
+    @Test
+    fun `getArticles should return a map of dict names to word articles`() {
         val computerArticle =
             """<k>Apple</k>
  <i><dtrn><co>корпорация Apple Computer - производитель вычислительной техники и программного обеспечения, а также принадлежащая ей торговая марка</co></dtrn></i>
@@ -71,5 +76,10 @@ class MainViewModelTests {
             ),
             model.getArticles("apple")
         )
+    }
+
+    @Test
+    fun `getTranscription should return word transcription`() {
+        assertEquals("ˈæpl", model.getTranscription("apple"))
     }
 }

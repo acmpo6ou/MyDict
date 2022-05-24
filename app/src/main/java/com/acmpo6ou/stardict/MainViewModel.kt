@@ -60,4 +60,16 @@ class MainViewModel : ViewModel() {
         }
         return articles
     }
+
+    /**
+     * Extracts [word] transcription from its articles, the transcription
+     * is usually contained in the <tr> tag.
+     */
+    fun getTranscription(word: String): String {
+        val articles = getArticles(word)
+        val joined = articles.values.joinToString()
+        val regex = Regex("<tr>(.*?)</tr>")
+        val trans = regex.find(joined)?.value ?: ""
+        return trans.removePrefix("<tr>").removeSuffix("</tr>")
+    }
 }
