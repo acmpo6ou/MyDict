@@ -36,6 +36,11 @@ class MainViewModel : ViewModel() {
      * will be used.
      */
     fun search(text: String) {
+        if (text.isEmpty()) {
+            completions.value = listOf()
+            return
+        }
+
         val suggestions = mutableSetOf<String>()
         for (dict in dictsViewModel.dicts.value!!) {
             val words = dict.getSuggestions(text)
