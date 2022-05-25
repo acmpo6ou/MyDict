@@ -96,3 +96,39 @@ fun Article(vocab: String, article: String) {
         Text(article, fontSize = 20.sp)
     }
 }
+
+@Composable
+fun WordAppBar() {
+    val colors = TopAppBarDefaults.smallTopAppBarColors(
+        containerColor = MaterialTheme.colorScheme.primary
+    )
+
+    SmallTopAppBar(
+        title = {},
+        navigationIcon = { BackButton() },
+        actions = {
+            IconButton(
+                enabled = true,
+                onClick = { /*TODO*/ }
+            ) {
+                Icon(
+                    Icons.Default.Settings,
+                    tint = Color.White,
+                    contentDescription = "settings",
+                )
+            }
+
+            IconButton(
+                enabled = true,
+                onClick = { navman.goto(composableResId = NavIDs.AboutScreen) }
+            ) {
+                Icon(
+                    Icons.Default.Info,
+                    tint = Color.White,
+                    contentDescription = "about",
+                )
+            }
+        },
+        colors = colors,
+    )
+}
