@@ -46,7 +46,10 @@ class MainViewModel : ViewModel() {
             val words = dict.getSuggestions(text)
             suggestions.addAll(words)
         }
-        completions.value = suggestions.toList().sorted().take(40)
+        completions.value = suggestions
+            .toList()
+            .sortedBy { it.length }
+            .take(40)
     }
 
     /**
