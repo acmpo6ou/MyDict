@@ -105,9 +105,10 @@ class MainActivity : ComponentActivity() {
     }
 
     fun hideKeyboard() {
-        val view = this.currentFocus
+        val view = this.currentFocus ?: return
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view!!.windowToken, 0)
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
+        view.clearFocus()
     }
 }
 
@@ -126,6 +127,7 @@ fun MainScreen(activity: MainActivity, model: MainViewModel) {
                     Row(
                         modifier = Modifier
                             .clickable {
+                                activity.hideKeyboard()
                                 navman.goto(
                                     composableResId = NavIDs.WordScreen,
                                     p = WordParams(
