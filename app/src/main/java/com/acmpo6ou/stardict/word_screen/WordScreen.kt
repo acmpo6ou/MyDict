@@ -22,26 +22,34 @@ package com.acmpo6ou.stardict.word_screen
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.acmpo6ou.stardict.AppBar
+import com.acmpo6ou.stardict.BackButton
+import com.acmpo6ou.stardict.NavIDs
 import com.acmpo6ou.stardict.R
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
+import dev.wirespec.jetmagic.navigation.navman
+
+data class WordParams(
+    val word: String,
+    val transcription: String,
+    val articles: Map<String, String>,
+)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WordScreen(
-    word: String,
-    transcription: String,
-    articles: Map<String, String>,
-) {
-    Scaffold(topBar = {}) {
+fun WordScreen(p: WordParams) {
+    Scaffold(topBar = { WordAppBar() }) {
         Column(modifier = Modifier.padding(it)) {
             WordRow(word, transcription)
             // TODO: render articles
@@ -53,11 +61,12 @@ fun WordScreen(
 @Composable
 @Preview
 fun WordScreenPreview() {
+    val params = WordParams(
+        "apple", "[trans]",
+        mapOf("Universal" to "Article...")
+    )
     StarDictTheme {
-        WordScreen(
-            "apple", "[trans]",
-            mapOf("Universal" to "Article...")
-        )
+        WordScreen(params)
     }
 }
 

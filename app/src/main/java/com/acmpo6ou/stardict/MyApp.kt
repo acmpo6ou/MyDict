@@ -23,6 +23,8 @@ import android.app.Application
 import androidx.compose.ui.platform.LocalContext
 import com.acmpo6ou.stardict.dicts_screen.DictsScreen
 import com.acmpo6ou.stardict.screens.AboutScreen
+import com.acmpo6ou.stardict.word_screen.WordParams
+import com.acmpo6ou.stardict.word_screen.WordScreen
 import dev.wirespec.jetmagic.composables.crm
 import dev.wirespec.jetmagic.initializeJetmagic
 import dev.wirespec.jetmagic.models.ComposableResource
@@ -44,6 +46,9 @@ open class MyApp : Application() {
                     ComposableResource(NavIDs.DictsScreen) {
                         val activity = LocalContext.current as MainActivity
                         DictsScreen(activity, activity.dictsViewModel)
+                    },
+                    ComposableResource(NavIDs.WordScreen) {
+                        WordScreen(it.parameters as WordParams)
                     },
                     ComposableResource(NavIDs.AboutScreen) {
                         AboutScreen()

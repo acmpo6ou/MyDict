@@ -49,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.acmpo6ou.stardict.dicts_screen.DictsViewModel
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
+import com.acmpo6ou.stardict.word_screen.WordParams
 import dev.wirespec.jetmagic.composables.ScreenFactoryHandler
 import dev.wirespec.jetmagic.composables.crm
 import dev.wirespec.jetmagic.navigation.navman
@@ -121,13 +122,22 @@ fun MainScreen(activity: MainActivity, model: MainViewModel) {
 
             LazyColumn(contentPadding = PaddingValues(16.dp)) {
                 items(completions.size) { i ->
+                    val word = completions[i]
                     Row(
                         modifier = Modifier
-                            .clickable { /*TODO: go to WordScreen*/ }
+                            .clickable {
+                                navman.goto(
+                                    composableResId = NavIDs.WordScreen,
+                                    p = WordParams(
+                                        word, model.getTranscription(word),
+                                        model.getArticles(word),
+                                    )
+                                )
+                            }
                             .padding(16.dp)
                             .fillMaxWidth()
                     ) {
-                        Text(completions[i], fontSize = 26.sp)
+                        Text(word, fontSize = 26.sp)
                     }
                 }
             }
