@@ -40,7 +40,7 @@ class WordScreenTests {
             val params = WordParams(
                 "apple", "[trans]",
                 mapOf(
-                    "Universal" to "Article...",
+                    "Universal" to "<k>apple</k><tr>trans</tr>Article...",
                     "Computer" to "Computer article..."
                 )
             )
@@ -54,5 +54,11 @@ class WordScreenTests {
         composeTestRule.onNodeWithText("Article...").assertExists()
         composeTestRule.onNodeWithText("Computer").assertExists()
         composeTestRule.onNodeWithText("Computer article...").assertExists()
+
+        // the transcription and word should be removed
+        composeTestRule.onNodeWithText("<k>apple</k>", substring = true)
+            .assertDoesNotExist()
+        composeTestRule.onNodeWithText("<tr>trans</tr>", substring = true)
+            .assertDoesNotExist()
     }
 }

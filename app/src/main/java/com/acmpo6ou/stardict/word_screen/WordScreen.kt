@@ -89,11 +89,17 @@ fun Article(vocab: String, article: String) {
     Column(modifier = Modifier.padding(horizontal = 8.dp)) {
         Text(
             vocab, fontWeight = FontWeight.Bold,
-            fontSize = 25.sp,
+            fontSize = 30.sp,
         )
-        // TODO: remove transcription from article
+
+        // remove word and transcription from article
+        val regex1 = Regex("<k>(.*?)</k>")
+        val regex2 = Regex("<tr>(.*?)</tr>")
+        var text = article.replace(regex1, "")
+        text = text.replace(regex2, "")
+
         // TODO: render selectable html
-        Text(article, fontSize = 20.sp)
+        Text(text, fontSize = 25.sp)
     }
 }
 
