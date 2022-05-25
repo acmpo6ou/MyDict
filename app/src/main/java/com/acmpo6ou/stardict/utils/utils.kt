@@ -82,3 +82,27 @@ fun HtmlText(html: String, modifier: Modifier = Modifier) {
         }
     )
 }
+
+/**
+ * Makes article more readable by adding new lines where appropriate.
+ */
+fun formatArticle(text: String): String {
+    // remove word and transcription from article
+    val regex1 = Regex("<k>(.*?)</k>")
+    val regex2 = Regex("<tr>(.*?)</tr>")
+    var text = text.replace(regex1, "")
+    text = text.replace(regex2, "")
+
+    val regex3 = """(\d\d?\))""".toRegex()
+    text = text.replace(regex3, "<br><br>$1")
+
+    val regex4 = """(<ex>)""".toRegex()
+    text = text.replace(regex4, "<br><br><ex>")
+
+    val regex5 = """(- <kref>)""".toRegex()
+    text = text.replace(regex5, "<br>- <kref>")
+
+    val regex6 = """(\d\d?\.)""".toRegex()
+    text = text.replace(regex6, "<br><br>$1")
+    return text
+}

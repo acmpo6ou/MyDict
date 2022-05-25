@@ -22,7 +22,6 @@ package com.acmpo6ou.stardict.word_screen
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Settings
@@ -38,6 +37,7 @@ import androidx.compose.ui.unit.sp
 import com.acmpo6ou.stardict.BackButton
 import com.acmpo6ou.stardict.NavIDs
 import com.acmpo6ou.stardict.R
+import com.acmpo6ou.stardict.utils.formatArticle
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
 import com.acmpo6ou.stardict.utils.HtmlText
 import dev.wirespec.jetmagic.navigation.navman
@@ -93,15 +93,7 @@ fun Article(vocab: String, article: String) {
             vocab, fontWeight = FontWeight.Bold,
             fontSize = 30.sp,
         )
-
-        // remove word and transcription from article
-        val regex1 = Regex("<k>(.*?)</k>")
-        val regex2 = Regex("<tr>(.*?)</tr>")
-        var text = article.replace(regex1, "")
-        text = text.replace(regex2, "")
-
-        // TODO: render selectable html
-        HtmlText(text)
+        HtmlText(formatArticle(article))
     }
 }
 
