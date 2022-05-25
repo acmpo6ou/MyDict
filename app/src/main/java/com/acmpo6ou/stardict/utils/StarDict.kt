@@ -20,12 +20,16 @@
 package com.acmpo6ou.stardict.utils
 
 import org.yage.dict.star.StarDictParser
+import org.yage.dict.star.WordPosition
 import java.io.File
+import java.util.stream.Collectors.toMap
 
 class StarDict {
     lateinit var name: String
     lateinit var filePath: String
+
     private val parser = StarDictParser()
+    private lateinit var positions: Map<String, WordPosition>
 
     fun initialize(filePath: String) {
         this.filePath = filePath
@@ -49,17 +53,22 @@ class StarDict {
     /**
      * Returns a list of completion suggestions for a given [text].
      */
-    fun getSuggestions(text: String): List<String> =
-        parser.searchWord(text).map { it.key }
+    fun getSuggestions(text: String): List<String> {
+        positions =
+            parser.searchWord(text).stream().collect(
+            toMap(
+                Map.Entry<String, WordPosition>::key,
+                Map.Entry<String, WordPosition>::value,
+            )
+        ) as Map<String, WordPosition>
+        return positions.map { it.key }
+    }
 
     /**
      * Returns an article for a given [word] or null if the word wasn't found.
      */
     fun getArticle(word: String): String? {
-        val articles = parser.searchWord(word)
-        if (articles.isEmpty()) return null
-
-        val position = articles.first().value
+        val position = positions[word] ?: return null
         return parser.getWordExplanation(position.startPos, position.length)
     }
 }

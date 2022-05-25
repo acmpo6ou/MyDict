@@ -45,6 +45,7 @@ class StarDictTests {
         val dict = StarDict()
         dict.initialize("$srcDir/ER-Computer")
 
+        dict.getSuggestions("zoological")
         val article = dict.getArticle("zoological")
         assertNull(article)
     }

@@ -53,10 +53,7 @@ class MainViewModelTests {
 
     @Test
     fun `getArticles should return a map of dict names to word articles`() {
-        val computerArticle =
-            """<k>Apple</k>
- <i><dtrn><co>корпорация Apple Computer - производитель вычислительной техники и программного обеспечения, а также принадлежащая ей торговая марка</co></dtrn></i>
- <dtrn>(web-site: <iref>http://www.apple.com</iref>)</dtrn>"""
+        model.search("apple")
 
         val lingvoArticle =
             """<k>apple</k>
@@ -74,16 +71,14 @@ class MainViewModelTests {
  - <kref>road apple</kref>"""
 
         assertEquals(
-            mapOf(
-                "LingvoComputer (En-Ru)" to computerArticle,
-                "LingvoUniversal (En-Ru)" to lingvoArticle,
-            ),
+            mapOf("LingvoUniversal (En-Ru)" to lingvoArticle),
             model.getArticles("apple")
         )
     }
 
     @Test
     fun `getTranscription should return word transcription`() {
+        model.search("apple")
         assertEquals("ˈæpl", model.getTranscription("apple"))
     }
 }
