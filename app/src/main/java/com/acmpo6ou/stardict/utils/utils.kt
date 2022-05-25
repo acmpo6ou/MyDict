@@ -19,6 +19,7 @@
 
 package com.acmpo6ou.stardict.utils
 
+import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
@@ -27,8 +28,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.text.HtmlCompat
 import com.vanpra.composematerialdialogs.MaterialDialogScope
 
 @Composable
@@ -62,5 +66,19 @@ fun MaterialDialogScope.message(text: String? = null, @StringRes res: Int? = nul
         style = MaterialTheme.typography.bodyLarge,
         modifier = Modifier
             .padding(bottom = 28.dp, start = 24.dp, end = 24.dp)
+    )
+}
+
+@Composable
+fun HtmlText(html: String, modifier: Modifier = Modifier) {
+    AndroidView(
+        modifier = modifier,
+        factory = { context -> TextView(context) },
+        update = {
+            it.text = HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_COMPACT)
+            it.textSize = 30f
+            it.setTextIsSelectable(true)
+            it.setTextColor(android.graphics.Color.parseColor("#ffffff"))
+        }
     )
 }

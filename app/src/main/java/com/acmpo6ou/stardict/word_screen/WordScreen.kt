@@ -22,6 +22,7 @@ package com.acmpo6ou.stardict.word_screen
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Settings
@@ -38,6 +39,7 @@ import com.acmpo6ou.stardict.BackButton
 import com.acmpo6ou.stardict.NavIDs
 import com.acmpo6ou.stardict.R
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
+import com.acmpo6ou.stardict.utils.HtmlText
 import dev.wirespec.jetmagic.navigation.navman
 
 data class WordParams(
@@ -99,7 +101,7 @@ fun Article(vocab: String, article: String) {
         text = text.replace(regex2, "")
 
         // TODO: render selectable html
-        Text(text, fontSize = 25.sp)
+        HtmlText(text)
     }
 }
 
