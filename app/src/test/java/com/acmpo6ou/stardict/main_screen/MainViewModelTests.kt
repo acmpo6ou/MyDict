@@ -17,10 +17,14 @@
  *
  */
 
-package com.acmpo6ou.stardict
+package com.acmpo6ou.stardict.main_screen
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.acmpo6ou.stardict.MainViewModel
+import com.acmpo6ou.stardict.copyDict
 import com.acmpo6ou.stardict.dicts_screen.DictsViewModel
+import com.acmpo6ou.stardict.setupSrcDir
+import com.acmpo6ou.stardict.srcDir
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import org.junit.Assert.assertEquals

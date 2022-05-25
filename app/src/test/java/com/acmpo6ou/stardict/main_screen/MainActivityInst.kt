@@ -17,11 +17,14 @@
  *
  */
 
-package com.acmpo6ou.stardict
+package com.acmpo6ou.stardict.main_screen
 
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
+import com.acmpo6ou.stardict.MainActivity
+import com.acmpo6ou.stardict.MainScreen
+import com.acmpo6ou.stardict.MainViewModel
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
 import org.junit.Rule
 import org.junit.Test
