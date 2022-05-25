@@ -51,9 +51,9 @@ data class WordParams(
 fun WordScreen(p: WordParams) {
     Scaffold(topBar = { WordAppBar() }) {
         Column(modifier = Modifier.padding(it)) {
-            WordRow(word, transcription)
-            // TODO: render articles
-            Article(articles.keys.first(), articles.values.first())
+            WordRow(p.word, p.transcription)
+            for (article in p.articles)
+                Article(article.key, article.value)
         }
     }
 }
