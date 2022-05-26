@@ -19,7 +19,11 @@
 
 package com.acmpo6ou.stardict.utils
 
+import android.app.Activity
+import android.content.Context.AUDIO_SERVICE
+import android.media.AudioManager
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
@@ -28,12 +32,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.text.HtmlCompat
 import com.vanpra.composematerialdialogs.MaterialDialogScope
+
 
 @Composable
 fun MaterialDialogScope.iconTitle(
@@ -105,4 +109,17 @@ fun formatArticle(text: String): String {
     val regex6 = """(\d\d?\.)""".toRegex()
     text = text.replace(regex6, "<br><br>$1")
     return text
+}
+
+/**
+ * Displays a toast telling the user that volume is off if the volume is off.
+ */
+fun checkVolume(activity: Activity) {
+    val am = activity.getSystemService(AUDIO_SERVICE) as AudioManager
+    val volume_level = am.getStreamVolume(AudioManager.STREAM_MUSIC)
+
+    if (volume_level == 0)
+        Toast
+            .makeText(activity, "Volume is off", Toast.LENGTH_SHORT)
+            .show()
 }

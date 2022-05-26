@@ -44,6 +44,7 @@ import com.acmpo6ou.stardict.NavIDs
 import com.acmpo6ou.stardict.R
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
 import com.acmpo6ou.stardict.utils.HtmlText
+import com.acmpo6ou.stardict.utils.checkVolume
 import com.acmpo6ou.stardict.utils.formatArticle
 import dev.wirespec.jetmagic.navigation.navman
 import java.util.*
@@ -90,6 +91,8 @@ fun WordRow(word: String, transcription: String, activity: MainActivity) {
     Row(modifier = Modifier.padding(8.dp)) {
         IconButton(
             onClick = {
+                checkVolume(activity)
+
                 var tts: TextToSpeech? = null
                 tts = TextToSpeech(activity) {
                     tts?.language = Locale.US
