@@ -36,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.acmpo6ou.stardict.BackButton
+import com.acmpo6ou.stardict.BuildConfig
 import com.acmpo6ou.stardict.NavIDs.AboutScreen
 import com.acmpo6ou.stardict.R
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
@@ -71,7 +72,7 @@ fun AboutContent(padding: PaddingValues) {
             Image(painter = painterResource(R.drawable.icon))
             Column {
                 Text("Author: Bohdan Kolvakh")
-                Text("Version: 1.0.0")
+                Text("Version: ${BuildConfig.VERSION_NAME}")
             }
         }
 
