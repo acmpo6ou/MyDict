@@ -26,7 +26,6 @@ import com.acmpo6ou.stardict.MyApp
 import com.acmpo6ou.stardict.utils.StarDict
 import com.vanpra.composematerialdialogs.MaterialDialogState
 import java.io.File
-import java.io.FileInputStream
 
 open class DictsViewModel : ViewModel() {
     lateinit var app: MyApp
@@ -95,10 +94,10 @@ open class DictsViewModel : ViewModel() {
 
             val name = File(uri.path!!).name
             val file = File("${app.SRC_DIR}/$name")
-            val descriptor = app.contentResolver.openFileDescriptor(uri, "r")
+            val stream = app.contentResolver.openInputStream(uri)
 
-            FileInputStream(descriptor?.fileDescriptor).use {
-                file.writeBytes(it.readBytes())
+            stream.use {
+                file.writeBytes(it!!.readBytes())
             }
         }
     }

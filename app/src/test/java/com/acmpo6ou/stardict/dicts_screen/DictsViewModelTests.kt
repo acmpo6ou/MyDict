@@ -23,9 +23,11 @@ import android.content.ClipData
 import android.content.ClipDescription
 import android.content.ContentResolver
 import android.net.Uri
-import android.os.ParcelFileDescriptor
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.acmpo6ou.stardict.*
+import com.acmpo6ou.stardict.copyDict
+import com.acmpo6ou.stardict.setupSrcDir
+import com.acmpo6ou.stardict.srcDir
+import com.acmpo6ou.stardict.str
 import com.acmpo6ou.stardict.utils.StarDict
 import com.github.javafaker.Faker
 import com.nhaarman.mockitokotlin2.*
@@ -50,12 +52,9 @@ class DictsViewModelTests {
 
     private fun setupInputResolver(location: String, uri: Uri) {
         whenever(uri.path).thenReturn(location)
-        val descriptor: ParcelFileDescriptor = mock()
-        val fis = FileInputStream(File(location))
-
-        whenever(descriptor.fileDescriptor).thenReturn(fis.fd)
-        whenever(contentResolver.openFileDescriptor(uri, "r"))
-            .thenReturn(descriptor)
+        val stream = FileInputStream(File(location))
+        whenever(contentResolver.openInputStream(uri))
+            .thenReturn(stream)
     }
 
     @Before
