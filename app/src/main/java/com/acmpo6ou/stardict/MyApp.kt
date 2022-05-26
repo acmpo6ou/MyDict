@@ -48,7 +48,8 @@ open class MyApp : Application() {
                         DictsScreen(activity, activity.dictsViewModel)
                     },
                     ComposableResource(NavIDs.WordScreen) {
-                        WordScreen(it.parameters as WordParams)
+                        val activity = LocalContext.current as MainActivity
+                        WordScreen(it.parameters as WordParams, activity)
                     },
                     ComposableResource(NavIDs.AboutScreen) {
                         AboutScreen()

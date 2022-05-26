@@ -19,6 +19,7 @@
 
 package com.acmpo6ou.stardict.word_screen
 
+import android.speech.tts.TextToSpeech
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -38,12 +39,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.acmpo6ou.stardict.BackButton
+import com.acmpo6ou.stardict.MainActivity
 import com.acmpo6ou.stardict.NavIDs
 import com.acmpo6ou.stardict.R
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
 import com.acmpo6ou.stardict.utils.HtmlText
 import com.acmpo6ou.stardict.utils.formatArticle
 import dev.wirespec.jetmagic.navigation.navman
+import java.util.*
 
 data class WordParams(
     val word: String,
@@ -53,14 +56,14 @@ data class WordParams(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WordScreen(p: WordParams) {
+fun WordScreen(p: WordParams, activity: MainActivity) {
     Scaffold(topBar = { WordAppBar() }) {
         Column(
             modifier = Modifier
                 .padding(it)
                 .verticalScroll(rememberScrollState())
         ) {
-            WordRow(p.word, p.transcription)
+            WordRow(p.word, p.transcription, activity)
             val iter = p.articles.iterator()
             for (article in iter) {
                 Article(article.key, article.value)
@@ -78,15 +81,21 @@ fun WordScreenPreview() {
         mapOf("Universal" to "Article...")
     )
     StarDictTheme {
-        WordScreen(params)
+        WordScreen(params, MainActivity())
     }
 }
 
 @Composable
-fun WordRow(word: String, transcription: String) {
+fun WordRow(word: String, transcription: String, activity: MainActivity) {
     Row(modifier = Modifier.padding(8.dp)) {
         IconButton(
-            onClick = { /*TODO*/ },
+            onClick = {
+                var tts: TextToSpeech? = null
+                tts = TextToSpeech(activity) {
+                    tts?.language = Locale.US
+                    tts?.speak(word, TextToSpeech.QUEUE_FLUSH, null, "")
+                }
+            },
             modifier = Modifier.padding(8.dp),
         ) {
             Icon(
