@@ -61,8 +61,11 @@ fun WordScreen(p: WordParams) {
                 .verticalScroll(rememberScrollState())
         ) {
             WordRow(p.word, p.transcription)
-            for (article in p.articles)
+            val iter = p.articles.iterator()
+            for (article in iter) {
                 Article(article.key, article.value)
+                if (iter.hasNext()) Divider()
+            }
         }
     }
 }
