@@ -17,7 +17,7 @@
  *
  */
 
-package com.acmpo6ou.stardict.word_screen
+package com.acmpo6ou.stardict.screens
 
 import android.speech.tts.TextToSpeech
 import androidx.compose.foundation.layout.Column

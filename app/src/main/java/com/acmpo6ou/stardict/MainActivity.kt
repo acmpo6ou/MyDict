@@ -48,8 +48,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.acmpo6ou.stardict.dicts_screen.DictsViewModel
+import com.acmpo6ou.stardict.screens.WordParams
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
-import com.acmpo6ou.stardict.word_screen.WordParams
 import dev.wirespec.jetmagic.composables.ScreenFactoryHandler
 import dev.wirespec.jetmagic.composables.crm
 import dev.wirespec.jetmagic.navigation.navman
