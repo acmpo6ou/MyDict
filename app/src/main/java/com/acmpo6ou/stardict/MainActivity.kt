@@ -182,19 +182,6 @@ fun AppBar(activity: MainActivity) {
                 enabled = true,
                 onClick = {
                     activity.hideKeyboard()
-                }
-            ) {
-                Icon(
-                    Icons.Default.Settings,
-                    tint = Color.White,
-                    contentDescription = "",
-                )
-            }
-
-            IconButton(
-                enabled = true,
-                onClick = {
-                    activity.hideKeyboard()
                     navman.goto(composableResId = NavIDs.AboutScreen)
                 }
             ) {

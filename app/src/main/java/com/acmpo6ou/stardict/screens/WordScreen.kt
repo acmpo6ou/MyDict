@@ -137,17 +137,6 @@ fun WordAppBar() {
         actions = {
             IconButton(
                 enabled = true,
-                onClick = { /*TODO*/ }
-            ) {
-                Icon(
-                    Icons.Default.Settings,
-                    tint = Color.White,
-                    contentDescription = "settings",
-                )
-            }
-
-            IconButton(
-                enabled = true,
                 onClick = { navman.goto(composableResId = NavIDs.AboutScreen) }
             ) {
                 Icon(
