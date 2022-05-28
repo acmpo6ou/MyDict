@@ -184,8 +184,10 @@ fun MainScreen(activity: MainActivity, model: MainViewModel) {
 @Composable
 @Preview
 fun MainScreenPreview() {
+    val model = MainViewModel()
+    model.completions.value = listOf("apple", "apple pie", "apple jack")
     StarDictTheme {
-        MainScreen(MainActivity(), MainViewModel())
+        MainScreen(MainActivity(), model)
     }
 }
 
