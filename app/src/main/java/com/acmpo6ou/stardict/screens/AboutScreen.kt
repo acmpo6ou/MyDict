@@ -37,7 +37,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.acmpo6ou.stardict.BackButton
 import com.acmpo6ou.stardict.BuildConfig
-import com.acmpo6ou.stardict.NavIDs.AboutScreen
 import com.acmpo6ou.stardict.R
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
 import dev.wirespec.jetmagic.composables.Image
@@ -69,7 +68,10 @@ fun AboutContent(padding: PaddingValues) {
             .padding(horizontal = 20.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Image(painter = painterResource(R.drawable.icon))
+            Image(
+                painter = painterResource(R.drawable.icon),
+                modifier = Modifier.size(100.dp),
+            )
             Column {
                 Text("Author: Bohdan Kolvakh")
                 Text("Version: ${BuildConfig.VERSION_NAME}")
