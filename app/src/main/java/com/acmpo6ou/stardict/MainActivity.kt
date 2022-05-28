@@ -44,9 +44,11 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.lifecycleScope
 import com.acmpo6ou.stardict.dicts_screen.DictsViewModel
 import com.acmpo6ou.stardict.screens.WordParams
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
@@ -56,6 +58,7 @@ import dev.wirespec.jetmagic.navigation.navman
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     val mainViewModel: MainViewModel by viewModels()
@@ -84,6 +87,7 @@ class MainActivity : ComponentActivity() {
                 ScreenFactoryHandler()
             }
         }
+        handleSelectedText()
     }
 
     fun importDictDialog() =
@@ -109,6 +113,34 @@ class MainActivity : ComponentActivity() {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken, 0)
         view.clearFocus()
+    }
+
+    /**
+     * Handles cases when user started the app by selecting some text,
+     * and choosing `StarDict` in the context menu.
+     */
+    private fun handleSelectedText() {
+        var text = intent.getCharSequenceExtra(Intent.EXTRA_PROCESS_TEXT)
+            ?: return
+        text = text.toString().lowercase()
+        mainViewModel.search(text)
+
+        if (mainViewModel.completions.value!!.isEmpty())
+            return
+
+        navman.goto(
+            composableResId = NavIDs.WordScreen,
+            p = WordParams(
+                text, mainViewModel.getTranscription(text),
+                mainViewModel.getArticles(text),
+            )
+        )
+
+        lifecycleScope.launch {
+            // wait while the app loads, otherwise the keyboard won't be hidden
+            delay(500)
+            hideKeyboard()
+        }
     }
 }
 
