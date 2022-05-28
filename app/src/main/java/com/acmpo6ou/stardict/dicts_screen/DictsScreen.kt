@@ -105,18 +105,6 @@ fun DictsAppBar() {
     SmallTopAppBar(
         title = { Text("Dictionaries") },
         navigationIcon = { BackButton() },
-        actions = {
-            IconButton(
-                enabled = true,
-                onClick = { navman.goto(composableResId = NavIDs.AboutScreen) }
-            ) {
-                Icon(
-                    Icons.Default.Info,
-                    tint = Color.White,
-                    contentDescription = "about",
-                )
-            }
-        },
         colors = colors,
     )
 }
