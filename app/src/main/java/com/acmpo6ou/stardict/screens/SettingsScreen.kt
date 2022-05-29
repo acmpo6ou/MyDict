@@ -31,8 +31,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.acmpo6ou.stardict.BackButton
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
+import com.acmpo6ou.stardict.utils.BackButton
 
 class SettingsViewModel : ViewModel() {
     val fontSize = MutableLiveData(30)

@@ -39,13 +39,13 @@ import com.acmpo6ou.stardict.*
 import com.acmpo6ou.stardict.R
 import com.acmpo6ou.stardict.ui.theme.DarkGrey
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
+import com.acmpo6ou.stardict.utils.BackButton
 import com.acmpo6ou.stardict.utils.StarDict
 import com.acmpo6ou.stardict.utils.iconTitle
 import com.acmpo6ou.stardict.utils.message
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.MaterialDialogState
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
-import dev.wirespec.jetmagic.navigation.navman
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

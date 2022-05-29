@@ -35,7 +35,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
@@ -284,16 +283,5 @@ fun SearchField(model: MainViewModel) {
 
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
-    }
-}
-
-@Composable
-fun BackButton() {
-    IconButton(onClick = { navman.goBack() }) {
-        Icon(
-            Icons.Default.ArrowBack,
-            tint = Color.White,
-            contentDescription = "go back",
-        )
     }
 }

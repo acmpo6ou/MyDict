@@ -26,18 +26,24 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.text.HtmlCompat
+import com.acmpo6ou.stardict.MainActivity
 import com.vanpra.composematerialdialogs.MaterialDialogScope
-
+import dev.wirespec.jetmagic.navigation.navman
 
 @Composable
 fun MaterialDialogScope.iconTitle(
@@ -122,4 +128,20 @@ fun checkVolume(activity: Activity) {
         Toast
             .makeText(activity, "Volume is off", Toast.LENGTH_SHORT)
             .show()
+}
+
+@Composable
+fun BackButton() {
+    val activity = LocalContext.current as MainActivity
+
+    IconButton(onClick = {
+        activity.hideKeyboard()
+        navman.goBack()
+    }) {
+        Icon(
+            Icons.Default.ArrowBack,
+            tint = Color.White,
+            contentDescription = "go back",
+        )
+    }
 }
