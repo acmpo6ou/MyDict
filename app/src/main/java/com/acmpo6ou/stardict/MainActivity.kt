@@ -51,6 +51,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.lifecycleScope
 import com.acmpo6ou.stardict.dicts_screen.DictsViewModel
+import com.acmpo6ou.stardict.screens.SettingsViewModel
 import com.acmpo6ou.stardict.screens.WordParams
 import com.acmpo6ou.stardict.ui.theme.DarkGrey
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
@@ -65,6 +66,7 @@ import kotlinx.coroutines.launch
 class MainActivity : ComponentActivity() {
     val mainViewModel: MainViewModel by viewModels()
     val dictsViewModel: DictsViewModel by viewModels()
+    val settingsViewModel: SettingsViewModel by viewModels()
 
     private val importLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -225,6 +227,8 @@ fun AppBar(activity: MainActivity) {
                     text = { Text("Settings", fontSize = 20.sp) },
                     onClick = {
                         showMenu = false
+                        activity.hideKeyboard()
+                        navman.goto(composableResId = NavIDs.SettingsScreen)
                     }
                 )
                 DropdownMenuItem(
