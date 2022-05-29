@@ -37,11 +37,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.acmpo6ou.stardict.utils.BackButton
 import com.acmpo6ou.stardict.MainActivity
 import com.acmpo6ou.stardict.NavIDs
 import com.acmpo6ou.stardict.R
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
+import com.acmpo6ou.stardict.utils.BackButton
 import com.acmpo6ou.stardict.utils.HtmlText
 import com.acmpo6ou.stardict.utils.checkVolume
 import com.acmpo6ou.stardict.utils.formatArticle
@@ -56,7 +56,7 @@ data class WordParams(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WordScreen(p: WordParams, activity: MainActivity) {
+fun WordScreen(p: WordParams, activity: MainActivity, model: SettingsViewModel) {
     Scaffold(topBar = { WordAppBar() }) {
         Column(
             modifier = Modifier
@@ -66,7 +66,7 @@ fun WordScreen(p: WordParams, activity: MainActivity) {
             WordRow(p.word, p.transcription, activity)
             val iter = p.articles.iterator()
             for (article in iter) {
-                Article(article.key, article.value)
+                Article(article.key, article.value, model.fontSize.value!!)
                 if (iter.hasNext()) Divider()
             }
         }
@@ -81,7 +81,7 @@ fun WordScreenPreview() {
         mapOf("Universal" to "Article...")
     )
     StarDictTheme {
-        WordScreen(params, MainActivity())
+        WordScreen(params, MainActivity(), SettingsViewModel())
     }
 }
 
@@ -114,13 +114,10 @@ fun WordRow(word: String, transcription: String, activity: MainActivity) {
 }
 
 @Composable
-fun Article(vocab: String, article: String) {
+fun Article(vocab: String, article: String, fontSize: Float) {
     Column(modifier = Modifier.padding(horizontal = 8.dp)) {
-        Text(
-            vocab, fontWeight = FontWeight.Bold,
-            fontSize = 30.sp,
-        )
-        HtmlText(formatArticle(article))
+        Text(vocab, fontWeight = FontWeight.Bold, fontSize = fontSize.sp)
+        HtmlText(formatArticle(article), fontSize)
     }
 }
 

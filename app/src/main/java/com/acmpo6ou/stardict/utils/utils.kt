@@ -80,13 +80,12 @@ fun MaterialDialogScope.message(text: String? = null, @StringRes res: Int? = nul
 }
 
 @Composable
-fun HtmlText(html: String, modifier: Modifier = Modifier) {
+fun HtmlText(html: String, fontSize: Float) {
     AndroidView(
-        modifier = modifier,
         factory = { context -> TextView(context) },
         update = {
             it.text = HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_COMPACT)
-            it.textSize = 30f
+            it.textSize = fontSize
             it.setTextIsSelectable(true)
             it.setTextColor(android.graphics.Color.parseColor("#ffffff"))
         }

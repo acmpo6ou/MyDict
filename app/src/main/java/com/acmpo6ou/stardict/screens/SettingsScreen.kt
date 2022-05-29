@@ -35,7 +35,7 @@ import com.acmpo6ou.stardict.ui.theme.StarDictTheme
 import com.acmpo6ou.stardict.utils.BackButton
 
 class SettingsViewModel : ViewModel() {
-    val fontSize = MutableLiveData(30)
+    val fontSize = MutableLiveData(30f)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -63,8 +63,8 @@ fun SettingsScreen(model: SettingsViewModel) {
             label = { Text("Font size") },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            onValueChange = {
-                model.fontSize.value = it.toInt()
+            onValueChange = { value ->
+                model.fontSize.value = value.toFloat()
             }
         )
     }

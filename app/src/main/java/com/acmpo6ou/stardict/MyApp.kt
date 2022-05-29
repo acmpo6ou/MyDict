@@ -50,7 +50,10 @@ open class MyApp : Application() {
                     },
                     ComposableResource(NavIDs.WordScreen) {
                         val activity = LocalContext.current as MainActivity
-                        WordScreen(it.parameters as WordParams, activity)
+                        WordScreen(
+                            it.parameters as WordParams,
+                            activity, activity.settingsViewModel,
+                        )
                     },
                     ComposableResource(NavIDs.SettingsScreen) {
                         val activity = LocalContext.current as MainActivity
