@@ -29,6 +29,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -36,7 +37,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -45,7 +46,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -53,6 +53,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.lifecycleScope
 import com.acmpo6ou.stardict.dicts_screen.DictsViewModel
 import com.acmpo6ou.stardict.screens.WordParams
+import com.acmpo6ou.stardict.ui.theme.DarkGrey
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
 import dev.wirespec.jetmagic.composables.ScreenFactoryHandler
 import dev.wirespec.jetmagic.composables.crm
@@ -196,35 +197,44 @@ fun AppBar(activity: MainActivity) {
     val colors = TopAppBarDefaults.smallTopAppBarColors(
         containerColor = MaterialTheme.colorScheme.primary
     )
+    var showMenu by remember { mutableStateOf(false) }
 
     SmallTopAppBar(
         title = { Text("✨StarDict✨") },
         actions = {
-            IconButton(
-                enabled = true,
-                onClick = {
-                    activity.hideKeyboard()
-                    navman.goto(composableResId = NavIDs.DictsScreen)
-                }
-            ) {
+            IconButton(onClick = { showMenu = !showMenu }) {
                 Icon(
-                    painterResource(R.drawable.ic_dict),
+                    Icons.Default.MoreVert,
+                    "",
                     tint = Color.White,
-                    contentDescription = "",
                 )
             }
-
-            IconButton(
-                enabled = true,
-                onClick = {
-                    activity.hideKeyboard()
-                    navman.goto(composableResId = NavIDs.AboutScreen)
-                }
+            DropdownMenu(
+                expanded = showMenu,
+                onDismissRequest = { showMenu = false },
+                modifier = Modifier.background(DarkGrey)
             ) {
-                Icon(
-                    Icons.Default.Info,
-                    tint = Color.White,
-                    contentDescription = "",
+                DropdownMenuItem(
+                    text = { Text("Dictionaries", fontSize = 20.sp) },
+                    onClick = {
+                        showMenu = false
+                        activity.hideKeyboard()
+                        navman.goto(composableResId = NavIDs.DictsScreen)
+                    }
+                )
+                DropdownMenuItem(
+                    text = { Text("Settings", fontSize = 20.sp) },
+                    onClick = {
+                        showMenu = false
+                    }
+                )
+                DropdownMenuItem(
+                    text = { Text("About", fontSize = 20.sp) },
+                    onClick = {
+                        showMenu = false
+                        activity.hideKeyboard()
+                        navman.goto(composableResId = NavIDs.AboutScreen)
+                    }
                 )
             }
         },
