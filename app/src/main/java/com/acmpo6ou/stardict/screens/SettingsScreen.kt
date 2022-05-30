@@ -19,6 +19,7 @@
 
 package com.acmpo6ou.stardict.screens
 
+import android.content.SharedPreferences
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
@@ -31,11 +32,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.acmpo6ou.stardict.MainActivity
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
 import com.acmpo6ou.stardict.utils.BackButton
 
 class SettingsViewModel : ViewModel() {
+    lateinit var prefs: SharedPreferences
     val fontSize = MutableLiveData(30f)
+
+    fun loadPrefs() {
+        fontSize.value = prefs.getFloat("font_size", 30f)
+    }
+
+    fun savePrefs() {
+        prefs.edit().putFloat("font_size", fontSize.value!!).apply()
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -59,12 +70,15 @@ fun SettingsScreen(model: SettingsViewModel) {
                 .padding(it)
                 .padding(horizontal = 8.dp)
                 .fillMaxWidth(),
-            value = fontSize.value.toString(),
+            value = fontSize.value.toInt().toString(),
             label = { Text("Font size") },
             maxLines = 1,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             onValueChange = { value ->
-                model.fontSize.value = value.toFloat()
+                if (value.isNotEmpty()) {
+                    model.fontSize.value = value.toFloat()
+                    model.savePrefs()
+                }
             }
         )
     }

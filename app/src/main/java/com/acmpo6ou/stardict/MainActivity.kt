@@ -83,6 +83,9 @@ class MainActivity : ComponentActivity() {
         dictsViewModel.loadDicts()
         mainViewModel.dictsViewModel = dictsViewModel
 
+        settingsViewModel.prefs = getPreferences(Context.MODE_PRIVATE)
+        settingsViewModel.loadPrefs()
+
         if (navman.totalScreensDisplayed == 0)
             navman.goto(composableResId = NavIDs.MainScreen)
 
