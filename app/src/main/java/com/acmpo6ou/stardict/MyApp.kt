@@ -50,6 +50,7 @@ open class MyApp : Application() {
                         WordScreen(
                             it.parameters as WordParams,
                             activity, activity.settingsViewModel,
+                            activity.favoritesViewModel,
                         )
                     },
                     ComposableResource(NavIDs.FavoritesScreen) {

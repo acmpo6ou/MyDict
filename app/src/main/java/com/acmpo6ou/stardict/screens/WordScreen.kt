@@ -20,10 +20,7 @@
 package com.acmpo6ou.stardict.screens
 
 import android.speech.tts.TextToSpeech
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
@@ -51,17 +48,22 @@ data class WordParams(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WordScreen(p: WordParams, activity: MainActivity, model: SettingsViewModel) {
+fun WordScreen(
+    p: WordParams,
+    activity: MainActivity,
+    settingsModel: SettingsViewModel,
+    favoritesModel: FavoritesViewModel,
+) {
     Scaffold(topBar = { AppBar(activity, "") }) {
         Column(
             modifier = Modifier
                 .padding(it)
                 .verticalScroll(rememberScrollState())
         ) {
-            WordRow(p.word, p.transcription, activity)
+            WordRow(p.word, p.transcription, activity, favoritesModel)
             val iter = p.articles.iterator()
             for (article in iter) {
-                Article(article.key, article.value, model.fontSize.value!!)
+                Article(article.key, article.value, settingsModel.fontSize.value!!)
                 if (iter.hasNext()) Divider()
             }
         }
@@ -76,12 +78,20 @@ fun WordScreenPreview() {
         mapOf("Universal" to "Article...")
     )
     StarDictTheme {
-        WordScreen(params, MainActivity(), SettingsViewModel())
+        WordScreen(
+            params, MainActivity(),
+            SettingsViewModel(), FavoritesViewModel(),
+        )
     }
 }
 
 @Composable
-fun WordRow(word: String, transcription: String, activity: MainActivity) {
+fun WordRow(
+    word: String,
+    transcription: String,
+    activity: MainActivity,
+    favoritesModel: FavoritesViewModel,
+) {
     Row(modifier = Modifier.padding(8.dp)) {
         IconButton(
             onClick = {
@@ -104,6 +114,18 @@ fun WordRow(word: String, transcription: String, activity: MainActivity) {
         Column {
             Text(word, fontWeight = FontWeight.Bold)
             Text(transcription)
+        }
+        Spacer(modifier = Modifier.weight(1f))
+
+        IconButton(
+            modifier = Modifier.padding(8.dp),
+            onClick = { /*TODO*/ },
+        ) {
+            Icon(
+                painterResource(R.drawable.ic_empty_star),
+                modifier = Modifier.size(50.dp),
+                contentDescription = "add to favorites",
+            )
         }
     }
 }
