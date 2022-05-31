@@ -57,10 +57,11 @@ open class MyApp : Application() {
                     },
                     ComposableResource(NavIDs.SettingsScreen) {
                         val activity = LocalContext.current as MainActivity
-                        SettingsScreen(activity.settingsViewModel)
+                        SettingsScreen(activity.settingsViewModel, activity)
                     },
                     ComposableResource(NavIDs.AboutScreen) {
-                        AboutScreen()
+                        val activity = LocalContext.current as MainActivity
+                        AboutScreen(activity)
                     },
                 )
             )

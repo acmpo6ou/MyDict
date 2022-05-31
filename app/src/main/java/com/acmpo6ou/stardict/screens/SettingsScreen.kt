@@ -34,7 +34,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.acmpo6ou.stardict.MainActivity
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
-import com.acmpo6ou.stardict.utils.BackButton
+import com.acmpo6ou.stardict.utils.AppBar
 
 class SettingsViewModel : ViewModel() {
     lateinit var prefs: SharedPreferences
@@ -51,19 +51,12 @@ class SettingsViewModel : ViewModel() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsScreen(model: SettingsViewModel) {
+fun SettingsScreen(model: SettingsViewModel, activity: MainActivity) {
     val colors = TopAppBarDefaults.smallTopAppBarColors(
         containerColor = MaterialTheme.colorScheme.primary
     )
 
-    Scaffold(
-        topBar = {
-            SmallTopAppBar(
-                { Text("Settings") }, colors = colors,
-                navigationIcon = { BackButton() },
-            )
-        }
-    ) {
+    Scaffold(topBar = { AppBar(activity, "Settings") }) {
         val fontSize = model.fontSize.observeAsState(30)
         OutlinedTextField(
             modifier = Modifier
@@ -88,6 +81,6 @@ fun SettingsScreen(model: SettingsViewModel) {
 @Composable
 fun SettingsScreenPreview() {
     StarDictTheme {
-        SettingsScreen(SettingsViewModel())
+        SettingsScreen(SettingsViewModel(), MainActivity())
     }
 }

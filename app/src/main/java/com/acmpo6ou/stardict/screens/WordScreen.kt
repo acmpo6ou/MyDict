@@ -26,26 +26,21 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.acmpo6ou.stardict.MainActivity
-import com.acmpo6ou.stardict.NavIDs
 import com.acmpo6ou.stardict.R
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
-import com.acmpo6ou.stardict.utils.BackButton
+import com.acmpo6ou.stardict.utils.AppBar
 import com.acmpo6ou.stardict.utils.HtmlText
 import com.acmpo6ou.stardict.utils.checkVolume
 import com.acmpo6ou.stardict.utils.formatArticle
-import dev.wirespec.jetmagic.navigation.navman
 import java.util.*
 
 data class WordParams(
@@ -57,7 +52,7 @@ data class WordParams(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WordScreen(p: WordParams, activity: MainActivity, model: SettingsViewModel) {
-    Scaffold(topBar = { WordAppBar() }) {
+    Scaffold(topBar = { AppBar(activity, "") }) {
         Column(
             modifier = Modifier
                 .padding(it)
@@ -119,17 +114,4 @@ fun Article(vocab: String, article: String, fontSize: Float) {
         Text(vocab, fontWeight = FontWeight.Bold, fontSize = fontSize.sp)
         HtmlText(formatArticle(article), fontSize)
     }
-}
-
-@Composable
-fun WordAppBar() {
-    val colors = TopAppBarDefaults.smallTopAppBarColors(
-        containerColor = MaterialTheme.colorScheme.primary
-    )
-
-    SmallTopAppBar(
-        title = {},
-        navigationIcon = { BackButton() },
-        colors = colors,
-    )
 }

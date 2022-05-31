@@ -39,10 +39,7 @@ import com.acmpo6ou.stardict.*
 import com.acmpo6ou.stardict.R
 import com.acmpo6ou.stardict.ui.theme.DarkGrey
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
-import com.acmpo6ou.stardict.utils.BackButton
-import com.acmpo6ou.stardict.utils.StarDict
-import com.acmpo6ou.stardict.utils.iconTitle
-import com.acmpo6ou.stardict.utils.message
+import com.acmpo6ou.stardict.utils.*
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.MaterialDialogState
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
@@ -51,7 +48,7 @@ import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 @Composable
 fun DictsScreen(activity: MainActivity, model: DictsViewModel) {
     Scaffold(
-        topBar = { DictsAppBar() },
+        topBar = { AppBar(activity, "Dictionaries") },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { activity.importDictDialog() },
@@ -94,19 +91,6 @@ fun DictsScreenEmptyPreview() {
     StarDictTheme {
         DictsScreen(MainActivity(), DictsViewModel())
     }
-}
-
-@Composable
-fun DictsAppBar() {
-    val colors = TopAppBarDefaults.smallTopAppBarColors(
-        containerColor = MaterialTheme.colorScheme.primary
-    )
-
-    SmallTopAppBar(
-        title = { Text("Dictionaries") },
-        navigationIcon = { BackButton() },
-        colors = colors,
-    )
 }
 
 @Composable

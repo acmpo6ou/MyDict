@@ -35,27 +35,17 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.acmpo6ou.stardict.utils.BackButton
 import com.acmpo6ou.stardict.BuildConfig
+import com.acmpo6ou.stardict.MainActivity
 import com.acmpo6ou.stardict.R
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
+import com.acmpo6ou.stardict.utils.AppBar
 import dev.wirespec.jetmagic.composables.Image
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AboutScreen() {
-    val colors = TopAppBarDefaults.smallTopAppBarColors(
-        containerColor = MaterialTheme.colorScheme.primary
-    )
-
-    Scaffold(
-        topBar = {
-            SmallTopAppBar(
-                { Text("About") }, colors = colors,
-                navigationIcon = { BackButton() },
-            )
-        }
-    ) {
+fun AboutScreen(activity: MainActivity) {
+    Scaffold(topBar = { AppBar(activity, "About") }) {
         AboutContent(it)
     }
 }
@@ -127,6 +117,6 @@ fun AboutContent(padding: PaddingValues) {
 @Preview
 fun AboutScreenPreview() {
     StarDictTheme {
-        AboutScreen()
+        AboutScreen(MainActivity())
     }
 }

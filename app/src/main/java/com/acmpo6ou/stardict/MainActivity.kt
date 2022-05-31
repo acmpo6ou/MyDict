@@ -156,7 +156,7 @@ class MainActivity : ComponentActivity() {
 fun MainScreen(activity: MainActivity, model: MainViewModel) {
     val completions: List<String> by model.completions.observeAsState(listOf())
 
-    Scaffold(topBar = { AppBar(activity) }) {
+    Scaffold(topBar = { MainAppBar(activity) }) {
         Column(modifier = Modifier.padding(it)) {
             SearchField(model)
 
@@ -197,7 +197,7 @@ fun MainScreenPreview() {
 }
 
 @Composable
-fun AppBar(activity: MainActivity) {
+fun MainAppBar(activity: MainActivity) {
     val colors = TopAppBarDefaults.smallTopAppBarColors(
         containerColor = MaterialTheme.colorScheme.primary
     )
