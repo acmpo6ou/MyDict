@@ -23,6 +23,7 @@ object NavIDs {
     const val MainScreen = "MainScreen"
     const val DictsScreen = "DictsScreen"
     const val WordScreen = "WordScreen"
+    const val FavoritesScreen = "FavoritesScreen"
     const val SettingsScreen = "SettingsScreen"
     const val AboutScreen = "AboutScreen"
 }

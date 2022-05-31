@@ -22,10 +22,7 @@ package com.acmpo6ou.stardict
 import android.app.Application
 import androidx.compose.ui.platform.LocalContext
 import com.acmpo6ou.stardict.dicts_screen.DictsScreen
-import com.acmpo6ou.stardict.screens.AboutScreen
-import com.acmpo6ou.stardict.screens.SettingsScreen
-import com.acmpo6ou.stardict.screens.WordParams
-import com.acmpo6ou.stardict.screens.WordScreen
+import com.acmpo6ou.stardict.screens.*
 import dev.wirespec.jetmagic.composables.crm
 import dev.wirespec.jetmagic.initializeJetmagic
 import dev.wirespec.jetmagic.models.ComposableResource
@@ -54,6 +51,10 @@ open class MyApp : Application() {
                             it.parameters as WordParams,
                             activity, activity.settingsViewModel,
                         )
+                    },
+                    ComposableResource(NavIDs.FavoritesScreen) {
+                        val activity = LocalContext.current as MainActivity
+                        FavoritesScreen(activity, activity.favoritesViewModel)
                     },
                     ComposableResource(NavIDs.SettingsScreen) {
                         val activity = LocalContext.current as MainActivity
