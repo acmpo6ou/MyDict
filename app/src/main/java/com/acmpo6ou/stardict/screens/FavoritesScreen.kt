@@ -67,6 +67,7 @@ fun FavoritesScreen(activity: MainActivity, model: FavoritesViewModel) {
                                 activity.mainViewModel.getArticles(word)
                             )
                         )
+                        activity.mainViewModel.completions.value = listOf()
                     }
                         .padding(16.dp)
                         .fillMaxWidth()
