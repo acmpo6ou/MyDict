@@ -41,9 +41,33 @@ import com.acmpo6ou.stardict.NavIDs
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
 import com.acmpo6ou.stardict.utils.AppBar
 import dev.wirespec.jetmagic.navigation.navman
+import java.io.File
 
 class FavoritesViewModel : ViewModel() {
     val favorites = MutableLiveData(listOf<String>())
+    lateinit var favoritesFile: File
+
+    /**
+     * Loads list of favorite words.
+     */
+    fun loadFavorites(path: String) {
+        favoritesFile = File(path)
+        val favoritesList = mutableListOf<String>()
+
+        for (line in favoritesFile.readLines()) {
+            val word = line.trim()
+            favoritesList.add(word)
+        }
+        favorites.value = favoritesList.toList()
+    }
+
+    /**
+     * Saves list of favorites to a file.
+     */
+    fun saveFavorites() {
+        val list = favorites.value!!.joinToString("\n")
+        favoritesFile.writeText(list)
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

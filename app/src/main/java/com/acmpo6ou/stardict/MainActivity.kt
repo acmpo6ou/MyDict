@@ -23,6 +23,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Environment
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -87,6 +88,9 @@ class MainActivity : ComponentActivity() {
 
         settingsViewModel.prefs = getPreferences(Context.MODE_PRIVATE)
         settingsViewModel.loadPrefs()
+
+        val path = getExternalFilesDir(null)!!.path + "/favorites.txt"
+        favoritesViewModel.loadFavorites(path)
 
         if (navman.totalScreensDisplayed == 0)
             navman.goto(composableResId = NavIDs.MainScreen)
