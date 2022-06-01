@@ -23,9 +23,15 @@ import android.speech.tts.TextToSpeech
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,6 +40,7 @@ import androidx.compose.ui.unit.sp
 import com.acmpo6ou.stardict.MainActivity
 import com.acmpo6ou.stardict.R
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
+import com.acmpo6ou.stardict.ui.theme.Yellow
 import com.acmpo6ou.stardict.utils.AppBar
 import com.acmpo6ou.stardict.utils.HtmlText
 import com.acmpo6ou.stardict.utils.checkVolume
@@ -92,6 +99,8 @@ fun WordRow(
     activity: MainActivity,
     favoritesModel: FavoritesViewModel,
 ) {
+    val favorites: List<String> by favoritesModel.favorites.observeAsState(listOf())
+
     Row(modifier = Modifier.padding(8.dp)) {
         IconButton(
             onClick = {
@@ -117,15 +126,37 @@ fun WordRow(
         }
         Spacer(modifier = Modifier.weight(1f))
 
-        IconButton(
-            modifier = Modifier.padding(8.dp),
-            onClick = { /*TODO*/ },
-        ) {
-            Icon(
-                painterResource(R.drawable.ic_empty_star),
-                modifier = Modifier.size(50.dp),
-                contentDescription = "add to favorites",
-            )
+        if (word in favorites) {
+            IconButton(
+                modifier = Modifier.padding(8.dp),
+                onClick = {
+                    val list = favoritesModel.favorites.value!!.toMutableList()
+                    list.remove(word)
+                    favoritesModel.favorites.value = list.toList()
+                },
+            ) {
+                Icon(
+                    Icons.Rounded.Star,
+                    modifier = Modifier.size(50.dp),
+                    tint = Yellow,
+                    contentDescription = "remove from favorites",
+                )
+            }
+        } else {
+            IconButton(
+                modifier = Modifier.padding(8.dp),
+                onClick = {
+                    val list = favoritesModel.favorites.value!!.toMutableList()
+                    list.add(word)
+                    favoritesModel.favorites.value = list.toList()
+                },
+            ) {
+                Icon(
+                    painterResource(R.drawable.ic_empty_star),
+                    modifier = Modifier.size(50.dp),
+                    contentDescription = "add to favorites",
+                )
+            }
         }
     }
 }
