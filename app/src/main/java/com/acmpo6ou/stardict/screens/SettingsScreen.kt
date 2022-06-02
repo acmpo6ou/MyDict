@@ -20,6 +20,7 @@
 package com.acmpo6ou.stardict.screens
 
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
@@ -28,6 +29,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
@@ -54,10 +56,15 @@ class SettingsViewModel : ViewModel() {
 
     fun loadPrefs() {
         fontSize.value = prefs.getFloat("font_size", 30f)
+        val color = prefs.getLong("primary_color", Green.value.toLong())
+        primaryColor.value = Color(color.toULong())
     }
 
     fun savePrefs() {
-        prefs.edit().putFloat("font_size", fontSize.value!!).apply()
+        prefs.edit()
+            .putFloat("font_size", fontSize.value!!)
+            .putLong("primary_color", primaryColor.value!!.value.toLong())
+            .apply()
     }
 }
 
@@ -113,6 +120,7 @@ fun SettingsScreen(model: SettingsViewModel, activity: MainActivity) {
                     argbPickerState = ARGBPickerState.WithoutAlphaSelector,
                     onColorSelected = {
                         model.primaryColor.value = it
+                        model.savePrefs()
                     }
                 )
             }
