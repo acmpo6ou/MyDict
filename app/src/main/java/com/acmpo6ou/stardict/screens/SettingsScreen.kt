@@ -20,25 +20,37 @@
 package com.acmpo6ou.stardict.screens
 
 import android.content.SharedPreferences
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.acmpo6ou.stardict.MainActivity
+import com.acmpo6ou.stardict.ui.theme.DarkGrey
+import com.acmpo6ou.stardict.ui.theme.Green
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
 import com.acmpo6ou.stardict.utils.AppBar
+import com.acmpo6ou.stardict.utils.ColorView
+import com.vanpra.composematerialdialogs.MaterialDialog
+import com.vanpra.composematerialdialogs.color.ARGBPickerState
+import com.vanpra.composematerialdialogs.color.ColorPalette
+import com.vanpra.composematerialdialogs.color.colorChooser
+import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 
 class SettingsViewModel : ViewModel() {
     lateinit var prefs: SharedPreferences
     val fontSize = MutableLiveData(30f)
+    val primaryColor = MutableLiveData(Green)
 
     fun loadPrefs() {
         fontSize.value = prefs.getFloat("font_size", 30f)
@@ -52,28 +64,52 @@ class SettingsViewModel : ViewModel() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(model: SettingsViewModel, activity: MainActivity) {
-    val colors = TopAppBarDefaults.smallTopAppBarColors(
-        containerColor = MaterialTheme.colorScheme.primary
-    )
-
     Scaffold(topBar = { AppBar(activity, "Settings") }) {
         val fontSize = model.fontSize.observeAsState(30)
-        OutlinedTextField(
-            modifier = Modifier
-                .padding(it)
-                .padding(horizontal = 8.dp)
-                .fillMaxWidth(),
-            value = fontSize.value.toInt().toString(),
-            label = { Text("Font size") },
-            maxLines = 1,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            onValueChange = { value ->
-                if (value.isNotEmpty()) {
-                    model.fontSize.value = value.toFloat()
-                    model.savePrefs()
+
+        Column {
+            OutlinedTextField(
+                modifier = Modifier
+                    .padding(it)
+                    .padding(horizontal = 8.dp)
+                    .fillMaxWidth(),
+                value = fontSize.value.toInt().toString(),
+                label = { Text("Font size") },
+                maxLines = 1,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                onValueChange = { value ->
+                    if (value.isNotEmpty()) {
+                        model.fontSize.value = value.toFloat()
+                        model.savePrefs()
+                    }
                 }
+            )
+
+            val colorDialog = rememberMaterialDialogState()
+            ColorView(model.primaryColor) { colorDialog.show() }
+
+            MaterialDialog(
+                colorDialog, backgroundColor = DarkGrey,
+                buttons = {
+                    positiveButton(
+                        "OK",
+                        textStyle = TextStyle(MaterialTheme.colorScheme.primary),
+                    )
+                    negativeButton(
+                        "CANCEL",
+                        textStyle = TextStyle(MaterialTheme.colorScheme.primary),
+                    )
+                }
+            ) {
+                colorChooser(
+                    colors = ColorPalette.Primary,
+                    argbPickerState = ARGBPickerState.WithoutAlphaSelector,
+                    onColorSelected = {
+                        model.primaryColor.value = it
+                    }
+                )
             }
-        )
+        }
     }
 }
 
