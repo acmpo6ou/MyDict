@@ -36,6 +36,7 @@ class MainViewModel : ViewModel() {
      * will be used.
      */
     fun search(text: String) {
+        val text = text.trim()
         if (text.isEmpty()) {
             completions.value = listOf()
             return
