@@ -25,20 +25,31 @@ import android.media.AudioManager
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.text.HtmlCompat
+import androidx.lifecycle.MutableLiveData
 import com.acmpo6ou.stardict.MainActivity
+import com.acmpo6ou.stardict.ui.theme.Green
 import com.vanpra.composematerialdialogs.MaterialDialogScope
 import dev.wirespec.jetmagic.navigation.navman
 
@@ -150,5 +161,21 @@ fun AppBar(activity: MainActivity, title: String) {
         title = { Text(title) },
         navigationIcon = { BackButton(activity) },
         colors = colors,
+    )
+}
+
+@Composable
+fun ColorView(
+    color: MutableLiveData<Color>,
+    onClick: () -> Unit
+) {
+    val color by color.observeAsState(Green)
+    Box(
+        Modifier
+            .size(50.dp)
+            .clip(CircleShape)
+            .background(color)
+            .border(1.dp, Color.White, CircleShape)
+            .clickable(onClick = onClick),
     )
 }
