@@ -20,19 +20,19 @@
 package com.acmpo6ou.stardict.screens
 
 import android.content.SharedPreferences
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.acmpo6ou.stardict.MainActivity
@@ -86,7 +86,14 @@ fun SettingsScreen(model: SettingsViewModel, activity: MainActivity) {
             )
 
             val colorDialog = rememberMaterialDialogState()
-            ColorView(model.primaryColor) { colorDialog.show() }
+            Row(
+                modifier = Modifier.padding(8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text("Primary color:", fontSize = 25.sp)
+                Spacer(modifier = Modifier.weight(1f))
+                ColorView(model.primaryColor) { colorDialog.show() }
+            }
 
             MaterialDialog(
                 colorDialog, backgroundColor = DarkGrey,
