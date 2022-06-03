@@ -96,7 +96,7 @@ class MainActivity : ComponentActivity() {
             navman.goto(composableResId = NavIDs.MainScreen)
 
         setContent {
-            StarDictTheme {
+            StarDictTheme(settingsViewModel) {
                 ScreenFactoryHandler()
             }
         }

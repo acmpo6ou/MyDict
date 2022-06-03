@@ -28,22 +28,24 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.ViewCompat
-
-private val DarkColorScheme = darkColorScheme(
-    primary = Green,
-    secondary = Blue,
-    tertiary = Red,
-    onSurface = Color.White,
-    error = Red,
-)
+import com.acmpo6ou.stardict.screens.SettingsViewModel
 
 @Composable
 fun StarDictTheme(
+    model: SettingsViewModel = SettingsViewModel(),
     darkTheme: Boolean = true,
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
+    val DarkColorScheme = darkColorScheme(
+        primary = model.primaryColor.value!!,
+        secondary = Blue,
+        tertiary = Red,
+        onSurface = Color.White,
+        error = Red,
+    )
+
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
