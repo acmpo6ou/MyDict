@@ -23,7 +23,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Environment
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -46,6 +45,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.ExperimentalTextApi
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -64,6 +65,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.io.File
 
 class MainActivity : ComponentActivity() {
     val mainViewModel: MainViewModel by viewModels()
@@ -77,7 +79,7 @@ class MainActivity : ComponentActivity() {
                 result.data?.clipData?.let { dictsViewModel.importDict(it) }
         }
 
-    @OptIn(ExperimentalAnimationApi::class)
+    @OptIn(ExperimentalAnimationApi::class, ExperimentalTextApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         navman.activity = this
@@ -88,6 +90,8 @@ class MainActivity : ComponentActivity() {
 
         settingsViewModel.prefs = getPreferences(Context.MODE_PRIVATE)
         settingsViewModel.loadPrefs()
+        settingsViewModel.fonts = File("/system/fonts")
+            .listFiles()!!.associateWith { Font(it) }
 
         val path = getExternalFilesDir(null)!!.path + "/favorites.txt"
         favoritesViewModel.loadFavorites(path)
