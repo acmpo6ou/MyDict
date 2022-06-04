@@ -33,7 +33,10 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -46,6 +49,7 @@ import com.acmpo6ou.stardict.utils.AppBar
 import com.acmpo6ou.stardict.utils.checkVolume
 import com.acmpo6ou.stardict.utils.formatArticle
 import com.ireward.htmlcompose.HtmlText
+import java.io.File
 import java.util.*
 
 data class WordParams(
@@ -54,7 +58,7 @@ data class WordParams(
     val articles: Map<String, String>,
 )
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalTextApi::class)
 @Composable
 fun WordScreen(
     p: WordParams,
@@ -62,16 +66,28 @@ fun WordScreen(
     settingsModel: SettingsViewModel,
     favoritesModel: FavoritesViewModel,
 ) {
+    val fontSize = settingsModel.fontSize.value!!
+    val fontPath = settingsModel.fontPath.value
+    var fontFamily: FontFamily = FontFamily.Default
+
+    fontPath?.let {
+        fontFamily = FontFamily(Font(File(it)))
+    }
+
     Scaffold(topBar = { AppBar(activity, "") }) {
         Column(
             modifier = Modifier
                 .padding(it)
                 .verticalScroll(rememberScrollState())
         ) {
-            WordRow(p.word, p.transcription, activity, favoritesModel)
+            WordRow(
+                p.word, p.transcription,
+                activity, favoritesModel, fontFamily,
+            )
+            
             val iter = p.articles.iterator()
             for (article in iter) {
-                Article(article.key, article.value, settingsModel)
+                Article(article.key, article.value, fontSize, fontFamily)
                 if (iter.hasNext()) Divider()
             }
         }
@@ -99,6 +115,7 @@ fun WordRow(
     transcription: String,
     activity: MainActivity,
     favoritesModel: FavoritesViewModel,
+    fontFamily: FontFamily,
 ) {
     val favorites: List<String> by favoritesModel.favorites.observeAsState(listOf())
 
@@ -122,8 +139,8 @@ fun WordRow(
         }
 
         Column {
-            Text(word, fontWeight = FontWeight.Bold)
-            Text(transcription)
+            Text(word, fontWeight = FontWeight.Bold, fontFamily = fontFamily)
+            Text(transcription, fontFamily = fontFamily)
         }
         Spacer(modifier = Modifier.weight(1f))
 
@@ -165,11 +182,18 @@ fun WordRow(
 }
 
 @Composable
-fun Article(vocab: String, article: String, model: SettingsViewModel) {
-    val fontSize = model.fontSize.value!!
-
+fun Article(
+    vocab: String,
+    article: String,
+    fontSize: Float,
+    fontFamily: FontFamily,
+) {
     Column(modifier = Modifier.padding(horizontal = 8.dp)) {
-        Text(vocab, fontWeight = FontWeight.Bold, fontSize = fontSize.sp)
+        Text(
+            vocab, fontWeight = FontWeight.Bold,
+            fontSize = fontSize.sp,
+            fontFamily = fontFamily,
+        )
 
         SelectionContainer {
             HtmlText(
@@ -177,6 +201,7 @@ fun Article(vocab: String, article: String, model: SettingsViewModel) {
                 style = TextStyle(
                     color = Color.White,
                     fontSize = fontSize.sp,
+                    fontFamily = fontFamily,
                 ),
             )
         }
