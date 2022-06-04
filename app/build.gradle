@@ -60,6 +60,8 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.6'
 
     implementation 'dev.wirespec.jetmagic:jetmagic:1.2.2'
+    implementation 'com.github.ireward:compose-html:1.0.2'
+
     implementation "io.github.vanpra.compose-material-dialogs:core:0.7.1"
     implementation 'io.github.vanpra.compose-material-dialogs:color:0.7.1'
 
