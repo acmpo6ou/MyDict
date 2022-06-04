@@ -43,6 +43,7 @@ import com.acmpo6ou.stardict.ui.theme.Green
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
 import com.acmpo6ou.stardict.utils.AppBar
 import com.acmpo6ou.stardict.utils.ColorView
+import com.acmpo6ou.stardict.utils.FontPicker
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.color.ARGBPickerState
 import com.vanpra.composematerialdialogs.color.ColorPalette
@@ -55,10 +56,12 @@ class SettingsViewModel : ViewModel() {
     lateinit var fonts: Map<File, Font>
 
     val fontSize = MutableLiveData(30f)
+    val fontPath = MutableLiveData<String>()
     val primaryColor = MutableLiveData(Green)
 
     fun loadPrefs() {
         fontSize.value = prefs.getFloat("font_size", 30f)
+        fontPath.value = prefs.getString("font_path", null)
         val color = prefs.getLong("primary_color", Green.value.toLong())
         primaryColor.value = Color(color.toULong())
     }
@@ -67,6 +70,7 @@ class SettingsViewModel : ViewModel() {
         prefs.edit()
             .putFloat("font_size", fontSize.value!!)
             .putLong("primary_color", primaryColor.value!!.value.toLong())
+            .putString("font_path", fontPath.value)
             .apply()
     }
 }
@@ -127,6 +131,8 @@ fun SettingsScreen(model: SettingsViewModel, activity: MainActivity) {
                     }
                 )
             }
+
+            FontPicker(model)
         }
     }
 }

@@ -23,6 +23,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -37,22 +38,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.MutableLiveData
+import com.acmpo6ou.stardict.screens.SettingsViewModel
 import com.acmpo6ou.stardict.ui.theme.DarkGrey
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
 import java.io.File
 
 @OptIn(ExperimentalTextApi::class)
 @Composable
-fun FontPicker(
-    fonts: Map<File, Font>,
-    fontPath: MutableLiveData<String>,
-) {
+fun FontPicker(model: SettingsViewModel) {
     var showMenu by remember { mutableStateOf(false) }
-    val path by fontPath.observeAsState()
+    val path by model.fontPath.observeAsState()
 
     Column(
         modifier = Modifier
             .clickable { showMenu = true }
+            .fillMaxWidth()
             .padding(8.dp),
         verticalArrangement = Arrangement.SpaceEvenly,
     ) {
@@ -75,7 +75,7 @@ fun FontPicker(
         onDismissRequest = { showMenu = false },
         modifier = Modifier.background(DarkGrey),
     ) {
-        for ((file, font) in fonts) {
+        for ((file, font) in model.fonts) {
             DropdownMenuItem(
                 text = {
                     Text(
@@ -84,7 +84,8 @@ fun FontPicker(
                     )
                 },
                 onClick = {
-                    fontPath.value = file.path
+                    model.fontPath.value = file.path
+                    model.savePrefs()
                     showMenu = false
                 }
             )
