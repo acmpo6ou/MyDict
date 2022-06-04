@@ -91,15 +91,3 @@ fun FontPicker(
         }
     }
 }
-
-@OptIn(ExperimentalTextApi::class)
-@Preview
-@Composable
-fun FontPickerPreview() {
-    StarDictTheme {
-        FontPicker(
-            mapOf(File("") to Font(File(""))),
-            MutableLiveData(),
-        )
-    }
-}
