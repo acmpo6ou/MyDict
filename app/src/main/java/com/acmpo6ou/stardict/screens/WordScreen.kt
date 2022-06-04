@@ -22,6 +22,7 @@ package com.acmpo6ou.stardict.screens
 import android.speech.tts.TextToSpeech
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Star
@@ -30,7 +31,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -40,9 +43,9 @@ import com.acmpo6ou.stardict.R
 import com.acmpo6ou.stardict.ui.theme.StarDictTheme
 import com.acmpo6ou.stardict.ui.theme.Yellow
 import com.acmpo6ou.stardict.utils.AppBar
-import com.acmpo6ou.stardict.utils.HtmlText
 import com.acmpo6ou.stardict.utils.checkVolume
 import com.acmpo6ou.stardict.utils.formatArticle
+import com.ireward.htmlcompose.HtmlText
 import java.util.*
 
 data class WordParams(
@@ -68,7 +71,7 @@ fun WordScreen(
             WordRow(p.word, p.transcription, activity, favoritesModel)
             val iter = p.articles.iterator()
             for (article in iter) {
-                Article(article.key, article.value, settingsModel.fontSize.value!!)
+                Article(article.key, article.value, settingsModel)
                 if (iter.hasNext()) Divider()
             }
         }
@@ -162,9 +165,20 @@ fun WordRow(
 }
 
 @Composable
-fun Article(vocab: String, article: String, fontSize: Float) {
+fun Article(vocab: String, article: String, model: SettingsViewModel) {
+    val fontSize = model.fontSize.value!!
+
     Column(modifier = Modifier.padding(horizontal = 8.dp)) {
         Text(vocab, fontWeight = FontWeight.Bold, fontSize = fontSize.sp)
-        HtmlText(formatArticle(article), fontSize)
+
+        SelectionContainer {
+            HtmlText(
+                formatArticle(article),
+                style = TextStyle(
+                    color = Color.White,
+                    fontSize = fontSize.sp,
+                ),
+            )
+        }
     }
 }
