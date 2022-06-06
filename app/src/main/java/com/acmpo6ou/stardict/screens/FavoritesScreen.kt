@@ -52,8 +52,10 @@ class FavoritesViewModel : ViewModel() {
      */
     fun loadFavorites(path: String) {
         favoritesFile = File(path)
-        val favoritesList = mutableListOf<String>()
+        if (!favoritesFile.exists())
+            favoritesFile.createNewFile()
 
+        val favoritesList = mutableListOf<String>()
         for (line in favoritesFile.readLines()) {
             val word = line.trim()
             favoritesList.add(word)
