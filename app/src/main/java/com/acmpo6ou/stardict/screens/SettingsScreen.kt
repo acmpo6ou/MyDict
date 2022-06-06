@@ -133,6 +133,10 @@ fun SettingsScreen(model: SettingsViewModel, activity: MainActivity) {
             }
 
             FontPicker(model)
+            Text(
+                "Note: the fonts list might be slow to load.",
+                modifier = Modifier.padding(8.dp),
+            )
         }
     }
 }
