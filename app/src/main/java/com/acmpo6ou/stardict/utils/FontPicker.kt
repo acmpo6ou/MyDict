@@ -57,14 +57,13 @@ fun FontPicker(model: SettingsViewModel) {
 
         if (path == null) {
             Text("Default")
-            return@Column
+        } else {
+            val fontFile = File(path)
+            Text(
+                fontFile.nameWithoutExtension,
+                fontFamily = FontFamily(Font(fontFile)),
+            )
         }
-
-        val fontFile = File(path)
-        Text(
-            fontFile.nameWithoutExtension,
-            fontFamily = FontFamily(Font(fontFile)),
-        )
     }
 
     DropdownMenu(
