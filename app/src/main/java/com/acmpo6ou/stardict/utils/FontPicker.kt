@@ -34,13 +34,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.MutableLiveData
 import com.acmpo6ou.stardict.screens.SettingsViewModel
 import com.acmpo6ou.stardict.ui.theme.DarkGrey
-import com.acmpo6ou.stardict.ui.theme.StarDictTheme
 import java.io.File
 
 @OptIn(ExperimentalTextApi::class)
@@ -75,12 +72,23 @@ fun FontPicker(model: SettingsViewModel) {
         onDismissRequest = { showMenu = false },
         modifier = Modifier.background(DarkGrey),
     ) {
+
+        DropdownMenuItem(
+            text = { Text("Default", fontSize = 25.sp) },
+            onClick = {
+                model.fontPath.value = null
+                model.savePrefs()
+                showMenu = false
+            }
+        )
+
         for ((file, font) in model.fonts) {
             DropdownMenuItem(
                 text = {
                     Text(
                         file.nameWithoutExtension,
-                        fontFamily = FontFamily(font), fontSize = 25.sp,
+                        fontFamily = FontFamily(font),
+                        fontSize = 25.sp,
                     )
                 },
                 onClick = {
