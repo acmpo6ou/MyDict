@@ -91,7 +91,7 @@ class MainActivity : ComponentActivity() {
         settingsViewModel.prefs = getPreferences(Context.MODE_PRIVATE)
         settingsViewModel.loadPrefs()
         settingsViewModel.fonts = File("/system/fonts")
-            .listFiles()!!.associateWith { Font(it) }
+            .listFiles()?.associateWith { Font(it) } ?: mapOf()
 
         val path = getExternalFilesDir(null)!!.path + "/favorites.txt"
         favoritesViewModel.loadFavorites(path)
