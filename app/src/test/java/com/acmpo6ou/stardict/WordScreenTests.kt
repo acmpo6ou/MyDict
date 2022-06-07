@@ -53,6 +53,7 @@ class WordScreenTests {
         )
         composeTestRule.setContent {
             val activity = LocalContext.current as MainActivity
+            model.loadFavorites("$srcDir/f.txt")
             StarDictTheme {
                 WordScreen(params, activity, SettingsViewModel(), model)
             }
