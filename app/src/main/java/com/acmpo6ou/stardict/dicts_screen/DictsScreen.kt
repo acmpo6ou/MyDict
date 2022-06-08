@@ -172,7 +172,7 @@ fun DictsList(
     model: DictsViewModel,
     padding: PaddingValues,
 ) {
-    val dicts: List<StarDict> by model.dicts.observeAsState(listOf())
+    val dicts = model.dicts.observeAsState()
 
     if (model.dicts.value!!.isEmpty()) {
         Text(
@@ -185,7 +185,7 @@ fun DictsList(
     }
 
     Column(modifier = Modifier.padding(padding)) {
-        for (dict in dicts)
+        for (dict in dicts.value!!)
             DictItem(dict.name) {
                 model.dictToRemove.value = dict
                 removeDialogState.show()
