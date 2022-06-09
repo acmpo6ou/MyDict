@@ -21,6 +21,7 @@ package com.acmpo6ou.stardict
 
 import android.app.Activity
 import android.content.Context
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Intent
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
@@ -51,6 +52,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.getSystemService
 import androidx.lifecycle.lifecycleScope
 import com.acmpo6ou.stardict.dicts_screen.DictsViewModel
 import com.acmpo6ou.stardict.screens.FavoritesViewModel
@@ -168,7 +170,7 @@ fun MainScreen(activity: MainActivity, model: MainViewModel) {
 
     Scaffold(topBar = { MainAppBar(activity) }) {
         Column(modifier = Modifier.padding(it)) {
-            SearchField(model)
+            SearchField(model, activity)
 
             LazyColumn(contentPadding = PaddingValues(16.dp)) {
                 items(completions.size) { i ->
@@ -267,7 +269,7 @@ fun MainAppBar(activity: MainActivity) {
 }
 
 @Composable
-fun SearchField(model: MainViewModel) {
+fun SearchField(model: MainViewModel, activity: MainActivity) {
     val searchText: String by model.searchText.observeAsState("")
     val focusRequester = remember { FocusRequester() }
 
@@ -300,6 +302,13 @@ fun SearchField(model: MainViewModel) {
                 IconButton(onClick = {
                     model.searchText.value = ""
                     model.completions.value = listOf()
+
+                    focusRequester.requestFocus()
+                    val imm = activity.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.showSoftInput(
+                        activity.currentFocus,
+                        InputMethodManager.SHOW_IMPLICIT,
+                    )
                 }) {
                     Icon(Icons.Default.Clear, "clear search")
                 }
