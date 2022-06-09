@@ -27,14 +27,17 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester.Companion.createRefs
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import com.acmpo6ou.stardict.*
 import com.acmpo6ou.stardict.R
 import com.acmpo6ou.stardict.ui.theme.DarkGrey
@@ -43,6 +46,7 @@ import com.acmpo6ou.stardict.utils.*
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.MaterialDialogState
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
+import kotlinx.coroutines.NonDisposableHandle.parent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -77,7 +81,7 @@ fun DictsScreenPreview() {
     val dict = StarDict()
     val dict2 = StarDict()
     dict.name = "Computer"
-    dict2.name = "Universal"
+    dict2.name = "SuperLongNameDictUniversalUniversalUniversalUniversal"
     model.dicts.value = listOf(dict, dict2)
 
     StarDictTheme {
@@ -195,33 +199,49 @@ fun DictsList(
 
 @Composable
 fun DictItem(name: String, onRemoveDict: () -> Unit) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
+    ConstraintLayout(
         modifier = Modifier
-            .clickable { }
+            .fillMaxWidth()
+            .clickable { },
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
+        val (icon, dictName, deleteIcon) = createRefs()
+
+        Icon(
+            painter = painterResource(R.drawable.ic_book),
+            tint = Color.White,
+            contentDescription = "",
+            modifier = Modifier
+                .constrainAs(icon) {
+                    start.linkTo(parent.start)
+                    centerVerticallyTo(parent)
+                }
+                .padding(8.dp)
+                .size(50.dp)
+        )
+
+        Text(
+            name, overflow = TextOverflow.Ellipsis,
+            softWrap = false,
+            modifier = Modifier.constrainAs(dictName) {
+                start.linkTo(icon.end)
+                end.linkTo(deleteIcon.start)
+                centerVerticallyTo(parent)
+                width = Dimension.fillToConstraints
+            }
+        )
+
+        IconButton(
+            onClick = onRemoveDict,
+            modifier = Modifier.constrainAs(deleteIcon) {
+                end.linkTo(parent.end)
+                centerVerticallyTo(parent)
+            }
         ) {
             Icon(
-                painter = painterResource(R.drawable.ic_book),
-                tint = Color.White,
-                contentDescription = "",
-                modifier = Modifier
-                    .padding(8.dp)
-                    .size(50.dp)
+                Icons.Default.Delete,
+                tint = MaterialTheme.colorScheme.tertiary,
+                contentDescription = "remove dict",
             )
-
-            Text(name)
-            Spacer(modifier = Modifier.weight(1f))
-
-            IconButton(onClick = onRemoveDict) {
-                Icon(
-                    Icons.Default.Delete,
-                    tint = MaterialTheme.colorScheme.tertiary,
-                    contentDescription = "remove dict",
-                )
-            }
         }
     }
 }
