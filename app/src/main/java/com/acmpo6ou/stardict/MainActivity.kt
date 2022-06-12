@@ -148,7 +148,7 @@ class MainActivity : ComponentActivity() {
 
     /**
      * Handles cases when user started the app by selecting some text,
-     * and choosing `StarDict` in the context menu.
+     * and choosing `MyDict` in the context menu.
      */
     private fun handleSelectedText() {
         var text = intent.getCharSequenceExtra(Intent.EXTRA_PROCESS_TEXT)
@@ -228,7 +228,7 @@ fun MainAppBar(activity: MainActivity) {
     var showMenu by remember { mutableStateOf(false) }
 
     SmallTopAppBar(
-        title = { Text("✨StarDict✨") },
+        title = { Text("MyDict") },
         actions = {
             IconButton(onClick = { showMenu = !showMenu }) {
                 Icon(

@@ -78,7 +78,7 @@ fun FavoritesScreen(activity: MainActivity, model: FavoritesViewModel) {
     val favorites: List<String> by model.favorites.observeAsState(listOf())
 
     Scaffold(
-        topBar = { AppBar(activity, "🌟Favorites🌟") }
+        topBar = { AppBar(activity, "Favorites") }
     ) {
         LazyColumn(modifier = Modifier.padding(it)) {
             items(favorites.size) { i ->
