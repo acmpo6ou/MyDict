@@ -24,6 +24,7 @@ import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Intent
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -63,11 +64,12 @@ import com.acmpo6ou.stardict.ui.theme.StarDictTheme
 import dev.wirespec.jetmagic.composables.ScreenFactoryHandler
 import dev.wirespec.jetmagic.composables.crm
 import dev.wirespec.jetmagic.navigation.navman
+import java.io.File
+import java.util.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.io.File
 
 class MainActivity : ComponentActivity() {
     val mainViewModel: MainViewModel by viewModels()
@@ -75,6 +77,7 @@ class MainActivity : ComponentActivity() {
     val settingsViewModel: SettingsViewModel by viewModels()
     val favoritesViewModel: FavoritesViewModel by viewModels()
 
+    lateinit var tts: TextToSpeech
     private val importLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK)
@@ -106,7 +109,9 @@ class MainActivity : ComponentActivity() {
                 ScreenFactoryHandler()
             }
         }
+
         handleSelectedText()
+        loadTTS()
     }
 
     fun importDictDialog() =
@@ -125,6 +130,13 @@ class MainActivity : ComponentActivity() {
     override fun onDestroy() {
         crm.onConfigurationChanged()
         super.onDestroy()
+    }
+
+    private fun loadTTS() {
+        tts = TextToSpeech(this) {
+            tts.language = Locale.US
+            tts.speak("", TextToSpeech.QUEUE_FLUSH, null, "")
+        }
     }
 
     fun hideKeyboard() {

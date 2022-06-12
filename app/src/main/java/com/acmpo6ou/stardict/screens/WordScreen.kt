@@ -123,12 +123,8 @@ fun WordRow(
         IconButton(
             onClick = {
                 checkVolume(activity)
-
-                var tts: TextToSpeech? = null
-                tts = TextToSpeech(activity) {
-                    tts?.language = Locale.US
-                    tts?.speak(word, TextToSpeech.QUEUE_FLUSH, null, "")
-                }
+                activity.tts.language = Locale.US
+                activity.tts.speak(word, TextToSpeech.QUEUE_FLUSH, null, "")
             },
             modifier = Modifier.padding(8.dp),
         ) {
