@@ -54,6 +54,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.getSystemService
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import com.acmpo6ou.stardict.dicts_screen.DictsViewModel
 import com.acmpo6ou.stardict.screens.FavoritesViewModel
@@ -86,6 +87,7 @@ class MainActivity : ComponentActivity() {
 
     @OptIn(ExperimentalAnimationApi::class, ExperimentalTextApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         navman.activity = this
 

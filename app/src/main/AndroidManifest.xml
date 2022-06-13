@@ -13,14 +13,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.StarDict"
         tools:targetApi="31">
         <activity
             android:name="com.acmpo6ou.stardict.MainActivity"
             android:exported="true"
             android:windowSoftInputMode="stateVisible"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.StarDict">
+            android:theme="@style/Theme.StarDict.Starting">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
