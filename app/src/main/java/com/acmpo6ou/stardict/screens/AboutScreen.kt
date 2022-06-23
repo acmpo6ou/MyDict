@@ -110,6 +110,26 @@ fun AboutContent(padding: PaddingValues) {
             },
             style = TextStyle(fontSize = 22.sp, color = Color.White)
         )
+
+        val privacyPolicy = buildAnnotatedString {
+            pushStringAnnotation(
+                tag = "privacy",
+                annotation = "https://github.com/acmpo6ou/MyDict/blob/master/PRIVACY.md",
+            )
+            withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)) {
+                append("Privacy Policy")
+            }
+            pop()
+        }
+        ClickableText(
+            text = privacyPolicy,
+            onClick = {
+                val annotation = privacyPolicy
+                    .getStringAnnotations("privacy", it, it).first()
+                uriHandler.openUri(annotation.item)
+            },
+            style = TextStyle(fontSize = 22.sp, color = Color.White)
+        )
     }
 }
 
