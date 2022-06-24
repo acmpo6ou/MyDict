@@ -64,7 +64,7 @@ open class DictsViewModel : ViewModel() {
             errorDialog.show()
 
             // delete all dict files since they are probably invalid
-            for (ext in listOf("ifo", "idx", "dict"))
+            for (ext in listOf("ifo", "idx", "dict", ".dict.dz"))
                 File("${app.SRC_DIR}/$name.$ext").delete()
         }
     }
@@ -89,7 +89,7 @@ open class DictsViewModel : ViewModel() {
             val ext = File(uri.path!!).extension
 
             // skip all non dict files
-            if (ext !in listOf("idx", "ifo", "dict"))
+            if (ext !in listOf("idx", "ifo", "dict", "dz"))
                 continue
 
             val name = File(uri.path!!).name
@@ -116,7 +116,7 @@ open class DictsViewModel : ViewModel() {
         }
 
         val path = data.getItemAt(0).uri.path!!
-        val name = File(path).nameWithoutExtension
+        val name = File(path).nameWithoutExtension.removeSuffix(".dict")
         loadDictionary(name)
     }
 
@@ -125,7 +125,7 @@ open class DictsViewModel : ViewModel() {
      */
     fun deleteDict() {
         val dict = dictToRemove.value!!
-        for (ext in listOf("ifo", "idx", "dict")) {
+        for (ext in listOf("ifo", "idx", "dict", "dict.dz")) {
             val file = File("${dict.filePath}.$ext")
             file.delete()
         }

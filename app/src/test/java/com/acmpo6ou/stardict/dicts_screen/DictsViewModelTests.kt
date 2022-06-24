@@ -32,14 +32,14 @@ import com.acmpo6ou.stardict.utils.StarDict
 import com.github.javafaker.Faker
 import com.nhaarman.mockitokotlin2.*
 import com.vanpra.composematerialdialogs.MaterialDialogState
+import java.io.File
+import java.io.FileInputStream
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
-import java.io.File
-import java.io.FileInputStream
 
 @RunWith(RobolectricTestRunner::class)
 class DictsViewModelTests {
@@ -71,7 +71,7 @@ class DictsViewModelTests {
         val clipDescription = ClipDescription("", arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN))
         val clipList = mutableListOf<ClipData.Item>()
 
-        for (ext in listOf("ifo", "idx", "dict")) {
+        for (ext in listOf("ifo", "idx", "dict.dz")) {
             val path = "sampledata/ER-LingvoUniversal.$ext"
             val uri = mock<Uri>()
             val item = ClipData.Item(uri)
@@ -107,9 +107,9 @@ class DictsViewModelTests {
             "$srcDir/ER-Computer.ifo (No such file or directory)"
         assertEquals(msg, model.error.value)
 
-        // other dict files (.idx and .dict) should be removed from SRC_DIR
+        // other dict files (.idx and .dict.dz) should be removed from SRC_DIR
         val idxFile = File("$srcDir/ER-Computer.idx")
-        val dictFile = File("$srcDir/ER-Computer.dict")
+        val dictFile = File("$srcDir/ER-Computer.dict.dz")
         assert(!idxFile.exists())
         assert(!dictFile.exists())
     }
@@ -136,7 +136,7 @@ class DictsViewModelTests {
         model.importDict(data)
 
         // the files should be copied
-        for (ext in listOf("ifo", "idx", "dict")) {
+        for (ext in listOf("ifo", "idx", "dict.dz")) {
             val file = File("$srcDir/ER-LingvoUniversal.$ext")
             assert(file.exists())
         }
@@ -149,16 +149,17 @@ class DictsViewModelTests {
 
     @Test
     fun `importDict should copy only ifo, idx and dict files`() {
-        // besides .ifo, .idx and .dict files, the user chose another file
+        // besides .ifo, .idx and .dict.dz files,
+        // the user chose another file
         val uri = mock<Uri>()
         val item = ClipData.Item(uri)
 
         setupInputResolver("build.gradle", uri)
         data.addItem(item)
 
-        // the .ifo, .idx and .dict files should be copied to SRC_DIR
+        // the .ifo, .idx and .dict.dz files should be copied to SRC_DIR
         model.importDict(data)
-        for (ext in listOf("ifo", "idx", "dict")) {
+        for (ext in listOf("ifo", "idx", "dict.dz")) {
             val file = File("$srcDir/ER-LingvoUniversal.$ext")
             assert(file.exists())
         }
