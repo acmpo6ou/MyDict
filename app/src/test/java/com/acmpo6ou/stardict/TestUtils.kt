@@ -36,9 +36,9 @@ fun setupSrcDir() {
  * Copies all dict files to SRC_DIR.
  */
 fun copyDict(name: String) {
-    for (ext in listOf("ifo", "idx", "dict")) {
+    for (ext in listOf("ifo", "idx", "dict", "dict.dz")) {
         val target = File("sampledata/$name.$ext")
         val destination = File("$srcDir/$name.$ext")
-        target.copyTo(destination)
+        if (target.exists()) target.copyTo(destination)
     }
 }

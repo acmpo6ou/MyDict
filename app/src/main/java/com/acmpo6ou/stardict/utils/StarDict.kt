@@ -19,10 +19,10 @@
 
 package com.acmpo6ou.stardict.utils
 
-import org.yage.dict.star.StarDictParser
-import org.yage.dict.star.WordPosition
 import java.io.File
 import java.util.stream.Collectors.toMap
+import org.yage.dict.star.StarDictParser
+import org.yage.dict.star.WordPosition
 
 class StarDict {
     lateinit var name: String
@@ -35,7 +35,7 @@ class StarDict {
         this.filePath = filePath
         loadIfoFile("$filePath.ifo")
         parser.loadIndexFile("$filePath.idx")
-        parser.loadContentFile("$filePath.dict")
+        loadContentFile(filePath)
     }
 
     /**
@@ -48,6 +48,15 @@ class StarDict {
                 name = line.removePrefix("bookname=")
                 break
             }
+    }
+
+    /**
+     * Loads .dict or .dict.dz content file.
+     */
+    fun loadContentFile(path: String) {
+        val file = File("$path.dict.dz")
+        if (file.exists()) parser.loadContentFile("$path.dict.dz")
+        else parser.loadContentFile("$path.dict")
     }
 
     /**

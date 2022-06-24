@@ -40,6 +40,17 @@ class StarDictTests {
     }
 
     @Test
+    fun `loadContentFile should load correct file, dict dz or dict`() {
+        // .dict.dz should be loaded
+        copyDict("ER-LingvoUniversal")
+        StarDict().loadContentFile("$srcDir/ER-LingvoUniversal")
+
+        // .dict should be loaded
+        copyDict("ER-Computer")
+        StarDict().loadContentFile("$srcDir/ER-Computer")
+    }
+
+    @Test
     fun `getArticle should return null if the word is not found`() {
         copyDict("ER-Computer")
         val dict = StarDict()
